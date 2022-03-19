@@ -3,4 +3,5 @@ export interface DevProject {
     appUrl?: string;
     logo?: string;
     name: string;
+    description?: string;
 }

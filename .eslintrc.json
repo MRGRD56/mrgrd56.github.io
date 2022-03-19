@@ -11,9 +11,9 @@
     },
     "plugins": ["@typescript-eslint"],
     "rules": {
-        "indent": ["error", 4],
-        "linebreak-style": ["error", "unix"],
+        "indent": ["warn", 4],
+        "linebreak-style": ["warn", "unix"],
         "quotes": ["error", "single"],
-        "semi": ["error", "always"]
+        "semi": ["warn", "always"]
     }
 }

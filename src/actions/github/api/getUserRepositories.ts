@@ -6,7 +6,8 @@ const getUserRepositories = async (user: UserData | string) => {
     const username = isString(user) ? user : user.login;
 
     const response = await octokit.request('GET /users/{username}/repos', {
-        username
+        username,
+        per_page: 999
     });
 
     return response.data as UserRepository[];

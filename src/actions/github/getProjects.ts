@@ -21,10 +21,11 @@ const getProjects =
         const projects: DevProject[] = repositories.map((value) => ({
             name: value.name,
             repoUrl: value.url,
-            appUrl: value.homepage ?? undefined
+            appUrl: value.homepage ?? undefined,
+            description: value.description ?? undefined
         }));
 
-        dispatch(projectsLoaded({ list: projects }));
+        dispatch(projectsLoaded({ projects: projects }));
     };
 
 export default getProjects;

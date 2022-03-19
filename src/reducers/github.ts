@@ -13,10 +13,16 @@ export interface GithubState {
 const initialState: GithubState = {};
 
 export const currentUserLoaded = actionCreator<{ currentUser: UserData }>('CURRENT_USER_LOADED');
-export const projectsLoaded = actionCreator<{ list: DevProject[] }>('PROJECTS_LOADED');
+export const projectsLoaded = actionCreator<{ projects: DevProject[] }>('PROJECTS_LOADED');
 
-const github = reducerWithInitialState(initialState).case(projectsLoaded, (state, { list }) => ({
-    projects: list
-}));
+const github = reducerWithInitialState(initialState)
+    .case(currentUserLoaded, (state, { currentUser }) => ({
+        ...state,
+        currentUser
+    }))
+    .case(projectsLoaded, (state, { projects }) => ({
+        ...state,
+        projects
+    }));
 
 export default github;
