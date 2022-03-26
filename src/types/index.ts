@@ -3,6 +3,10 @@ export interface DevProject {
     appUrl?: string;
     logo?: string;
     name: string;
-    id: string;
+    id: number | string;
     description?: string;
+}
+
+export interface GithubDevProject extends DevProject {
+    stars?: number;
 }

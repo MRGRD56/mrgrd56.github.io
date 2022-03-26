@@ -2,7 +2,7 @@ import { AppThunkAction } from '../../reducers';
 import { UserData, UserRepository } from '../../types/github';
 import getUserRepositories from './api/getUserRepositories';
 import { projectsLoaded } from '../../reducers/github';
-import { DevProject } from '../../types';
+import { GithubDevProject } from '../../types';
 
 const getGithubPagesRepositories = async (user: UserData | string) => {
     const repositories = await getUserRepositories(user);
@@ -40,12 +40,13 @@ const getProjects =
     async (dispatch) => {
         const repositories = await getGithubPagesRepositories(user);
 
-        const projects: DevProject[] = repositories.map((value) => ({
+        const projects: GithubDevProject[] = repositories.map((value) => ({
             name: value.name,
-            id: value.full_name,
+            id: value.id,
             repoUrl: value.html_url,
             appUrl: getGithubRepositoryAppUrl(value),
-            description: value.description ?? undefined
+            description: value.description ?? undefined,
+            stars: value.stargazers_count
         }));
 
         dispatch(projectsLoaded({ projects: projects }));
