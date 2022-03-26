@@ -4,14 +4,18 @@ import DevProjectCard from '../devProjectCard/DevProjectCard';
 import styles from './DevProjectsList.module.scss';
 
 interface Props {
-    projects: DevProject[];
+    projects: DevProject[] | undefined;
 }
 
 const DevProjectsListPure: FunctionComponent<Props> = ({ projects }) => {
+    if (!projects) {
+        return null;
+    }
+
     return (
         <div className={styles.container}>
             {projects.map((project) => (
-                <DevProjectCard project={project} />
+                <DevProjectCard key={project.id} project={project} />
             ))}
         </div>
     );

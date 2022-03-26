@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { DevProject } from '../../types';
 import styles from './DevProjectCard.module.scss';
-import { Card } from 'antd';
+import githubLogo from '../../assets/img/github-logo-dark.svg';
 
 interface Props {
     project: DevProject;
@@ -9,18 +9,16 @@ interface Props {
 
 const DevProjectCard: FunctionComponent<Props> = ({ project }) => {
     return (
-        <Card className={styles.container}>
+        <div className={styles.container}>
             <h2>
                 <a href={project.appUrl}>{project.name}</a>
             </h2>
-            <div>
-                <a href={project.repoUrl} target="_blank" rel="noreferrer noopener">
-                    GitHub Repository
-                </a>
-            </div>
             <div>{project.description}</div>
-            {/*<img src={githubLogo} alt="GitHub" style={styles.githubLogo}/>*/}
-        </Card>
+            <a href={project.repoUrl} className={styles.githubRepoLink} target="_blank" rel="noreferrer noopener">
+                <img src={githubLogo} alt="GitHub" className={styles.githubLogo} />
+                <div>GitHub Repository</div>
+            </a>
+        </div>
     );
 };
 

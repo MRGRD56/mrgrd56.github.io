@@ -3,7 +3,19 @@
     flex-direction: column;
     align-items: center;
 
-    border: 1px solid #bdbdbd !important;
+    border-radius: 5px;
+    background: #2b2b2b;
+    padding: 10px 14px;
+    box-shadow: 1px 1.5px 3px rgba(0, 0, 0, 0.25);
+    color: white;
+
+    .githubRepoLink {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        padding-block: 12px;
+    }
 
     .githubLogo {
         width: 20px;
