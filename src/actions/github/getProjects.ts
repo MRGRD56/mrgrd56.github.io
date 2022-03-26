@@ -32,7 +32,7 @@ const getGithubRepositoryAppUrl = (repo: UserRepository): string | undefined => 
 };
 
 interface Params {
-    user: UserData;
+    user: UserData | string;
 }
 
 const getProjects =

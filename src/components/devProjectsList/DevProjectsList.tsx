@@ -2,14 +2,14 @@ import React, { useCallback } from 'react';
 import DevProjectsListPure from './DevProjectsListPure';
 import { useDispatch, useSelector } from '../../reducers';
 import getProjects from '../../actions/github/getProjects';
-import useGithubUser from '../../hooks/useGithubUser';
 import { Result } from 'antd';
 import useAsync from '../../hooks/useAsync';
 import Loading from '../loading/Loading';
+import { GITHUB_USER } from '../../constants/env';
 
 const DevProjectsList = () => {
     const dispatch = useDispatch();
-    const githubUser = useGithubUser();
+    // const githubUser = useGithubUser();
     const projects = useSelector((state) => state.github.projects);
 
     const fetchData = useCallback(async () => {
@@ -17,9 +17,9 @@ const DevProjectsList = () => {
             return;
         }
 
-        const user = await githubUser.getUser();
-        await dispatch(getProjects({ user }));
-    }, [projects, githubUser, dispatch]);
+        // const user = await githubUser.getUser();
+        await dispatch(getProjects({ user: GITHUB_USER }));
+    }, [projects, dispatch]);
 
     const { isLoading, error } = useAsync(fetchData, { doInvokeOnMount: true });
 
