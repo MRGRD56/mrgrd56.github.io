@@ -1,4 +1,4 @@
-import { MenuItem } from '../../layouts/appLayout/utils/routeMenuItems';
+import { isSubMenuItem, MenuItem, MenuRouteItem } from '../../layouts/appLayout/utils/routeMenuItems';
 import { BookFilled, DeleteFilled, GithubFilled, HomeFilled, StarFilled, ToolFilled } from '@ant-design/icons';
 import { routes } from './routes';
 
@@ -42,3 +42,13 @@ const menuItems: MenuItem[] = [
 ];
 
 export default menuItems;
+
+const getMenuItemRouteItems = (menuItem: MenuItem): MenuRouteItem[] => {
+    if (isSubMenuItem(menuItem)) {
+        return menuItem.routes.flatMap(getMenuItemRouteItems);
+    }
+
+    return [menuItem];
+};
+
+export const menuRouteItems: MenuRouteItem[] = menuItems.flatMap(getMenuItemRouteItems);

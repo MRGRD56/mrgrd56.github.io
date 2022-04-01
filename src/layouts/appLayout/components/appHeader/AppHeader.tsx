@@ -2,7 +2,7 @@ import React from 'react';
 import { Header } from 'antd/lib/layout/layout';
 import styles from './AppHeader.module.scss';
 import Text from 'antd/lib/typography/Text';
-import { Menu } from 'antd';
+import AppHeaderSearch from './components/appHeaderSearch/AppHeaderSearch';
 
 const AppHeader = () => {
     return (
@@ -12,7 +12,8 @@ const AppHeader = () => {
                     MRGRD56
                 </Text>
             </div>
-            <Menu theme="dark"></Menu>
+            {/*<Menu theme="dark"></Menu>*/}
+            <AppHeaderSearch />
         </Header>
     );
 };

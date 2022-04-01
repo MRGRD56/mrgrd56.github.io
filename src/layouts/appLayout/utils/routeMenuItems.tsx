@@ -21,28 +21,30 @@ interface MenuItemBase {
     icon?: ComponentType;
 }
 
-interface MenuRouteItem extends MenuItemBase {
+export interface MenuRouteItem extends MenuItemBase {
     route: AppRoute;
 }
 
-interface SubMenuItem extends MenuItemBase {
+export interface SubMenuItem extends MenuItemBase {
     routes: MenuItem[];
 }
 
 export type MenuItem = MenuRouteItem | SubMenuItem;
 
-const isSubMenuItem = (menuItem: MenuItem): menuItem is SubMenuItem => {
+export const isSubMenuItem = (menuItem: MenuItem): menuItem is SubMenuItem => {
     return 'routes' in menuItem && isArray(menuItem.routes);
 };
 
-export const renderMenuItem = (menuItem: MenuItem): ReactNode => {
+export const renderMenuItem = (menuItem: MenuItem, index: number): ReactNode => {
     if (isSubMenuItem(menuItem)) {
         return (
             <SubMenu icon={renderComponent(menuItem.icon)} title={menuItem.title}>
                 {menuItem.routes.length ? (
                     menuItem.routes.map(renderMenuItem)
                 ) : (
-                    <Menu.Item disabled>Nothing for now</Menu.Item>
+                    <Menu.Item disabled key={index}>
+                        Nothing for now
+                    </Menu.Item>
                 )}
             </SubMenu>
         );
