@@ -1,0 +1,44 @@
+import { MenuItem } from '../../layouts/appLayout/utils/routeMenuItems';
+import { BookFilled, DeleteFilled, GithubFilled, HomeFilled, StarFilled, ToolFilled } from '@ant-design/icons';
+import { routes } from './routes';
+
+const menuItems: MenuItem[] = [
+    {
+        title: 'Home page',
+        icon: HomeFilled,
+        route: routes.root
+    },
+    {
+        title: 'GitHub Pages',
+        icon: GithubFilled,
+        route: routes.githubPagesList
+    },
+    {
+        title: 'Tools',
+        icon: ToolFilled,
+        routes: [
+            {
+                title: 'JSON Stringifier',
+                route: routes.jsonStringifier
+            }
+        ]
+    },
+    {
+        title: 'Articles',
+        icon: BookFilled,
+        routes: []
+    },
+    {
+        title: 'Other',
+        icon: StarFilled,
+        routes: [
+            {
+                title: 'Long Content Test',
+                icon: DeleteFilled,
+                route: routes.longContent
+            }
+        ]
+    }
+];
+
+export default menuItems;

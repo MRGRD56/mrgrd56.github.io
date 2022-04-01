@@ -1,6 +1,6 @@
-import { useDispatch, useSelector } from '../reducers';
-import getCurrentUser from '../actions/github/getCurrentUser';
-import { UserData } from '../types/github';
+import { useDispatch, useSelector } from '../../../reducers';
+import getCurrentUser from '../../../actions/github/getCurrentUser';
+import { UserData } from '../../../types/github';
 
 const useGithubUser = () => {
     const dispatch = useDispatch();

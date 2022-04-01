@@ -1,0 +1,12 @@
+.container {
+    width: 100%;
+
+    .headingContainer {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .textarea {
+        font-family: var(--jetbrains-mono);
+    }
+}

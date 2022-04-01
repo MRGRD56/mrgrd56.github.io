@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { routesList } from './constants/routes';
+import { routesList } from './constants/router/routes';
 import NotFoundPage from './pages/NotFoundPage';
 
 const AppRouter = () => (

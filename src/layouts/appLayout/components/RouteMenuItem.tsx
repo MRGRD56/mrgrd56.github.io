@@ -1,7 +1,7 @@
 import { Menu } from 'antd';
 import React, { FunctionComponent, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../../constants/routes';
+import { AppRoute } from '../../../constants/router/routes';
 
 interface Props {
     route: AppRoute;

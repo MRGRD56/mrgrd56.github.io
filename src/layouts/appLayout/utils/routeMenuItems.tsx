@@ -1,4 +1,4 @@
-import { AppRoute } from '../../../constants/routes';
+import { AppRoute } from '../../../constants/router/routes';
 import React, { ComponentType, ReactNode } from 'react';
 import { Menu } from 'antd';
 import renderComponent from '../../../utils/renderComponent';

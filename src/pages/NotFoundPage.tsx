@@ -1,7 +1,7 @@
 import React from 'react';
 import { Result } from 'antd';
 import { Link } from 'react-router-dom';
-import { routes } from '../constants/routes';
+import { routes } from '../constants/router/routes';
 
 const NotFoundPage = () => {
     return (
