@@ -7,6 +7,7 @@ import renderComponent from '../utils/renderComponent';
 import LongContentPage from '../pages/longContentPage/LongContentPage';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
+    path: string;
     component: ComponentType;
 }
 

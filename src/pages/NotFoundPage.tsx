@@ -1,5 +1,7 @@
 import React from 'react';
 import { Result } from 'antd';
+import { Link } from 'react-router-dom';
+import { routes } from '../constants/routes';
 
 const NotFoundPage = () => {
     return (
@@ -9,7 +11,7 @@ const NotFoundPage = () => {
             subTitle={
                 <div>
                     <p>The page you are trying to access was not found</p>
-                    <a href="/">Go to home page</a>
+                    <Link to={routes.root.path}>Go to home page</Link>
                 </div>
             }
         />
