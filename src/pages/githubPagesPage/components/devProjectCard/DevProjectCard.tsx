@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import { DevProject } from '../../types';
+import { DevProject } from '../../../../types';
 import styles from './DevProjectCard.module.scss';
-import githubLogo from '../../assets/img/github-logo-dark.svg';
+import githubLogo from '../../../../assets/img/github-logo-dark.svg';
 
 interface Props {
     project: DevProject;

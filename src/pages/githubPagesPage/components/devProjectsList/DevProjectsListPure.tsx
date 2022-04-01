@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { DevProject } from '../../types';
+import { DevProject } from '../../../../types';
 import DevProjectCard from '../devProjectCard/DevProjectCard';
 import styles from './DevProjectsList.module.scss';
 

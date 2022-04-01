@@ -1,0 +1,13 @@
+.container {
+    min-height: 100% !important;
+
+    .mainLayout {
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+
+        .contentContainer {
+            padding: 8px 15px;
+        }
+    }
+}

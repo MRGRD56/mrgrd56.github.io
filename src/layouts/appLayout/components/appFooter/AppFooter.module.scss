@@ -1,0 +1,27 @@
+.container {
+    background: #212121 !important;
+    color: white !important;
+    font-family: var(--readex-pro);
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+
+    .copyright {
+        margin-right: 10px;
+    }
+
+    .link {
+        &,
+        & > * {
+            color: white;
+        }
+
+        &,
+        & svg {
+            height: 22px;
+            min-width: 22px;
+        }
+    }
+}

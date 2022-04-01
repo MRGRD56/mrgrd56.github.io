@@ -3,7 +3,7 @@ import './App.scss';
 import AppRouter from './AppRouter';
 import { Provider } from 'react-redux';
 import { store } from './reducers';
-import AppLayout from './layouts/AppLayout';
+import AppLayout from './layouts/appLayout/AppLayout';
 import { BrowserRouter } from 'react-router-dom';
 
 const App: FunctionComponent = () => (
