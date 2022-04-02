@@ -1,7 +1,11 @@
+.sideMenuDrawer {
+}
+
 .container {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
 
     .logo {
         .logoText {
@@ -9,5 +13,13 @@
             font-size: 18px;
             font-family: var(--readex-pro);
         }
+    }
+
+    .menuButton {
+        color: white;
+    }
+
+    .search {
+        margin-top: -3px;
     }
 }

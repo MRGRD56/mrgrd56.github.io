@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { FunctionComponent, useCallback, useRef, useState } from 'react';
 import Search from 'antd/lib/input/Search';
 import styles from './AppHeaderSearch.module.scss';
 import { AutoComplete } from 'antd';
@@ -8,6 +8,8 @@ import { BaseSelectRef } from 'rc-select/lib/BaseSelect';
 import { menuRouteItems } from '../../../../../../constants/router/menuItems';
 import { MenuRouteItem } from '../../../../utils/routeMenuItems';
 import { useNavigate } from 'react-router-dom';
+import { AutoCompleteProps } from 'antd/lib/auto-complete';
+import classNames from 'classnames';
 
 interface OptionType extends DefaultOptionType {
     data: MenuRouteItem;
@@ -33,7 +35,11 @@ const filterOption: FilterFunc<OptionType> = (inputValue, option) => {
     return String(option.label).toLocaleLowerCase().includes(query);
 };
 
-const AppHeaderSearch = () => {
+interface Props extends Omit<AutoCompleteProps, 'options' | 'filterOption' | 'onSelect' | 'children'> {
+    inputClassName?: string;
+}
+
+const AppHeaderSearch: FunctionComponent<Props> = ({ className, inputClassName, ...props }) => {
     const navigate = useNavigate();
 
     const [query, setQuery] = useState<string>('');
@@ -55,15 +61,16 @@ const AppHeaderSearch = () => {
     return (
         <AutoComplete
             options={allSearchOptions}
-            className={styles.container}
+            className={classNames(styles.container, className)}
             filterOption={filterOption}
             onSelect={handleSelect}
             notFoundContent={<Text type="secondary">No results</Text>}
             value={query}
             onChange={setQuery}
             ref={autoCompleteRef}
+            {...props}
         >
-            <Search placeholder="Search" />
+            <Search placeholder="Search" className={inputClassName} />
         </AutoComplete>
     );
 };
