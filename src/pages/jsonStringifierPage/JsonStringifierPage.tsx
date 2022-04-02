@@ -1,34 +1,42 @@
-import React, { useMemo } from 'react';
-import { Col, Row, Space } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Col, Row } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import styles from './JsonStringifierPage.module.scss';
 import useInputState from '../../hooks/useInputState';
 import ExternalLink from '../../components/ExternalLink';
-import Paragraph from 'antd/lib/typography/Paragraph';
+import PageContainer from '../../components/pageHeader/PageContainer';
 
 const rows = 16;
 const span = 12;
 
+const computeResult = (input: string | undefined) => JSON.stringify(input);
+const computeResultAsync = async (input: string | undefined) => computeResult(input);
+
 const JsonStringifierPage = () => {
     const [input, , setInputByEvent] = useInputState<string>();
+    const [output, setOutput] = useState<string>();
 
-    const output = useMemo<string>(() => {
-        return JSON.stringify(input);
+    useEffect(() => {
+        computeResultAsync(input).then((output) => {
+            setOutput(output);
+        });
     }, [input]);
 
     return (
-        <Space direction="vertical" className={styles.container}>
-            <Space direction="horizontal" size="middle" className={styles.headingContainer}>
-                <h1 className="mb-0">JSON Stringifier</h1>
+        <PageContainer
+            title="JSON Stringifier"
+            description={
+                <>
+                    Converts your input to a JSON string. May be useful if you want to put some text in a JSON as a
+                    value.
+                    <br />
+                    Just paste your text in the input field on the left.
+                </>
+            }
+            titleExtra={
                 <ExternalLink href="https://mrgrd56.github.io/json-stringifier">Check out old version</ExternalLink>
-            </Space>
-
-            <Paragraph>
-                Converts your input to a JSON string. May be useful if you want to put some text in a JSON as a value.
-                <br />
-                Just paste your text in the input field on the left.
-            </Paragraph>
-
+            }
+        >
             <Row gutter={8}>
                 <Col span={span}>
                     <TextArea
@@ -37,6 +45,10 @@ const JsonStringifierPage = () => {
                         className={styles.textarea}
                         onChange={setInputByEvent}
                         value={input}
+                        autoComplete="off"
+                        autoCorrect="off"
+                        autoCapitalize="off"
+                        spellCheck="false"
                     />
                 </Col>
                 <Col span={span}>
@@ -46,10 +58,14 @@ const JsonStringifierPage = () => {
                         placeholder="Result (JSON string)"
                         className={styles.textarea}
                         value={output}
+                        autoComplete="off"
+                        autoCorrect="off"
+                        autoCapitalize="off"
+                        spellCheck="false"
                     />
                 </Col>
             </Row>
-        </Space>
+        </PageContainer>
     );
 };
 

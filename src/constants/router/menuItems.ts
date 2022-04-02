@@ -20,6 +20,10 @@ const menuItems: MenuItem[] = [
             {
                 title: 'JSON Stringifier',
                 route: routes.jsonStringifier
+            },
+            {
+                title: 'Text by Template Generator',
+                route: routes.templateTextGenerator
             }
         ]
     },

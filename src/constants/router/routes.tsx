@@ -6,6 +6,7 @@ import { ComponentType } from 'react';
 import renderComponent from '../../utils/renderComponent';
 import LongContentPage from '../../pages/longContentPage/LongContentPage';
 import JsonStringifierPage from '../../pages/jsonStringifierPage/JsonStringifierPage';
+import TemplateTextGeneratorPage from '../../pages/templateTextGenerator/TemplateTextGeneratorPage';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
@@ -17,6 +18,7 @@ type AppRoutesMap = Readonly<{
     githubPagesList: AppRoute;
     longContent: AppRoute;
     jsonStringifier: AppRoute;
+    templateTextGenerator: AppRoute;
 }>;
 
 export const routes: AppRoutesMap = {
@@ -35,6 +37,10 @@ export const routes: AppRoutesMap = {
     jsonStringifier: {
         path: '/tools/json-stringifier',
         component: JsonStringifierPage
+    },
+    templateTextGenerator: {
+        path: '/tools/template-text-generator',
+        component: TemplateTextGeneratorPage
     }
 };
 
