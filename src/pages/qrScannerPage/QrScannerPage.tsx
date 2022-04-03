@@ -82,7 +82,7 @@ const QrScannerPage = () => {
             <Row>
                 <Col className="w-100">
                     <Row>
-                        <ImgCrop rotate>
+                        <ImgCrop rotate maxZoom={30}>
                             <Upload
                                 className="QrScannerPage_image-upload"
                                 listType="picture-card"
