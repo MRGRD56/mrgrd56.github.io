@@ -1,26 +1,44 @@
 import React, { FunctionComponent, useState } from 'react';
-import PageContainer from '../../components/pageHeader/PageContainer';
+import PageContainer, { PageTag } from '../../components/pageHeader/PageContainer';
 import { Button, Col, Row, Space } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import styles from './TemplateTextGeneratorPage.module.scss';
-import VariableValues from './types/VariableValues';
+import { getVariableValues, VariableValuesRaw } from './types/VariableValues';
 import VariablesValuesList from './components/variablesValuesList/VariablesValuesList';
 import useInputState from '../../hooks/useInputState';
-import Mustache from 'mustache';
 
 const TemplateTextGeneratorPage: FunctionComponent = () => {
     const [template, , setTemplateByEvent] = useInputState<string>('');
-    const [variablesValues, setVariablesValues] = useState<VariableValues[]>([]);
+    const [resultSeparator, , setResultSeparatorByEvent] = useInputState<string>('\n');
+    const [variablesValuesRaw, setVariablesValuesRaw] = useState<VariableValuesRaw[]>([]);
     const [result, setResult] = useState<string>('');
 
     const handleLogState = () => {
-        console.log({ template, variablesValues });
+        console.log({ template, resultSeparator, variablesValuesRaw });
     };
 
     const handleGenerate = () => {
-        const result = Mustache.render(template, {
-            [variablesValues[0].name]: variablesValues[0].values[0]
-        });
+        const result = '';
+
+        const variablesValues = variablesValuesRaw.map(getVariableValues);
+        const resultsCount = variablesValues.reduce((result, value) => {
+            const count = value.values.length;
+            if (!count) {
+                return result;
+            }
+
+            return result ? result * count : result;
+        }, 0);
+
+        for (let i = 0; i < resultsCount; i++) {
+            for (const variable of variablesValues) {
+                const { name, values } = variable;
+
+                for (const value of values) {
+                    console.log({ name, value });
+                }
+            }
+        }
 
         setResult(result);
     };
@@ -29,7 +47,7 @@ const TemplateTextGeneratorPage: FunctionComponent = () => {
         <PageContainer
             title="Text by Template Generator"
             description={<>Generates text (including source code) from a template</>}
-            wip
+            tags={[PageTag.WIP, PageTag.NOT_WORKING]}
         >
             <Col xs={24} lg={18} xl={12}>
                 <Row>
@@ -38,9 +56,13 @@ const TemplateTextGeneratorPage: FunctionComponent = () => {
                         <TextArea rows={6} className={styles.code} value={template} onChange={setTemplateByEvent} />
                     </label>
                 </Row>
-                <Col className="mt-2">
-                    <h4>Variables:</h4>
-                    <VariablesValuesList values={variablesValues} onChange={setVariablesValues} />
+                <Col className="mt-2" span={24}>
+                    <Row>
+                        <h4>Variables:</h4>
+                    </Row>
+                    <Row>
+                        <VariablesValuesList values={variablesValuesRaw} onChange={setVariablesValuesRaw} />
+                    </Row>
                 </Col>
                 <Space className="mt-3" direction="horizontal">
                     <Button type="primary" onClick={handleGenerate}>

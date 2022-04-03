@@ -1,11 +1,11 @@
 import React, { FunctionComponent, useCallback } from 'react';
-import VariableValues from '../../types/VariableValues';
+import { VariableValuesRaw } from '../../types/VariableValues';
 import { Button, Row, Space } from 'antd';
 import VariableValuesList from './VariableValuesList';
 
 interface Props {
-    values: VariableValues[];
-    onChange: (values: VariableValues[]) => void;
+    values: VariableValuesRaw[];
+    onChange: (values: VariableValuesRaw[]) => void;
 }
 
 const VariablesValuesList: FunctionComponent<Props> = ({ values, onChange }) => {
@@ -14,22 +14,22 @@ const VariablesValuesList: FunctionComponent<Props> = ({ values, onChange }) => 
             ...values,
             {
                 name: '',
-                values: []
+                valuesJson: '[]'
             }
         ]);
     };
 
     const handleChange = useCallback(
-        (index: number) => (value: VariableValues) => {
+        (index: number) => (value: VariableValuesRaw) => {
             onChange(values.map((v, i) => (i === index ? value : v)));
         },
         [onChange, values]
     );
 
     return (
-        <Space direction="vertical">
+        <Space direction="vertical" className="w-100">
             {values.map((value, index) => (
-                <Row>
+                <Row key={index}>
                     <VariableValuesList value={value} onChange={handleChange(index)} />
                 </Row>
             ))}

@@ -5,10 +5,7 @@ $mediaLG: 992px;
 $mediaXL: 1200px;
 $mediaXXL: 1600px;
 
-//$medias = $mediaXS, $mediaSM, $mediaMD, $mediaLG, $mediaXL, $mediaXXL;
-
-//@mixin mediaXS {
-//    @media (min-width: $mediaXS) {
-//
-//    }
-//}
+@mixin mediaXS {
+    @media (min-width: $mediaXS) {
+    }
+}

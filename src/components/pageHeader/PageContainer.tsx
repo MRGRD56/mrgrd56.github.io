@@ -1,24 +1,42 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import React, { FunctionComponent, ReactNode, useMemo } from 'react';
 import styles from './PageHeader.module.scss';
 import { Space, SpaceProps, Tag } from 'antd';
 import Paragraph from 'antd/lib/typography/Paragraph';
-import { ClockCircleOutlined } from '@ant-design/icons';
+import { ClockCircleOutlined, WarningOutlined } from '@ant-design/icons';
+
+export enum PageTag {
+    WIP = 'WIP',
+    NOT_WORKING = 'NOT_WORKING'
+}
 
 interface Props extends Omit<SpaceProps, 'title'> {
     title?: ReactNode;
     description?: ReactNode;
     titleExtra?: ReactNode;
-    wip?: boolean;
+    tags?: PageTag[];
 }
 
-const PageContainer: FunctionComponent<Props> = ({ title, description, titleExtra, wip, children, ...props }) => {
+const getTagNodes = (key: number | string): Readonly<Record<PageTag, ReactNode>> => ({
+    [PageTag.WIP]: (
+        <Tag color="blue" icon={<ClockCircleOutlined />} key={key}>
+            Work In Progress
+        </Tag>
+    ),
+    [PageTag.NOT_WORKING]: (
+        <Tag color="red" icon={<WarningOutlined />} key={key}>
+            Not Working
+        </Tag>
+    )
+});
+
+const renderTag = (tag: PageTag, index: number) => getTagNodes(index)[tag];
+
+const PageContainer: FunctionComponent<Props> = ({ title, description, titleExtra, tags, children, ...props }) => {
+    const renderedTags = useMemo(() => tags?.map(renderTag), [tags]);
+
     return (
         <Space direction="vertical" className={styles.container} {...props}>
-            {wip && (
-                <Tag color="blue" icon={<ClockCircleOutlined />}>
-                    Work In Progress
-                </Tag>
-            )}
+            {tags?.length && <div>{renderedTags}</div>}
             {title && (
                 <Space direction="horizontal" size="middle" className={styles.headingContainer}>
                     <h1 className="mb-0">{title}</h1>
