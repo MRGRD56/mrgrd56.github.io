@@ -7,6 +7,7 @@ import renderComponent from '../../utils/renderComponent';
 import LongContentPage from '../../pages/longContentPage/LongContentPage';
 import JsonStringifierPage from '../../pages/jsonStringifierPage/JsonStringifierPage';
 import TemplateTextGeneratorPage from '../../pages/templateTextGenerator/TemplateTextGeneratorPage';
+import QrScannerPage from '../../pages/qrScannerPage/QrScannerPage';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
@@ -19,6 +20,7 @@ type AppRoutesMap = Readonly<{
     longContent: AppRoute;
     jsonStringifier: AppRoute;
     templateTextGenerator: AppRoute;
+    qrScanner: AppRoute;
 }>;
 
 export const routes: AppRoutesMap = {
@@ -41,6 +43,10 @@ export const routes: AppRoutesMap = {
     templateTextGenerator: {
         path: '/tools/template-text-generator',
         component: TemplateTextGeneratorPage
+    },
+    qrScanner: {
+        path: '/tools/qr-scanner',
+        component: QrScannerPage
     }
 };
 

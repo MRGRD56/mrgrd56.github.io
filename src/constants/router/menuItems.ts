@@ -24,6 +24,10 @@ const menuItems: MenuItem[] = [
             {
                 title: 'Text by Template Generator',
                 route: routes.templateTextGenerator
+            },
+            {
+                title: 'QR Scanner',
+                route: routes.qrScanner
             }
         ]
     },

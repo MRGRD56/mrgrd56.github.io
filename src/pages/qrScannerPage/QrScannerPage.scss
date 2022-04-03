@@ -1,0 +1,16 @@
+.QrScannerPage_image-upload {
+    & > .ant-upload {
+        width: 128px;
+        height: 128px;
+
+        .ant-image {
+            max-width: 128px;
+            max-height: 128px;
+
+            & > .ant-image-img {
+                max-width: 128px;
+                max-height: 128px;
+            }
+        }
+    }
+}
