@@ -13,6 +13,7 @@ import QrScanner from 'qr-scanner';
 import { isNil, isString } from 'lodash';
 import call from '../../utils/call';
 import Text from 'antd/lib/typography/Text';
+import ImgCrop from 'antd-img-crop';
 
 interface QrImage {
     blob: Blob;
@@ -81,36 +82,35 @@ const QrScannerPage = () => {
             <Row>
                 <Col className="w-100">
                     <Row>
-                        <Upload
-                            className="QrScannerPage_image-upload"
-                            listType="picture-card"
-                            showUploadList={false}
-                            beforeUpload={beforeUpload}
-                            onChange={handleQrImageChange}
-                            accept="image/*, *"
-                            customRequest={dummyAntdUploadRequest}
-                        >
-                            {qrImage !== undefined ? (
-                                <Image src={qrImage.base64} className={styles.uploadedImageThumb} />
-                            ) : (
-                                <Space direction="vertical">
-                                    {isLoading ? <LoadingOutlined /> : <PlusOutlined />}
-                                    <div>
-                                        Upload <br />
-                                        <Text type="secondary">or Ctrl+V</Text>
-                                    </div>
-                                </Space>
-                            )}
-                        </Upload>
+                        <ImgCrop rotate>
+                            <Upload
+                                className="QrScannerPage_image-upload"
+                                listType="picture-card"
+                                showUploadList={false}
+                                beforeUpload={beforeUpload}
+                                onChange={handleQrImageChange}
+                                accept="image/*, *"
+                                customRequest={dummyAntdUploadRequest}
+                            >
+                                {qrImage !== undefined ? (
+                                    <Image src={qrImage.base64} className={styles.uploadedImageThumb} />
+                                ) : (
+                                    <Space direction="vertical">
+                                        {isLoading ? <LoadingOutlined /> : <PlusOutlined />}
+                                        <div>
+                                            Upload <br />
+                                            <Text type="secondary">or Ctrl+V</Text>
+                                        </div>
+                                    </Space>
+                                )}
+                            </Upload>
+                        </ImgCrop>
                     </Row>
                     <Col xs={24} lg={12}>
                         <Spin spinning={isRecognition}>
                             <TextArea value={qrContent} readOnly rows={6} />
                         </Spin>
                     </Col>
-                    {/*<Row>*/}
-                    {/*    <Image src={qrImage}/>*/}
-                    {/*</Row>*/}
                 </Col>
             </Row>
         </PageContainer>
