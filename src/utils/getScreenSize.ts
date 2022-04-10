@@ -1,14 +1,6 @@
 import { Size } from '../types';
-import { round } from 'lodash';
+import { pick } from 'lodash';
 
-const getScreenSize = (): Size => {
-    const { devicePixelRatio } = window;
-    const { width, height } = window.screen;
-
-    return {
-        width: round(width * devicePixelRatio),
-        height: round(height * devicePixelRatio)
-    };
-};
+const getScreenSize = (): Size => pick(window.screen, ['width', 'height']);
 
 export default getScreenSize;

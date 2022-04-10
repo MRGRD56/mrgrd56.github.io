@@ -4,11 +4,12 @@ import PageContainer from '../../components/pageHeader/PageContainer';
 import ExternalLink from '../../components/ExternalLink';
 import { Button, Col, Image, InputNumber, Row, Space } from 'antd';
 import { Size } from '../../types';
-import getScreenSize from '../../utils/getScreenSize';
+import getScaledScreenSize from '../../utils/getScaledScreenSize';
 import { ColorChangeHandler, SketchPicker } from 'react-color';
 import stringifySize from '../../utils/stringifySize';
 import { useDebouncedMemo } from '../../hooks/debouncedMemo';
 import getWindowSize from '../../utils/getWindowSize';
+import getScreenSize from '../../utils/getScreenSize';
 
 const generateImage = ({ width, height }: Size, color: string, imgCanvas: HTMLCanvasElement): string | undefined => {
     if (width < 0 || height < 0) {
@@ -31,7 +32,7 @@ const generateImage = ({ width, height }: Size, color: string, imgCanvas: HTMLCa
 const BgGeneratorPage = () => {
     const imgCanvasRef = useRef<HTMLCanvasElement>(null);
 
-    const [size, setSize] = useState<Size>(getScreenSize());
+    const [size, setSize] = useState<Size>(getScaledScreenSize());
     const [color, setColor] = useState<string>('#42a5f5');
     const imgSource = useDebouncedMemo(
         { size, color, imgCanvasRef },
@@ -60,12 +61,8 @@ const BgGeneratorPage = () => {
         []
     );
 
-    const handleUseScreenSize = () => {
-        setSize(getScreenSize());
-    };
-
-    const handleUseWindowSize = () => {
-        setSize(getWindowSize());
+    const handleUseSize = (sizeFunction: () => Size) => () => {
+        setSize(sizeFunction());
     };
 
     return (
@@ -109,10 +106,13 @@ const BgGeneratorPage = () => {
                                 </Col>
                             </Row>
                             <Row className={styles.sizeButtonsContainer}>
-                                <Button onClick={handleUseScreenSize}>
+                                <Button onClick={handleUseSize(getScaledScreenSize)}>
+                                    Use scaled screen size {stringifySize(getScaledScreenSize())}
+                                </Button>
+                                <Button onClick={handleUseSize(getScreenSize)}>
                                     Use screen size {stringifySize(getScreenSize())}
                                 </Button>
-                                <Button onClick={handleUseWindowSize}>
+                                <Button onClick={handleUseSize(getWindowSize)}>
                                     Use window size {stringifySize(getWindowSize())}
                                 </Button>
                             </Row>
