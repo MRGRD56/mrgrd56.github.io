@@ -10,3 +10,8 @@ export interface DevProject {
 export interface GithubDevProject extends DevProject {
     stars?: number;
 }
+
+export interface Size {
+    width: number;
+    height: number;
+}

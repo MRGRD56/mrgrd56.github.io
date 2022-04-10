@@ -23,11 +23,16 @@ const menuItems: MenuItem[] = [
             },
             {
                 title: 'Text by Template Generator',
-                route: routes.templateTextGenerator
+                route: routes.templateTextGenerator,
+                isGray: true
             },
             {
                 title: 'QR Scanner',
                 route: routes.qrScanner
+            },
+            {
+                title: 'BG Generator',
+                route: routes.bgGenerator
             }
         ]
     },
