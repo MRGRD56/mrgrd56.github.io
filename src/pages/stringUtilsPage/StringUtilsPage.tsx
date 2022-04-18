@@ -27,6 +27,7 @@ const StringUtilsPage = () => {
 
     const evaluateJs = () => {
         if (!evalValue) {
+            setEvaluatedJs('');
             return;
         }
 
