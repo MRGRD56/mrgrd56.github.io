@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import PageContainer from '../../components/pageHeader/PageContainer';
-import { Button, Col, notification } from 'antd';
+import { Button, Col, notification, Tooltip } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import useInputState from '../../hooks/useInputState';
 import pluralize from 'pluralize';
 import scopedEval from '../../utils/scopedEval';
 import getErrorMessage from '../../utils/getErrorMessage';
-import { isObjectLike } from 'lodash';
+import _, { isObjectLike } from 'lodash';
+import axios from 'axios';
+import Text from 'antd/lib/typography/Text';
+import Paragraph from 'antd/lib/typography/Paragraph';
+import ExternalLink from '../../components/ExternalLink';
 
 interface ShowCountProps {
     formatter: (args: { count: number; maxLength?: number }) => string;
@@ -29,6 +33,9 @@ const StringUtilsPage = () => {
         try {
             const evalResult = scopedEval(evalValue, {
                 $value: value,
+                _,
+                axios,
+                pluralize,
                 $easterEgg: '🥚'
             });
 
@@ -57,7 +64,28 @@ const StringUtilsPage = () => {
                 />
                 <Col>
                     <label>
-                        Evaluate JavaScript (<code className="code">$value</code> is the string)
+                        <Text>
+                            <Paragraph className="mb-1">Evaluate JavaScript</Paragraph>
+                            <Paragraph className="mb-2">
+                                Available variables:{' '}
+                                <Tooltip title="The string">
+                                    <code>$value</code>
+                                </Tooltip>
+                                ,{' '}
+                                <ExternalLink href="https://lodash.com/">
+                                    <code>_</code>
+                                </ExternalLink>
+                                ,{' '}
+                                <ExternalLink href="https://github.com/axios/axios">
+                                    <code>axios</code>
+                                </ExternalLink>
+                                ,{' '}
+                                <ExternalLink href="https://github.com/plurals/pluralize">
+                                    <code>pluralize</code>
+                                </ExternalLink>
+                            </Paragraph>
+                        </Text>
+
                         <TextArea className="font-monospace mt-1" value={evalValue} onChange={setEvalValueByEvent} />
                     </label>
                     <Button className="mt-1 mb-2" type="primary" onClick={evaluateJs}>
