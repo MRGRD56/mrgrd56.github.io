@@ -1,5 +1,5 @@
 import { RouteProps } from 'react-router';
-import RootPage from '../../pages/RootPage';
+import RootPage from '../../pages/rootPage/RootPage';
 import { values } from 'lodash';
 import GithubPagesListPage from '../../pages/githubPagesPage/GithubPagesListPage';
 import { ComponentType } from 'react';

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import PageContainer, { PageTag } from '../../components/pageHeader/PageContainer';
+import PageContainer, { PageTag } from '../../components/pageContainer/PageContainer';
 import { Button, Col, Row, Space } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import styles from './TemplateTextGeneratorPage.module.scss';

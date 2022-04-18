@@ -1,5 +1,5 @@
 import React, { FunctionComponent, ReactNode, useMemo } from 'react';
-import styles from './PageHeader.module.scss';
+import styles from './PageContainer.module.scss';
 import { Space, SpaceProps, Tag } from 'antd';
 import Paragraph from 'antd/lib/typography/Paragraph';
 import { ClockCircleOutlined, WarningOutlined } from '@ant-design/icons';

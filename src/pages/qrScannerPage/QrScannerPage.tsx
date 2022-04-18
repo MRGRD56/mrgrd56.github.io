@@ -1,5 +1,5 @@
 import React, { ClipboardEventHandler, useCallback, useEffect, useState } from 'react';
-import PageContainer from '../../components/pageHeader/PageContainer';
+import PageContainer from '../../components/pageContainer/PageContainer';
 import { Col, Image, notification, Row, Space, Spin, Upload } from 'antd';
 import styles from './QrScannerPage.module.scss';
 import './QrScannerPage.scss';

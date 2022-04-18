@@ -4,7 +4,7 @@ import TextArea from 'antd/lib/input/TextArea';
 import styles from './JsonStringifierPage.module.scss';
 import useInputState from '../../hooks/useInputState';
 import ExternalLink from '../../components/ExternalLink';
-import PageContainer from '../../components/pageHeader/PageContainer';
+import PageContainer from '../../components/pageContainer/PageContainer';
 
 const rows = 16;
 const span = 12;

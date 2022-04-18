@@ -1,5 +1,5 @@
 import React from 'react';
-import PageContainer, { PageTag } from '../../components/pageHeader/PageContainer';
+import PageContainer, { PageTag } from '../../components/pageContainer/PageContainer';
 
 const tags = [PageTag.WIP];
 
