@@ -6,6 +6,7 @@ import useInputState from '../../hooks/useInputState';
 import pluralize from 'pluralize';
 import scopedEval from '../../utils/scopedEval';
 import getErrorMessage from '../../utils/getErrorMessage';
+import { isObjectLike } from 'lodash';
 
 interface ShowCountProps {
     formatter: (args: { count: number; maxLength?: number }) => string;
@@ -30,7 +31,12 @@ const StringUtilsPage = () => {
                 $value: value,
                 $easterEgg: '🥚'
             });
-            setEvaluatedJs(String(evalResult));
+
+            const evalResultString = isObjectLike(evalResult)
+                ? JSON.stringify(evalResult, undefined, 2)
+                : String(evalResult);
+
+            setEvaluatedJs(evalResultString);
         } catch (error) {
             notification.error({
                 message: getErrorMessage(error)
