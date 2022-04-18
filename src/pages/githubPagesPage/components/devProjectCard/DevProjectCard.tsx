@@ -14,7 +14,7 @@ const DevProjectCard: FunctionComponent<Props> = ({ project }) => {
             <h2>
                 <ExternalLink href={project.appUrl}>{project.name}</ExternalLink>
             </h2>
-            <div>{project.description}</div>
+            <div className="text-center">{project.description}</div>
             <ExternalLink href={project.repoUrl} className={styles.githubRepoLink}>
                 <img src={githubLogo} alt="GitHub" className={styles.githubLogo} />
                 <div>GitHub Repository</div>

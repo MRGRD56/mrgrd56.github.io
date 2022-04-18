@@ -17,6 +17,10 @@ const drawerHeaderStyle: CSSProperties = {
     paddingBottom: 13
 };
 
+const drawerContentWrapperStyle: CSSProperties = {
+    maxWidth: '100vw'
+};
+
 const AppHeader = () => {
     const [isDrawerVisible, setIsDrawerVisible] = useState<boolean>();
 
@@ -37,6 +41,7 @@ const AppHeader = () => {
                 className={styles.sideMenuDrawer}
                 bodyStyle={drawerBodyStyle}
                 headerStyle={drawerHeaderStyle}
+                contentWrapperStyle={drawerContentWrapperStyle}
             >
                 <AppMenu onItemSelect={handleDrawerClose} />
             </Drawer>

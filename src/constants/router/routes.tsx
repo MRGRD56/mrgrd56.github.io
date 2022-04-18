@@ -9,6 +9,8 @@ import JsonStringifierPage from '../../pages/jsonStringifierPage/JsonStringifier
 import TemplateTextGeneratorPage from '../../pages/templateTextGenerator/TemplateTextGeneratorPage';
 import QrScannerPage from '../../pages/qrScannerPage/QrScannerPage';
 import BgGeneratorPage from '../../pages/bgGeneratorPage/BgGeneratorPage';
+import StringUtilsPage from '../../pages/stringUtilsPage/StringUtilsPage';
+import UserInfoPage from '../../pages/userInfoPage/UserInfoPage';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
@@ -23,6 +25,8 @@ type AppRoutesMap = Readonly<{
     templateTextGenerator: AppRoute;
     qrScanner: AppRoute;
     bgGenerator: AppRoute;
+    stringUtils: AppRoute;
+    userInfo: AppRoute;
 }>;
 
 export const routes: AppRoutesMap = {
@@ -53,6 +57,14 @@ export const routes: AppRoutesMap = {
     bgGenerator: {
         path: '/tools/bg-generator',
         component: BgGeneratorPage
+    },
+    stringUtils: {
+        path: '/tools/string-utils',
+        component: StringUtilsPage
+    },
+    userInfo: {
+        path: '/tools/user-info',
+        component: UserInfoPage
     }
 };
 

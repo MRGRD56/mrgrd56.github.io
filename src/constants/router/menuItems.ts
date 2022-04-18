@@ -33,6 +33,15 @@ const menuItems: MenuItem[] = [
             {
                 title: 'BG Generator',
                 route: routes.bgGenerator
+            },
+            {
+                title: 'String Utils',
+                route: routes.stringUtils
+            },
+            {
+                title: 'User Info',
+                route: routes.userInfo,
+                isGray: true
             }
         ]
     },

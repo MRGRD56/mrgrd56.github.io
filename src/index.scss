@@ -8,3 +8,15 @@ body,
 #root {
     height: 100%;
 }
+
+.font-monospace {
+    font-family: var(--jetbrains-mono) !important;
+}
+
+.code {
+    font-family: var(--jetbrains-mono);
+    padding: 2px 4px;
+    margin: 0 2px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}

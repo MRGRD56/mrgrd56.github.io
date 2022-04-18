@@ -21,4 +21,4 @@ const DevProjectsListPure: FunctionComponent<Props> = ({ projects }) => {
     );
 };
 
-export default DevProjectsListPure;
+export default React.memo(DevProjectsListPure);

@@ -1,3 +1,5 @@
+@import '../../../../styles/main';
+
 .sideMenuDrawer {
 }
 
@@ -6,6 +8,11 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    padding: 0;
+
+    @include mediaLG {
+        padding: 0 25px;
+    }
 
     .logo {
         .logoText {
@@ -13,13 +20,25 @@
             font-size: 18px;
             font-family: var(--readex-pro);
         }
+
+        padding: 0 16px;
+
+        @include mediaLG {
+            padding: unset;
+        }
     }
 
     .menuButton {
         color: white;
+
+        padding: 4px 25px;
+
+        @include mediaSM {
+            padding: 4px 20px 4px 13px;
+        }
     }
 
     .search {
-        margin-top: -3px;
+        margin-top: -5px;
     }
 }

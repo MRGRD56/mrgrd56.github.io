@@ -1,7 +1,14 @@
-.container {
-    padding: 8px;
+@import '../../../../styles/main';
 
+.container {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
+
+    flex-direction: column;
+
+    @include mediaSM {
+        padding: 8px;
+        flex-direction: row;
+    }
 }
