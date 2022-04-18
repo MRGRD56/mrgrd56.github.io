@@ -1,8 +1,9 @@
 import React from 'react';
+import PageContainer from '../../components/pageContainer/PageContainer';
 
 const LongContentPage = () => {
     return (
-        <div>
+        <PageContainer>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim facere fugiat hic molestiae quod rem
                 soluta? Atque eos error excepturi id inventore laborum magnam modi molestias, natus placeat rem
@@ -182,7 +183,7 @@ const LongContentPage = () => {
                 soluta unde velit veniam veritatis voluptate voluptatibus voluptatum! Deserunt dicta, eum excepturi
                 fugit modi reiciendis voluptas.
             </p>
-        </div>
+        </PageContainer>
     );
 };
 
