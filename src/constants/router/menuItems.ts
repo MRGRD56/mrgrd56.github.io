@@ -1,45 +1,46 @@
 import { isSubMenuItem, MenuItem, MenuRouteItem } from '../../layouts/appLayout/utils/routeMenuItems';
-import { BookFilled, DeleteFilled, GithubFilled, HomeFilled, StarFilled, ToolFilled } from '@ant-design/icons';
+import {
+    BookFilled,
+    DeleteFilled,
+    GithubFilled,
+    HomeFilled,
+    QuestionCircleFilled,
+    StarFilled,
+    ToolFilled
+} from '@ant-design/icons';
 import { routes } from './routes';
 
 const menuItems: MenuItem[] = [
     {
-        title: 'Home page',
-        icon: HomeFilled,
-        route: routes.root
+        route: routes.root,
+        icon: HomeFilled
     },
     {
-        title: 'GitHub Pages',
-        icon: GithubFilled,
-        route: routes.githubPagesList
+        route: routes.githubPagesList,
+        icon: GithubFilled
     },
     {
         title: 'Tools',
         icon: ToolFilled,
         routes: [
             {
-                title: 'JSON Stringifier',
                 route: routes.jsonStringifier
             },
             {
-                title: 'Text by Template Generator',
                 route: routes.templateTextGenerator,
                 isGray: true
             },
             {
-                title: 'QR Scanner',
                 route: routes.qrScanner
             },
             {
-                title: 'BG Generator',
-                route: routes.bgGenerator
+                route: routes.bgGenerator,
+                title: 'BG Generator'
             },
             {
-                title: 'String Utils',
                 route: routes.stringUtils
             },
             {
-                title: 'User Info',
                 route: routes.userInfo,
                 isGray: true
             }
@@ -55,9 +56,12 @@ const menuItems: MenuItem[] = [
         icon: StarFilled,
         routes: [
             {
-                title: 'Long Content Test',
-                icon: DeleteFilled,
-                route: routes.longContent
+                route: routes.longContent,
+                icon: DeleteFilled
+            },
+            {
+                route: routes.notFound,
+                icon: QuestionCircleFilled
             }
         ]
     }

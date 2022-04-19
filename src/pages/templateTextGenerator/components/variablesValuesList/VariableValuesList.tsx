@@ -9,6 +9,7 @@ interface Props {
     onChange: (value: VariableValuesRaw) => void;
 }
 
+/** @deprecated */
 const VariableValuesList: FunctionComponent<Props> = ({ value, onChange }) => {
     const [valuesJson, , setValuesJsonByEvent] = useInputState<string>(JSON.stringify(value.valuesJson));
 

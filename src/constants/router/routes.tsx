@@ -11,10 +11,13 @@ import QrScannerPage from '../../pages/qrScannerPage/QrScannerPage';
 import BgGeneratorPage from '../../pages/bgGeneratorPage/BgGeneratorPage';
 import StringUtilsPage from '../../pages/stringUtilsPage/StringUtilsPage';
 import UserInfoPage from '../../pages/userInfoPage/UserInfoPage';
+import RouteWrapper from '../../layouts/RouteWrapper';
+import NotFoundPage from '../../pages/NotFoundPage';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
     component: ComponentType;
+    title: string;
 }
 
 type AppRoutesMap = Readonly<{
@@ -27,48 +30,67 @@ type AppRoutesMap = Readonly<{
     bgGenerator: AppRoute;
     stringUtils: AppRoute;
     userInfo: AppRoute;
+    notFound: AppRoute;
 }>;
 
 export const routes: AppRoutesMap = {
     root: {
         path: '/',
-        component: RootPage
+        component: RootPage,
+        title: 'Home page'
     },
     githubPagesList: {
         path: '/github-pages',
-        component: GithubPagesListPage
+        component: GithubPagesListPage,
+        title: 'GitHub Pages'
     },
     longContent: {
-        path: '/trash/long-content',
-        component: LongContentPage
+        path: '/other/long-content',
+        component: LongContentPage,
+        title: 'Long Content Test'
     },
     jsonStringifier: {
         path: '/tools/json-stringifier',
-        component: JsonStringifierPage
+        component: JsonStringifierPage,
+        title: 'JSON Stringifier'
     },
     templateTextGenerator: {
         path: '/tools/template-text-generator',
-        component: TemplateTextGeneratorPage
+        component: TemplateTextGeneratorPage,
+        title: 'Text by Template Generator'
     },
     qrScanner: {
         path: '/tools/qr-scanner',
-        component: QrScannerPage
+        component: QrScannerPage,
+        title: 'QR Scanner'
     },
     bgGenerator: {
         path: '/tools/bg-generator',
-        component: BgGeneratorPage
+        component: BgGeneratorPage,
+        title: 'Background Generator'
     },
     stringUtils: {
         path: '/tools/string-utils',
-        component: StringUtilsPage
+        component: StringUtilsPage,
+        title: 'String Utils'
     },
     userInfo: {
         path: '/tools/user-info',
-        component: UserInfoPage
+        component: UserInfoPage,
+        title: 'User Info'
+    },
+    notFound: {
+        path: '/other/not-found',
+        component: NotFoundPage,
+        title: 'Not Found'
     }
 };
 
-export const routesList: RouteProps[] = values(routes).map(({ component, ...route }) => ({
+export const convertAppRoute = ({ component, title, ...route }: AppRoute): RouteProps => ({
     ...route,
-    element: renderComponent(component)
-}));
+    element: <RouteWrapper title={title}>{renderComponent(component)}</RouteWrapper>
+});
+
+export const appRoutesList: AppRoute[] = values(routes);
+
+export const routesList: RouteProps[] = appRoutesList.map(convertAppRoute);

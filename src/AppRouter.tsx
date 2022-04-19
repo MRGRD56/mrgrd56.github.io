@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { routesList } from './constants/router/routes';
 import NotFoundPage from './pages/NotFoundPage';
+import RouteWrapper from './layouts/RouteWrapper';
 
 const AppRouter = () => (
     <Routes>
@@ -9,7 +10,14 @@ const AppRouter = () => (
             <Route {...route} key={index} />
         ))}
 
-        <Route path="*" element={<NotFoundPage />} />
+        <Route
+            path="*"
+            element={
+                <RouteWrapper title="Not Found">
+                    <NotFoundPage />
+                </RouteWrapper>
+            }
+        />
     </Routes>
 );
 

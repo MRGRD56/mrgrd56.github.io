@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PageContainer from '../../components/pageContainer/PageContainer';
-import { Button, Col, notification, Tooltip } from 'antd';
+import { Button, Col, notification, Spin, Tooltip } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import useInputState from '../../hooks/useInputState';
 import pluralize from 'pluralize';
@@ -25,14 +25,18 @@ const StringUtilsPage = () => {
     const [evalValue, , setEvalValueByEvent] = useInputState<string>('');
     const [evaluatedJs, setEvaluatedJs] = useState<string>('');
 
-    const evaluateJs = () => {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const evaluateJs = async () => {
         if (!evalValue) {
             setEvaluatedJs('');
             return;
         }
 
         try {
-            const evalResult = scopedEval(evalValue, {
+            setIsLoading(true);
+
+            const evalResult = await scopedEval(evalValue, {
                 $value: value,
                 _,
                 axios,
@@ -49,6 +53,8 @@ const StringUtilsPage = () => {
             notification.error({
                 message: getErrorMessage(error)
             });
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -92,7 +98,9 @@ const StringUtilsPage = () => {
                     <Button className="mt-1 mb-2" type="primary" onClick={evaluateJs}>
                         Evaluate
                     </Button>
-                    <TextArea className="font-monospace" readOnly value={evaluatedJs} />
+                    <Spin spinning={isLoading} delay={10}>
+                        <TextArea className="font-monospace" readOnly value={evaluatedJs} />
+                    </Spin>
                 </Col>
             </Col>
         </PageContainer>

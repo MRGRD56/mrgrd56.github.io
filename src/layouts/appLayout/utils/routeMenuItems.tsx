@@ -7,29 +7,30 @@ import { isArray } from 'lodash';
 import SubMenu from 'antd/lib/menu/SubMenu';
 import classNames from 'classnames';
 
-export const renderRoute = (route: AppRoute, title: string, icon?: ComponentType, gray?: boolean): ReactNode => {
+export const renderRoute = ({ route, title, icon, isGray }: MenuRouteItem): ReactNode => {
     const { path } = route;
 
     return (
         <Menu.Item icon={renderComponent(icon)} key={path}>
-            <Link to={path ?? ''} className={classNames({ 'text-black-50': gray })}>
-                {title}
+            <Link to={path ?? ''} className={classNames({ 'text-black-50': isGray })}>
+                {title ?? route.title}
             </Link>
         </Menu.Item>
     );
 };
 
 interface MenuItemBase {
-    title: string;
     icon?: ComponentType;
 }
 
 export interface MenuRouteItem extends MenuItemBase {
+    title?: string;
     route: AppRoute;
     isGray?: boolean;
 }
 
 export interface SubMenuItem extends MenuItemBase {
+    title: string;
     routes: MenuItem[];
 }
 
@@ -54,7 +55,7 @@ export const renderMenuItem = (menuItem: MenuItem, index: number): ReactNode => 
         );
     }
 
-    return renderRoute(menuItem.route, menuItem.title, menuItem.icon, menuItem.isGray);
+    return renderRoute(menuItem);
 };
 
 export const renderMenuItems = (menuItems: MenuItem[]) => <>{menuItems.map(renderMenuItem)}</>;
