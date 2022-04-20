@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PageContainer from '../../components/pageContainer/PageContainer';
-import { Button, Col, notification, Spin, Tooltip } from 'antd';
+import { Button, Col, notification, Row, Select, Space, Spin, Tooltip } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import useInputState from '../../hooks/useInputState';
 import pluralize from 'pluralize';
@@ -11,6 +11,10 @@ import axios from 'axios';
 import Text from 'antd/lib/typography/Text';
 import Paragraph from 'antd/lib/typography/Paragraph';
 import ExternalLink from '../../components/ExternalLink';
+import styles from './StringUtilsPage.module.scss';
+import OutputMode from './types/OutputMode';
+import { CopyOutlined } from '@ant-design/icons';
+import copyText from '../../utils/copyText';
 
 interface ShowCountProps {
     formatter: (args: { count: number; maxLength?: number }) => string;
@@ -24,6 +28,8 @@ const StringUtilsPage = () => {
     const [value, , setValueByEvent] = useInputState<string>('');
     const [evalValue, , setEvalValueByEvent] = useInputState<string>('');
     const [evaluatedJs, setEvaluatedJs] = useState<string>('');
+
+    const [outputMode, setOutputMode] = useState<OutputMode>(OutputMode.TEXT);
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -95,11 +101,30 @@ const StringUtilsPage = () => {
 
                         <TextArea className="font-monospace mt-1" value={evalValue} onChange={setEvalValueByEvent} />
                     </label>
-                    <Button className="mt-1 mb-2" type="primary" onClick={evaluateJs}>
-                        Evaluate
-                    </Button>
+                    <Row className="mt-1 mb-2 d-flex justify-content-between">
+                        <Button type="primary" onClick={evaluateJs}>
+                            Evaluate
+                        </Button>
+                        <Select className={styles.outputModeComboBox} value={outputMode} onChange={setOutputMode}>
+                            <Select.Option key={OutputMode.TEXT}>Text</Select.Option>
+                            <Select.Option key={OutputMode.HTML}>HTML</Select.Option>
+                            <Select.Option key={OutputMode.TABLE}>Table</Select.Option>
+                        </Select>
+                    </Row>
                     <Spin spinning={isLoading} delay={10}>
-                        <TextArea className="font-monospace" readOnly value={evaluatedJs} />
+                        {outputMode === OutputMode.TEXT && (
+                            <Col>
+                                <TextArea className="font-monospace mb-2" readOnly value={evaluatedJs} />
+                                <Button onClick={() => copyText(evaluatedJs)}>
+                                    <Space>
+                                        <CopyOutlined />
+                                        Copy
+                                    </Space>
+                                </Button>
+                            </Col>
+                        )}
+                        {outputMode === OutputMode.HTML && <div dangerouslySetInnerHTML={{ __html: evaluatedJs }} />}
+                        {outputMode === OutputMode.TABLE && <Text type="secondary">Coming Soon</Text>}
                     </Spin>
                 </Col>
             </Col>
