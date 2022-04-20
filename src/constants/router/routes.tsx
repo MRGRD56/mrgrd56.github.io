@@ -13,6 +13,7 @@ import StringUtilsPage from '../../pages/stringUtilsPage/StringUtilsPage';
 import UserInfoPage from '../../pages/userInfoPage/UserInfoPage';
 import RouteWrapper from '../../layouts/RouteWrapper';
 import NotFoundPage from '../../pages/NotFoundPage';
+import UnitConverterPage from '../../pages/unitConverterPage/UnitConverterPage';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
@@ -31,6 +32,7 @@ type AppRoutesMap = Readonly<{
     stringUtils: AppRoute;
     userInfo: AppRoute;
     notFound: AppRoute;
+    unitConverter: AppRoute;
 }>;
 
 export const routes: AppRoutesMap = {
@@ -83,6 +85,11 @@ export const routes: AppRoutesMap = {
         path: '/other/not-found',
         component: NotFoundPage,
         title: 'Not Found'
+    },
+    unitConverter: {
+        path: '/tools/unit-converter',
+        component: UnitConverterPage,
+        title: 'Unit Converter'
     }
 };
 

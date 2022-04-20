@@ -43,6 +43,10 @@ const menuItems: MenuItem[] = [
             {
                 route: routes.userInfo,
                 isGray: true
+            },
+            {
+                route: routes.unitConverter,
+                isGray: true
             }
         ]
     },
