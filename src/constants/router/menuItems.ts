@@ -4,6 +4,7 @@ import {
     DeleteFilled,
     GithubFilled,
     HomeFilled,
+    PlayCircleFilled,
     QuestionCircleFilled,
     StarFilled,
     ToolFilled
@@ -47,6 +48,16 @@ const menuItems: MenuItem[] = [
             {
                 route: routes.unitConverter,
                 isGray: true
+            }
+        ]
+    },
+    {
+        title: 'Games',
+        icon: PlayCircleFilled,
+        routes: [
+            {
+                route: routes.snakeGame,
+                title: 'Snake'
             }
         ]
     },

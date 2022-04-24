@@ -35,7 +35,7 @@ const PageContainer: FunctionComponent<Props> = ({ title, description, titleExtr
     const renderedTags = useMemo(() => tags?.map(renderTag), [tags]);
 
     return (
-        <Space direction="vertical" className={styles.container} {...props}>
+        <div className={styles.container} {...props}>
             {tags?.length && <div>{renderedTags}</div>}
             {title && (
                 <Space direction="horizontal" size="middle" className={styles.headingContainer}>
@@ -45,8 +45,8 @@ const PageContainer: FunctionComponent<Props> = ({ title, description, titleExtr
             )}
             {description && <Paragraph>{description}</Paragraph>}
 
-            {children}
-        </Space>
+            <div className={styles.contentContainer}>{children}</div>
+        </div>
     );
 };
 

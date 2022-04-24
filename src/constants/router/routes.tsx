@@ -14,6 +14,7 @@ import UserInfoPage from '../../pages/userInfoPage/UserInfoPage';
 import RouteWrapper from '../../layouts/RouteWrapper';
 import NotFoundPage from '../../pages/NotFoundPage';
 import UnitConverterPage from '../../pages/unitConverterPage/UnitConverterPage';
+import SnakeGamePage from '../../pages/snakeGamePage/SnakeGamePage';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
@@ -33,6 +34,7 @@ type AppRoutesMap = Readonly<{
     userInfo: AppRoute;
     notFound: AppRoute;
     unitConverter: AppRoute;
+    snakeGame: AppRoute;
 }>;
 
 export const routes: AppRoutesMap = {
@@ -90,6 +92,11 @@ export const routes: AppRoutesMap = {
         path: '/tools/unit-converter',
         component: UnitConverterPage,
         title: 'Unit Converter'
+    },
+    snakeGame: {
+        path: '/games/snake',
+        component: SnakeGamePage,
+        title: 'Snake Game'
     }
 };
 

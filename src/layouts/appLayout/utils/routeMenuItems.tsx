@@ -43,13 +43,11 @@ export const isSubMenuItem = (menuItem: MenuItem): menuItem is SubMenuItem => {
 export const renderMenuItem = (menuItem: MenuItem, index: number): ReactNode => {
     if (isSubMenuItem(menuItem)) {
         return (
-            <SubMenu icon={renderComponent(menuItem.icon)} title={menuItem.title}>
+            <SubMenu key={index} icon={renderComponent(menuItem.icon)} title={menuItem.title}>
                 {menuItem.routes.length ? (
                     menuItem.routes.map(renderMenuItem)
                 ) : (
-                    <Menu.Item disabled key={index}>
-                        Nothing for now
-                    </Menu.Item>
+                    <Menu.Item disabled>Nothing for now</Menu.Item>
                 )}
             </SubMenu>
         );
