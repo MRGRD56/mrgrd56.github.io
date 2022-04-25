@@ -25,8 +25,6 @@ const allSearchOptions: OptionType[] = menuRouteItems.map((item) => {
     };
 });
 
-console.log(menuRouteItems);
-
 const filterOption: FilterFunc<OptionType> = (inputValue, option) => {
     const query = inputValue.trim().toLocaleLowerCase();
 
