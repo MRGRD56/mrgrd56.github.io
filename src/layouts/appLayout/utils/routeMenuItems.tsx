@@ -1,22 +1,31 @@
 import { AppRoute } from '../../../constants/router/routes';
-import React, { ComponentType, ReactNode } from 'react';
-import { Menu } from 'antd';
+import React, { ComponentType } from 'react';
 import renderComponent from '../../../utils/renderComponent';
 import { Link } from 'react-router-dom';
 import { isArray } from 'lodash';
-import SubMenu from 'antd/lib/menu/SubMenu';
 import classNames from 'classnames';
+import { ItemType } from 'antd/lib/menu/hooks/useItems';
 
-export const renderRoute = ({ route, title, icon, isGray }: MenuRouteItem): ReactNode => {
+export const renderRoute = ({ route, title, icon, isGray }: MenuRouteItem): ItemType => {
     const { path } = route;
 
-    return (
-        <Menu.Item icon={renderComponent(icon)} key={path}>
+    return {
+        key: path,
+        icon: renderComponent(icon),
+        label: (
             <Link to={path ?? ''} className={classNames({ 'text-black-50': isGray })}>
                 {title ?? route.title}
             </Link>
-        </Menu.Item>
-    );
+        )
+    };
+
+    // return (
+    //     <Menu.Item icon={renderComponent(icon)} key={path}>
+    //         <Link to={path ?? ''} className={classNames({ 'text-black-50': isGray })}>
+    //             {title ?? route.title}
+    //         </Link>
+    //     </Menu.Item>
+    // );
 };
 
 interface MenuItemBase {
@@ -40,20 +49,25 @@ export const isSubMenuItem = (menuItem: MenuItem): menuItem is SubMenuItem => {
     return 'routes' in menuItem && isArray(menuItem.routes);
 };
 
-export const renderMenuItem = (menuItem: MenuItem, index: number): ReactNode => {
+export const renderMenuItem = (menuItem: MenuItem, index: number): ItemType => {
     if (isSubMenuItem(menuItem)) {
-        return (
-            <SubMenu key={index} icon={renderComponent(menuItem.icon)} title={menuItem.title}>
-                {menuItem.routes.length ? (
-                    menuItem.routes.map(renderMenuItem)
-                ) : (
-                    <Menu.Item disabled>Nothing for now</Menu.Item>
-                )}
-            </SubMenu>
-        );
+        return {
+            key: index,
+            icon: renderComponent(menuItem.icon),
+            label: menuItem.title,
+            children: menuItem.routes.length
+                ? menuItem.routes.map(renderMenuItem)
+                : [
+                      {
+                          key: 'nothing',
+                          disabled: true,
+                          label: 'Nothing for now'
+                      }
+                  ]
+        };
     }
 
     return renderRoute(menuItem);
 };
 
-export const renderMenuItems = (menuItems: MenuItem[]) => <>{menuItems.map(renderMenuItem)}</>;
+export const renderMenuItems = (menuItems: MenuItem[]) => menuItems.map(renderMenuItem);

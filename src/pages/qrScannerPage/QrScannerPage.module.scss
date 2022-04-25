@@ -2,5 +2,13 @@
 }
 
 .uploadedImageThumb {
-    width: 100%;
+    .ant-image {
+        max-width: 128px;
+        max-height: 128px;
+
+        & > .ant-image-img {
+            max-width: 128px;
+            max-height: 128px;
+        }
+    }
 }

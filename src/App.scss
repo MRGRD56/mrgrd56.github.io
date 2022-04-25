@@ -3,3 +3,9 @@
 //    background: #212121 !important;
 //    color: white !important;
 //}
+
+.focus-visible-unstyled {
+    &:focus-visible {
+        outline: none;
+    }
+}

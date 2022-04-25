@@ -15,11 +15,17 @@ interface OptionType extends DefaultOptionType {
     data: MenuRouteItem;
 }
 
-const allSearchOptions: OptionType[] = menuRouteItems.map((item) => ({
-    label: item.title,
-    value: item.title,
-    data: item
-}));
+const allSearchOptions: OptionType[] = menuRouteItems.map((item) => {
+    const title = item.title ?? item.route.title;
+
+    return {
+        label: title,
+        value: title,
+        data: item
+    };
+});
+
+console.log(menuRouteItems);
 
 const filterOption: FilterFunc<OptionType> = (inputValue, option) => {
     const query = inputValue.trim().toLocaleLowerCase();

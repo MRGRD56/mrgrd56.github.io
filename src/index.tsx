@@ -3,11 +3,19 @@ import 'antd/dist/antd.min.css';
 import 'bootstrap/dist/css/bootstrap-utilities.min.css';
 import './index.scss';
 import App from './App';
-import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom';
 
-const root = createRoot(document.getElementById('root') as Element);
-root.render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>
+const rootElement = document.getElementById('root') as HTMLElement;
+const app = (
+    // <React.StrictMode>
+    <App />
+    // </React.StrictMode>
 );
+
+// createRoot(rootElement).render(
+//     <React.StrictMode>
+//         <App />
+//     </React.StrictMode>
+// );
+
+ReactDOM.render(app, rootElement);

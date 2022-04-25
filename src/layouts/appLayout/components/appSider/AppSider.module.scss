@@ -1,0 +1,9 @@
+@import '../../../../styles/main';
+
+.container {
+    display: none !important;
+
+    @include mediaLG {
+        display: block !important;
+    }
+}

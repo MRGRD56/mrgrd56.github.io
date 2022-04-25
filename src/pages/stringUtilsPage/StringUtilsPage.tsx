@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PageContainer from '../../components/pageContainer/PageContainer';
-import { Button, Col, notification, Row, Select, Space, Spin, Tooltip } from 'antd';
+import { Button, Col, notification, Row, Select, Spin, Tooltip } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import useInputState from '../../hooks/useInputState';
 import pluralize from 'pluralize';
@@ -13,8 +13,7 @@ import Paragraph from 'antd/lib/typography/Paragraph';
 import ExternalLink from '../../components/ExternalLink';
 import styles from './StringUtilsPage.module.scss';
 import OutputMode from './types/OutputMode';
-import { CopyOutlined } from '@ant-design/icons';
-import copyText from '../../utils/copyText';
+import CopyButton from '../../components/copyButton/CopyButton';
 
 interface ShowCountProps {
     formatter: (args: { count: number; maxLength?: number }) => string;
@@ -115,12 +114,7 @@ const StringUtilsPage = () => {
                         {outputMode === OutputMode.TEXT && (
                             <Col>
                                 <TextArea className="font-monospace mb-2" readOnly value={evaluatedJs} />
-                                <Button onClick={() => copyText(evaluatedJs)}>
-                                    <Space>
-                                        <CopyOutlined />
-                                        Copy
-                                    </Space>
-                                </Button>
+                                <CopyButton text={evaluatedJs} />
                             </Col>
                         )}
                         {outputMode === OutputMode.HTML && <div dangerouslySetInnerHTML={{ __html: evaluatedJs }} />}

@@ -1,7 +1,6 @@
 import React, { ClipboardEventHandler, useCallback, useEffect, useState } from 'react';
 import PageContainer from '../../components/pageContainer/PageContainer';
 import { Col, Image, notification, Row, Space, Spin, Upload } from 'antd';
-import styles from './QrScannerPage.module.scss';
 import './QrScannerPage.scss';
 import { RcFile, UploadChangeParam } from 'antd/lib/upload';
 import { UploadFile } from 'antd/lib/upload/interface';
@@ -14,6 +13,8 @@ import { isNil, isString } from 'lodash';
 import call from '../../utils/call';
 import Text from 'antd/lib/typography/Text';
 import ImgCrop from 'antd-img-crop';
+import CopyButton from '../../components/copyButton/CopyButton';
+import ExternalLink from '../../components/ExternalLink';
 
 interface QrImage {
     blob: Blob;
@@ -28,6 +29,12 @@ const getQrImage = async (blob: Blob): Promise<QrImage> => {
 const beforeUpload = (file: RcFile) => {
     return /^image\/.+$/.test(file.type);
 };
+
+const titleExtra = (
+    <Text type="secondary">
+        uses <ExternalLink href="https://www.npmjs.com/package/qr-scanner">qr-scanner</ExternalLink>
+    </Text>
+);
 
 const QrScannerPage = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -78,23 +85,26 @@ const QrScannerPage = () => {
     }, []);
 
     return (
-        <PageContainer title="QR Code Scanner" onPaste={handlePaste}>
+        <PageContainer title="QR Code Scanner" onPaste={handlePaste} titleExtra={titleExtra}>
             <Row>
                 <Col className="w-100">
                     <Row>
-                        <ImgCrop rotate maxZoom={30}>
-                            <Upload
-                                className="QrScannerPage_image-upload"
-                                listType="picture-card"
-                                showUploadList={false}
-                                beforeUpload={beforeUpload}
-                                onChange={handleQrImageChange}
-                                accept="image/*, *"
-                                customRequest={dummyAntdUploadRequest}
-                            >
-                                {qrImage !== undefined ? (
-                                    <Image src={qrImage.base64} className={styles.uploadedImageThumb} />
-                                ) : (
+                        <Space>
+                            {qrImage && (
+                                <div className="QrScannerPage_image-thumb">
+                                    <Image src={qrImage.base64} width={128} height={128} />
+                                </div>
+                            )}
+                            <ImgCrop rotate maxZoom={30}>
+                                <Upload
+                                    className="QrScannerPage_image-upload"
+                                    listType="picture-card"
+                                    showUploadList={false}
+                                    beforeUpload={beforeUpload}
+                                    onChange={handleQrImageChange}
+                                    accept="image/*, *"
+                                    customRequest={dummyAntdUploadRequest}
+                                >
                                     <Space direction="vertical">
                                         {isLoading ? <LoadingOutlined /> : <PlusOutlined />}
                                         <div>
@@ -102,14 +112,15 @@ const QrScannerPage = () => {
                                             <Text type="secondary">or Ctrl+V</Text>
                                         </div>
                                     </Space>
-                                )}
-                            </Upload>
-                        </ImgCrop>
+                                </Upload>
+                            </ImgCrop>
+                        </Space>
                     </Row>
                     <Col xs={24} lg={12}>
                         <Spin spinning={isRecognition}>
                             <TextArea value={qrContent} readOnly rows={6} />
                         </Spin>
+                        <CopyButton text={qrContent} className="mt-1" />
                     </Col>
                 </Col>
             </Row>

@@ -15,6 +15,7 @@ import RouteWrapper from '../../layouts/RouteWrapper';
 import NotFoundPage from '../../pages/NotFoundPage';
 import UnitConverterPage from '../../pages/unitConverterPage/UnitConverterPage';
 import SnakeGamePage from '../../pages/snakeGamePage/SnakeGamePage';
+import UuidGeneratorPage from '../../pages/uuidGeneratorPage/UuidGeneratorPage';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
@@ -35,13 +36,14 @@ type AppRoutesMap = Readonly<{
     notFound: AppRoute;
     unitConverter: AppRoute;
     snakeGame: AppRoute;
+    uuidGenerator: AppRoute;
 }>;
 
 export const routes: AppRoutesMap = {
     root: {
         path: '/',
         component: RootPage,
-        title: 'Home page'
+        title: 'MRGRD56'
     },
     githubPagesList: {
         path: '/github-pages',
@@ -97,6 +99,11 @@ export const routes: AppRoutesMap = {
         path: '/games/snake',
         component: SnakeGamePage,
         title: 'Snake Game'
+    },
+    uuidGenerator: {
+        path: '/tools/uuid-generator',
+        component: UuidGeneratorPage,
+        title: 'UUID Generator'
     }
 };
 

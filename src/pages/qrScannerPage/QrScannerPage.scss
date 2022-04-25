@@ -2,15 +2,19 @@
     & > .ant-upload {
         width: 128px;
         height: 128px;
+    }
+}
 
-        .ant-image {
+.QrScannerPage_image-thumb {
+    .ant-image {
+        max-width: 128px;
+        max-height: 128px;
+
+        margin-top: -7px;
+
+        & > .ant-image-img {
             max-width: 128px;
             max-height: 128px;
-
-            & > .ant-image-img {
-                max-width: 128px;
-                max-height: 128px;
-            }
         }
     }
 }

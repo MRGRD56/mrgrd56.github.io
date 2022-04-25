@@ -21,9 +21,8 @@ const AppMenu: FunctionComponent<Props> = ({ onItemSelect }) => {
             activeKey={pathname}
             selectedKeys={[pathname]}
             onSelect={onItemSelect}
-        >
-            {renderedMenuItems}
-        </Menu>
+            items={renderedMenuItems}
+        />
     );
 };
 

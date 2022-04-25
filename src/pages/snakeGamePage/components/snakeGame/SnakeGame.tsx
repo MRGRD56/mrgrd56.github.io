@@ -8,6 +8,7 @@ import Snake from './types/Snake';
 import SnakeDirection from './types/SnakeDirection';
 import classNames from 'classnames';
 import './SnakeGame.scss';
+import Focused from '../../../../components/focused/Focused';
 
 const snakeSpeed = 150;
 const maxSnakeAreaSize = 500;
@@ -75,11 +76,10 @@ const SnakeGame = () => {
     }, []);
 
     return (
-        <div
-            className={classNames(styles.container, 'SnakeGame__container')}
+        <Focused
+            className={classNames(styles.container, 'focus-visible-unstyled', 'SnakeGame__container')}
             ref={containerRef}
             onKeyDown={handleKeyDown}
-            tabIndex={0}
         >
             <Stage className={styles.canvasContainer} width={areaWidth} height={areaWidth}>
                 <Layer>
@@ -94,7 +94,7 @@ const SnakeGame = () => {
                     ))}
                 </Layer>
             </Stage>
-        </div>
+        </Focused>
     );
 };
 

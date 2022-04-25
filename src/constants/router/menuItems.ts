@@ -14,7 +14,8 @@ import { routes } from './routes';
 const menuItems: MenuItem[] = [
     {
         route: routes.root,
-        icon: HomeFilled
+        icon: HomeFilled,
+        title: 'Home page'
     },
     {
         route: routes.githubPagesList,
@@ -40,6 +41,9 @@ const menuItems: MenuItem[] = [
             },
             {
                 route: routes.stringUtils
+            },
+            {
+                route: routes.uuidGenerator
             },
             {
                 route: routes.userInfo,
