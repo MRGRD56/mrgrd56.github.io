@@ -77,10 +77,18 @@ const StringUtilsPage = () => {
                 : String(evalResult);
 
             setEvaluatedJs(evalResultString);
+
+            if (outputMode === OutputMode.CONSOLE) {
+                console.log(evalResult);
+            }
         } catch (error) {
             notification.error({
                 message: getErrorMessage(error)
             });
+
+            if (outputMode === OutputMode.CONSOLE) {
+                console.error(error);
+            }
         } finally {
             setIsLoading(false);
         }
@@ -143,6 +151,7 @@ const StringUtilsPage = () => {
                             <Select.Option key={OutputMode.TEXT}>Text</Select.Option>
                             <Select.Option key={OutputMode.HTML}>HTML</Select.Option>
                             <Select.Option key={OutputMode.TABLE}>Table</Select.Option>
+                            <Select.Option key={OutputMode.CONSOLE}>Console</Select.Option>
                         </Select>
                     </Row>
                     <Spin spinning={isLoading} delay={10}>
@@ -154,6 +163,7 @@ const StringUtilsPage = () => {
                         )}
                         {outputMode === OutputMode.HTML && <div dangerouslySetInnerHTML={{ __html: evaluatedJs }} />}
                         {outputMode === OutputMode.TABLE && <Text type="secondary">Coming Soon</Text>}
+                        {outputMode === OutputMode.CONSOLE && <div>The output is in your browser console</div>}
                     </Spin>
                 </Col>
             </Col>

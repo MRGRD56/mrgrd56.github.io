@@ -1,7 +1,8 @@
 enum OutputMode {
     TEXT = 'TEXT',
     HTML = 'HTML',
-    TABLE = 'TABLE'
+    TABLE = 'TABLE',
+    CONSOLE = 'CONSOLE'
 }
 
 export default OutputMode;
