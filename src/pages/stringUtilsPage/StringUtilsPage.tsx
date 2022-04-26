@@ -14,6 +14,10 @@ import ExternalLink from '../../components/ExternalLink';
 import styles from './StringUtilsPage.module.scss';
 import OutputMode from './types/OutputMode';
 import CopyButton from '../../components/copyButton/CopyButton';
+import Editor, { BeforeMount, OnChange } from '@monaco-editor/react';
+import { editor } from 'monaco-editor';
+import './StringUtilsPage.scss';
+import classNames from 'classnames';
 
 interface ShowCountProps {
     formatter: (args: { count: number; maxLength?: number }) => string;
@@ -23,14 +27,33 @@ const textAreaShowCount: ShowCountProps = {
     formatter: ({ count }) => pluralize('character', count, true)
 };
 
+const loadingNode = <Spin size="large" />;
+
+const codeEditorOptions: editor.IStandaloneEditorConstructionOptions = {
+    fontFamily: 'JetBrains Mono',
+    minimap: { enabled: false }
+};
+
+const handleCodeEditorBeforeMount: BeforeMount = (monaco) => {
+    monaco.languages.typescript.javascriptDefaults.addExtraLib(`
+declare const $value: string;
+declare const _;
+declare const axios;
+declare const pluralize;`);
+};
+
 const StringUtilsPage = () => {
     const [value, , setValueByEvent] = useInputState<string>('');
-    const [evalValue, , setEvalValueByEvent] = useInputState<string>('');
+    const [evalValue, setEvalValue] = useState<string>('');
     const [evaluatedJs, setEvaluatedJs] = useState<string>('');
 
     const [outputMode, setOutputMode] = useState<OutputMode>(OutputMode.TEXT);
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const handleEvalValueChange: OnChange = (value) => {
+        setEvalValue(value ?? '');
+    };
 
     const evaluateJs = async () => {
         if (!evalValue) {
@@ -75,7 +98,7 @@ const StringUtilsPage = () => {
                     className="mb-3"
                 />
                 <Col>
-                    <label>
+                    <Col>
                         <Text>
                             <Paragraph className="mb-1">Evaluate JavaScript</Paragraph>
                             <Paragraph className="mb-2">
@@ -98,8 +121,20 @@ const StringUtilsPage = () => {
                             </Paragraph>
                         </Text>
 
-                        <TextArea className="font-monospace mt-1" value={evalValue} onChange={setEvalValueByEvent} />
-                    </label>
+                        {/*<TextArea className="font-monospace mt-1" value={evalValue} onChange={setEvalValueByEvent} />*/}
+                        <Editor
+                            theme="light"
+                            defaultLanguage="javascript"
+                            className={classNames('mt-1 StringUtilsPage__monaco-editor', styles.codeEditor)}
+                            value={evalValue}
+                            onChange={handleEvalValueChange}
+                            options={codeEditorOptions}
+                            height="200px"
+                            width="100%"
+                            beforeMount={handleCodeEditorBeforeMount}
+                            loading={loadingNode}
+                        />
+                    </Col>
                     <Row className="mt-1 mb-2 d-flex justify-content-between">
                         <Button type="primary" onClick={evaluateJs}>
                             Evaluate
