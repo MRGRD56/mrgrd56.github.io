@@ -72,15 +72,15 @@ const StringUtilsPage = () => {
                 $easterEgg: '🥚'
             });
 
+            if (outputMode === OutputMode.CONSOLE) {
+                console.log(evalResult);
+            }
+
             const evalResultString = isObjectLike(evalResult)
                 ? JSON.stringify(evalResult, undefined, 2)
                 : String(evalResult);
 
             setEvaluatedJs(evalResultString);
-
-            if (outputMode === OutputMode.CONSOLE) {
-                console.log(evalResult);
-            }
         } catch (error) {
             notification.error({
                 message: getErrorMessage(error)
