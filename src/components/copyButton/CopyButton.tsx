@@ -1,25 +1,29 @@
-import React, { FunctionComponent, MouseEvent, MouseEventHandler, useRef, useState } from 'react';
+import React, { MouseEvent, MouseEventHandler, useRef, useState } from 'react';
 import copyText from '../../utils/copyText';
 import { Button, ButtonProps, Space } from 'antd';
 import { CheckOutlined, CopyOutlined } from '@ant-design/icons';
+import { isNil, isString } from 'lodash';
+import copyBlob from '../../utils/copyBlob';
 
-interface Props extends ButtonProps {
-    text: string | null | undefined;
+type ContentType = string | Blob | null | undefined;
+
+interface Props<T extends ContentType> extends Omit<ButtonProps, 'value'> {
+    value: T;
     copyEmpty?: boolean;
-    onClick?: (event: MouseEvent<HTMLButtonElement>) => string | undefined;
+    onClick?: (event: MouseEvent<HTMLButtonElement>) => T;
 }
 
-const CopyButton: FunctionComponent<Props> = ({ text, copyEmpty, children, onClick, ...props }) => {
+function CopyButton<T extends ContentType>({ value, copyEmpty, children, onClick, ...props }: Props<T>) {
     const [isCopied, setIsCopied] = useState<boolean>(false);
 
     const copiedTimeoutRef = useRef<NodeJS.Timeout>();
 
     const handleClick: MouseEventHandler<HTMLButtonElement> = async (event) => {
-        const replacedText = onClick?.(event);
+        const replacedValue = onClick?.(event);
 
-        const actualText = replacedText ?? text;
+        const actualValue = replacedValue ?? value;
 
-        if (!actualText && !copyEmpty) {
+        if (!actualValue && !copyEmpty) {
             return;
         }
 
@@ -27,7 +31,13 @@ const CopyButton: FunctionComponent<Props> = ({ text, copyEmpty, children, onCli
             clearTimeout(copiedTimeoutRef.current);
         }
 
-        await copyText(actualText ?? '');
+        if (isNil(actualValue) || isString(actualValue)) {
+            await copyText(actualValue ?? '');
+        }
+        if (actualValue instanceof Blob) {
+            await copyBlob(actualValue);
+        }
+
         setIsCopied(true);
         copiedTimeoutRef.current = setTimeout(() => {
             setIsCopied(false);
@@ -42,6 +52,6 @@ const CopyButton: FunctionComponent<Props> = ({ text, copyEmpty, children, onCli
             </Space>
         </Button>
     );
-};
+}
 
 export default CopyButton;

@@ -4,4 +4,4 @@ const ExternalLink: FunctionComponent<HTMLProps<HTMLAnchorElement>> = ({ target,
     <a target={target ?? '_blank'} rel={rel ?? 'noopener noreferrer'} {...props} />
 );
 
-export default ExternalLink;
+export default React.memo(ExternalLink);

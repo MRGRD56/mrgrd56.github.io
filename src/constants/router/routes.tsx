@@ -16,6 +16,7 @@ import NotFoundPage from '../../pages/NotFoundPage';
 import UnitConverterPage from '../../pages/unitConverterPage/UnitConverterPage';
 import SnakeGamePage from '../../pages/snakeGamePage/SnakeGamePage';
 import UuidGeneratorPage from '../../pages/uuidGeneratorPage/UuidGeneratorPage';
+import QrGeneratorPage from '../../pages/qrGeneratorPage/QrGeneratorPage';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
@@ -30,6 +31,7 @@ type AppRoutesMap = Readonly<{
     jsonStringifier: AppRoute;
     templateTextGenerator: AppRoute;
     qrScanner: AppRoute;
+    qrGenerator: AppRoute;
     bgGenerator: AppRoute;
     stringUtils: AppRoute;
     userInfo: AppRoute;
@@ -69,6 +71,11 @@ export const routes: AppRoutesMap = {
         path: '/tools/qr-scanner',
         component: QrScannerPage,
         title: 'QR Scanner'
+    },
+    qrGenerator: {
+        path: '/tools/qr-generator',
+        component: QrGeneratorPage,
+        title: 'QR Generator'
     },
     bgGenerator: {
         path: '/tools/bg-generator',

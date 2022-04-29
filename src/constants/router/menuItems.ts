@@ -36,6 +36,9 @@ const menuItems: MenuItem[] = [
                 route: routes.qrScanner
             },
             {
+                route: routes.qrGenerator
+            },
+            {
                 route: routes.bgGenerator,
                 title: 'BG Generator'
             },

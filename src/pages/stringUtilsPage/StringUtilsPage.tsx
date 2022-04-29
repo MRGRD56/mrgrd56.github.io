@@ -158,7 +158,7 @@ const StringUtilsPage = () => {
                         {outputMode === OutputMode.TEXT && (
                             <Col>
                                 <TextArea className="font-monospace mb-2" readOnly value={evaluatedJs} />
-                                <CopyButton text={evaluatedJs} />
+                                <CopyButton value={evaluatedJs} />
                             </Col>
                         )}
                         {outputMode === OutputMode.HTML && <div dangerouslySetInnerHTML={{ __html: evaluatedJs }} />}

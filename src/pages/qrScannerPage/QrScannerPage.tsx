@@ -120,7 +120,7 @@ const QrScannerPage = () => {
                         <Spin spinning={isRecognition}>
                             <TextArea value={qrContent} readOnly rows={6} />
                         </Spin>
-                        <CopyButton text={qrContent} className="mt-1" />
+                        <CopyButton value={qrContent} className="mt-1" />
                     </Col>
                 </Col>
             </Row>

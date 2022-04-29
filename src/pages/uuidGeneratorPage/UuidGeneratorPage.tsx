@@ -33,7 +33,7 @@ const UuidGeneratorPage = () => {
                 </Row>
                 <Space>
                     <Button onClick={generate}>Generate</Button>
-                    <CopyButton text={uuid} onClick={generate}>
+                    <CopyButton value={uuid} onClick={generate}>
                         Generate and copy
                     </CopyButton>
                 </Space>
