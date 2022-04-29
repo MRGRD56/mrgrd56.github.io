@@ -9,7 +9,7 @@ import JsonStringifierPage from '../../pages/jsonStringifierPage/JsonStringifier
 import TemplateTextGeneratorPage from '../../pages/templateTextGenerator/TemplateTextGeneratorPage';
 import QrScannerPage from '../../pages/qrScannerPage/QrScannerPage';
 import BgGeneratorPage from '../../pages/bgGeneratorPage/BgGeneratorPage';
-import StringUtilsPage from '../../pages/stringUtilsPage/StringUtilsPage';
+import JsEvaluatorPage from '../../pages/jsEvaluatorPage/JsEvaluatorPage';
 import UserInfoPage from '../../pages/userInfoPage/UserInfoPage';
 import RouteWrapper from '../../layouts/RouteWrapper';
 import NotFoundPage from '../../pages/NotFoundPage';
@@ -34,7 +34,7 @@ type AppRoutesMap = Readonly<{
     qrScanner: AppRoute;
     qrGenerator: AppRoute;
     bgGenerator: AppRoute;
-    stringUtils: AppRoute;
+    jsEvaluator: AppRoute;
     userInfo: AppRoute;
     notFound: AppRoute;
     unitConverter: AppRoute;
@@ -84,10 +84,10 @@ export const routes: AppRoutesMap = {
         component: BgGeneratorPage,
         title: 'Background Generator'
     },
-    stringUtils: {
-        path: '/tools/string-utils',
-        component: StringUtilsPage,
-        title: 'String Utils'
+    jsEvaluator: {
+        path: '/tools/javascript-eval',
+        component: JsEvaluatorPage,
+        title: 'JavaScript Evaluator'
     },
     userInfo: {
         path: '/tools/user-info',

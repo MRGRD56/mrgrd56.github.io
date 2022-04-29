@@ -11,12 +11,12 @@ import axios from 'axios';
 import Text from 'antd/lib/typography/Text';
 import Paragraph from 'antd/lib/typography/Paragraph';
 import ExternalLink from '../../components/ExternalLink';
-import styles from './StringUtilsPage.module.scss';
+import styles from './JsEvaluatorPage.module.scss';
 import OutputMode from './types/OutputMode';
 import CopyButton from '../../components/copyButton/CopyButton';
 import Editor, { BeforeMount, OnChange } from '@monaco-editor/react';
 import { editor } from 'monaco-editor';
-import './StringUtilsPage.scss';
+import './JsEvaluatorPage.scss';
 import classNames from 'classnames';
 
 interface ShowCountProps {
@@ -42,7 +42,7 @@ declare const axios;
 declare const pluralize;`);
 };
 
-const StringUtilsPage = () => {
+const JsEvaluatorPage = () => {
     const [value, , setValueByEvent] = useInputState<string>('');
     const [evalValue, setEvalValue] = useState<string>('');
     const [evaluatedJs, setEvaluatedJs] = useState<string>('');
@@ -95,7 +95,7 @@ const StringUtilsPage = () => {
     };
 
     return (
-        <PageContainer title="String Utils">
+        <PageContainer title="JavaScript Evaluator">
             <Col>
                 <TextArea
                     rows={6}
@@ -103,7 +103,8 @@ const StringUtilsPage = () => {
                     showCount={textAreaShowCount}
                     value={value}
                     onChange={setValueByEvent}
-                    className="mb-3"
+                    className={classNames('mb-3', styles.valueTextArea)}
+                    placeholder="$value"
                 />
                 <Col>
                     <Col>
@@ -133,11 +134,11 @@ const StringUtilsPage = () => {
                         <Editor
                             theme="light"
                             defaultLanguage="javascript"
-                            className={classNames('mt-1 StringUtilsPage__monaco-editor', styles.codeEditor)}
+                            className={classNames('mt-1 JsEvaluatorPage__monaco-editor', styles.codeEditor)}
                             value={evalValue}
                             onChange={handleEvalValueChange}
                             options={codeEditorOptions}
-                            height="200px"
+                            height="250px"
                             width="100%"
                             beforeMount={handleCodeEditorBeforeMount}
                             loading={loadingNode}
@@ -171,4 +172,4 @@ const StringUtilsPage = () => {
     );
 };
 
-export default StringUtilsPage;
+export default JsEvaluatorPage;

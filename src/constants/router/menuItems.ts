@@ -44,7 +44,7 @@ const menuItems: MenuItem[] = [
                 title: 'BG Generator'
             },
             {
-                route: routes.stringUtils
+                route: routes.jsEvaluator
             },
             {
                 route: routes.uuidGenerator
