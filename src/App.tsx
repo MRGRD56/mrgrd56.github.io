@@ -5,15 +5,18 @@ import { Provider } from 'react-redux';
 import { store } from './reducers';
 import AppLayout from './layouts/appLayout/AppLayout';
 import { HashRouter } from 'react-router-dom';
+import ErudaLayout from './layouts/ErudaLayout';
 
 const App: FunctionComponent = () => (
-    <Provider store={store}>
-        <HashRouter>
-            <AppLayout>
-                <AppRouter />
-            </AppLayout>
-        </HashRouter>
-    </Provider>
+    <ErudaLayout>
+        <Provider store={store}>
+            <HashRouter>
+                <AppLayout>
+                    <AppRouter />
+                </AppLayout>
+            </HashRouter>
+        </Provider>
+    </ErudaLayout>
 );
 
 export default App;

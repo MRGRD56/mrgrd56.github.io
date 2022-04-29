@@ -6,6 +6,7 @@ import {
     HomeFilled,
     PlayCircleFilled,
     QuestionCircleFilled,
+    SettingFilled,
     StarFilled,
     ToolFilled
 } from '@ant-design/icons';
@@ -86,6 +87,10 @@ const menuItems: MenuItem[] = [
                 icon: QuestionCircleFilled
             }
         ]
+    },
+    {
+        route: routes.settings,
+        icon: SettingFilled
     }
 ];
 

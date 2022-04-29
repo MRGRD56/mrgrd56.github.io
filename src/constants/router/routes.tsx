@@ -17,6 +17,7 @@ import UnitConverterPage from '../../pages/unitConverterPage/UnitConverterPage';
 import SnakeGamePage from '../../pages/snakeGamePage/SnakeGamePage';
 import UuidGeneratorPage from '../../pages/uuidGeneratorPage/UuidGeneratorPage';
 import QrGeneratorPage from '../../pages/qrGeneratorPage/QrGeneratorPage';
+import SettingsPage from '../../pages/settingsPage/SettingsPage';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
@@ -39,6 +40,7 @@ type AppRoutesMap = Readonly<{
     unitConverter: AppRoute;
     snakeGame: AppRoute;
     uuidGenerator: AppRoute;
+    settings: AppRoute;
 }>;
 
 export const routes: AppRoutesMap = {
@@ -111,6 +113,11 @@ export const routes: AppRoutesMap = {
         path: '/tools/uuid-generator',
         component: UuidGeneratorPage,
         title: 'UUID Generator'
+    },
+    settings: {
+        path: '/settings',
+        component: SettingsPage,
+        title: 'Settings'
     }
 };
 

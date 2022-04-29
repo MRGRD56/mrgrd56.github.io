@@ -1,3 +1,3 @@
-const call = (fn: () => Promise<void> | void) => fn();
+const call = <T>(fn: () => T) => fn();
 
 export default call;
