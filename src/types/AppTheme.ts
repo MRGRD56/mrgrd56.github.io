@@ -4,7 +4,7 @@ enum AppTheme {
 }
 
 export enum SpecialAppTheme {
-    AUTO = 'AUTO'
+    AUTO = 'auto'
 }
 
 export type SelectableAppTheme = AppTheme | SpecialAppTheme;
