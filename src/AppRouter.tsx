@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { routesList } from './constants/router/routes';
-import NotFoundPage from './pages/NotFoundPage';
+import NotFoundPage from './pages/notFoundPage/NotFoundPage';
 import RouteWrapper from './layouts/RouteWrapper';
 
 const AppRouter = () => (

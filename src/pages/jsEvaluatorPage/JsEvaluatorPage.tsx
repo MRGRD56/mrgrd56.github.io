@@ -16,7 +16,6 @@ import OutputMode from './types/OutputMode';
 import CopyButton from '../../components/copyButton/CopyButton';
 import Editor, { BeforeMount, OnChange } from '@monaco-editor/react';
 import { editor } from 'monaco-editor';
-import './JsEvaluatorPage.scss';
 import classNames from 'classnames';
 import useAppTheme from '../../hooks/useAppTheme';
 
@@ -140,7 +139,7 @@ const JsEvaluatorPage = () => {
                         <Editor
                             theme={isDarkMode ? 'vs-dark' : 'light'}
                             defaultLanguage="javascript"
-                            className={classNames('mt-1 JsEvaluatorPage__monaco-editor', styles.codeEditor)}
+                            className={classNames('mt-1 app-monaco-editor', styles.codeEditor)}
                             value={evalValue}
                             onChange={handleEvalValueChange}
                             options={codeEditorOptions}

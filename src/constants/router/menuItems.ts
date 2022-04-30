@@ -2,6 +2,7 @@ import { isSubMenuItem, MenuItem, MenuRouteItem } from '../../layouts/appLayout/
 import {
     BookFilled,
     DeleteFilled,
+    ExclamationCircleFilled,
     GithubFilled,
     HomeFilled,
     PlayCircleFilled,
@@ -30,10 +31,6 @@ const menuItems: MenuItem[] = [
                 route: routes.jsonStringifier
             },
             {
-                route: routes.templateTextGenerator,
-                isGray: true
-            },
-            {
                 route: routes.qrScanner
             },
             {
@@ -48,6 +45,16 @@ const menuItems: MenuItem[] = [
             },
             {
                 route: routes.uuidGenerator
+            },
+            {
+                route: routes.diffEditor
+            },
+            {
+                route: routes.codeFormatter
+            },
+            {
+                route: routes.templateTextGenerator,
+                isGray: true
             },
             {
                 route: routes.userInfo,
@@ -91,6 +98,10 @@ const menuItems: MenuItem[] = [
     {
         route: routes.settings,
         icon: SettingFilled
+    },
+    {
+        route: routes.about,
+        icon: ExclamationCircleFilled
     }
 ];
 

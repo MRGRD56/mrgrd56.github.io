@@ -12,12 +12,15 @@ import BgGeneratorPage from '../../pages/bgGeneratorPage/BgGeneratorPage';
 import JsEvaluatorPage from '../../pages/jsEvaluatorPage/JsEvaluatorPage';
 import UserInfoPage from '../../pages/userInfoPage/UserInfoPage';
 import RouteWrapper from '../../layouts/RouteWrapper';
-import NotFoundPage from '../../pages/NotFoundPage';
+import NotFoundPage from '../../pages/notFoundPage/NotFoundPage';
 import UnitConverterPage from '../../pages/unitConverterPage/UnitConverterPage';
 import SnakeGamePage from '../../pages/snakeGamePage/SnakeGamePage';
 import UuidGeneratorPage from '../../pages/uuidGeneratorPage/UuidGeneratorPage';
 import QrGeneratorPage from '../../pages/qrGeneratorPage/QrGeneratorPage';
 import SettingsPage from '../../pages/settingsPage/SettingsPage';
+import AboutPage from '../../pages/aboutPage/AboutPage';
+import CodeFormatterPage from '../../pages/codeFormatterPage/CodeFormatterPage';
+import DiffEditorPage from '../../pages/DiffEditorPage';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
@@ -40,7 +43,10 @@ type AppRoutesMap = Readonly<{
     unitConverter: AppRoute;
     snakeGame: AppRoute;
     uuidGenerator: AppRoute;
+    diffEditor: AppRoute;
+    codeFormatter: AppRoute;
     settings: AppRoute;
+    about: AppRoute;
 }>;
 
 export const routes: AppRoutesMap = {
@@ -114,10 +120,25 @@ export const routes: AppRoutesMap = {
         component: UuidGeneratorPage,
         title: 'UUID Generator'
     },
+    diffEditor: {
+        path: '/tools/files-diff',
+        component: DiffEditorPage,
+        title: 'Diff Editor'
+    },
+    codeFormatter: {
+        path: '/tools/code-formatter',
+        component: CodeFormatterPage,
+        title: 'Code Formatter'
+    },
     settings: {
         path: '/settings',
         component: SettingsPage,
         title: 'Settings'
+    },
+    about: {
+        path: '/about',
+        component: AboutPage,
+        title: 'About'
     }
 };
 

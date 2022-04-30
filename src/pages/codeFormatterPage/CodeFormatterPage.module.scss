@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+
+    .controlsContainer {
+        margin-bottom: 0.75rem;
+
+        .formatContainer {
+            gap: 8px;
+
+            .languageSelect {
+                flex: 1;
+            }
+        }
+    }
+
+    .editor {
+        height: 99%;
+    }
+}

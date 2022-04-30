@@ -13,7 +13,7 @@ export const renderRoute = ({ route, title, icon, isGray }: MenuRouteItem): Item
         key: path,
         icon: renderComponent(icon),
         label: (
-            <Link to={path ?? ''} className={classNames({ 'opacity-75': isGray })}>
+            <Link to={path ?? ''} className={classNames({ 'opacity-50': isGray })}>
                 {title ?? route.title}
             </Link>
         )
