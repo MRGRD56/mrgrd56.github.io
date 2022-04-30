@@ -1,3 +1,5 @@
+@import '../../styles/main';
+
 .outputModeComboBox {
     width: 100px;
 }
@@ -7,13 +9,11 @@
 
     border: 1px solid #d9d9d9;
 
+    @include themeDark {
+        border-color: rgb(67, 67, 67);
+    }
+
     & * {
         transition: none !important;
-    }
-}
-
-body[data-theme='dark'] {
-    .codeEditor {
-        border-color: rgb(67, 67, 67);
     }
 }

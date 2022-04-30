@@ -1,3 +1,5 @@
+@use 'sass:selector';
+
 $mediaXS: 0;
 $mediaSM: 576px;
 $mediaMD: 768px;
@@ -38,5 +40,22 @@ $mediaXXL: 1600px;
 @mixin mediaXXL {
     @media (min-width: $mediaXXL) {
         @content;
+    }
+}
+
+@mixin themeDark {
+    @at-root body[data-theme='dark'] & {
+        @content;
+    }
+}
+
+$borderColorLight: #d9d9d9;
+$borderColorDark: #434343;
+
+@mixin borderColor {
+    border-color: $borderColorLight;
+
+    @include themeDark {
+        border-color: $borderColorDark;
     }
 }

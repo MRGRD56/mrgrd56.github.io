@@ -1,0 +1,41 @@
+@import '../../styles/main';
+
+.pageContainer {
+    background-color: white;
+
+    @include themeDark {
+        background-color: rgb(30, 30, 30);
+    }
+
+    .container {
+        height: 100%;
+
+        .col {
+            border-width: 0;
+            border-style: solid;
+            @include borderColor;
+
+            display: flex;
+            flex-direction: column;
+
+            &.colLeft {
+                border-right-width: 1px;
+            }
+
+            &.colRight {
+            }
+
+            .colTitle {
+                padding: 5px 10px;
+                border-width: 0 0 1px 0;
+                border-style: solid;
+                @include borderColor;
+            }
+
+            .editor {
+                flex: 1;
+                height: 100%;
+            }
+        }
+    }
+}

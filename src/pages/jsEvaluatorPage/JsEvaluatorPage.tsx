@@ -14,10 +14,11 @@ import ExternalLink from '../../components/ExternalLink';
 import styles from './JsEvaluatorPage.module.scss';
 import OutputMode from './types/OutputMode';
 import CopyButton from '../../components/copyButton/CopyButton';
-import Editor, { BeforeMount, OnChange } from '@monaco-editor/react';
+import { BeforeMount } from '@monaco-editor/react';
 import { editor } from 'monaco-editor';
 import classNames from 'classnames';
 import useAppTheme from '../../hooks/useAppTheme';
+import AppEditor from '../../components/appEditor/AppEditor';
 
 interface ShowCountProps {
     formatter: (args: { count: number; maxLength?: number }) => string;
@@ -26,8 +27,6 @@ interface ShowCountProps {
 const textAreaShowCount: ShowCountProps = {
     formatter: ({ count }) => pluralize('character', count, true)
 };
-
-const loadingNode = <Spin size="large" />;
 
 const codeEditorOptions: editor.IStandaloneEditorConstructionOptions = {
     fontFamily: 'JetBrains Mono',
@@ -43,8 +42,6 @@ declare const pluralize;`);
 };
 
 const JsEvaluatorPage = () => {
-    const { isDarkMode } = useAppTheme();
-
     const [value, , setValueByEvent] = useInputState<string>('');
     const [evalValue, setEvalValue] = useState<string>('');
     const [evaluatedJs, setEvaluatedJs] = useState<string>('');
@@ -52,10 +49,6 @@ const JsEvaluatorPage = () => {
     const [outputMode, setOutputMode] = useState<OutputMode>(OutputMode.TEXT);
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
-
-    const handleEvalValueChange: OnChange = (value) => {
-        setEvalValue(value ?? '');
-    };
 
     const evaluateJs = async () => {
         if (!evalValue) {
@@ -136,17 +129,15 @@ const JsEvaluatorPage = () => {
                         </Text>
 
                         {/*<TextArea className="font-monospace mt-1" value={evalValue} onChange={setEvalValueByEvent} />*/}
-                        <Editor
-                            theme={isDarkMode ? 'vs-dark' : 'light'}
+                        <AppEditor
                             defaultLanguage="javascript"
-                            className={classNames('mt-1 app-monaco-editor', styles.codeEditor)}
+                            className={classNames('mt-1', styles.codeEditor)}
                             value={evalValue}
-                            onChange={handleEvalValueChange}
+                            onChange={setEvalValue}
                             options={codeEditorOptions}
                             height="250px"
                             width="100%"
                             beforeMount={handleCodeEditorBeforeMount}
-                            loading={loadingNode}
                         />
                     </Col>
                     <Row className="mt-1 mb-2 d-flex justify-content-between">

@@ -53,6 +53,9 @@ const menuItems: MenuItem[] = [
                 route: routes.codeFormatter
             },
             {
+                route: routes.jsonToTypescript
+            },
+            {
                 route: routes.templateTextGenerator,
                 isGray: true
             },

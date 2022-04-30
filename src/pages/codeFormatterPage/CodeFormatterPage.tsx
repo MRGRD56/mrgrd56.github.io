@@ -1,15 +1,14 @@
 import React, { FunctionComponent, useCallback, useRef, useState } from 'react';
 import PageContainer from '../../components/pageContainer/PageContainer';
-import useAppTheme from '../../hooks/useAppTheme';
-import Editor, { OnMount } from '@monaco-editor/react';
-import { Button, Col, Row, Select, Spin } from 'antd';
+import { OnMount } from '@monaco-editor/react';
+import { Button, Col, Row, Select } from 'antd';
 import styles from './CodeFormatterPage.module.scss';
-import classNames from 'classnames';
 import MonacoLanguage, { monacoLanguages } from '../../types/MonacoLanguage';
 import { useLocalstorageState } from 'rooks';
 import { editor, languages } from 'monaco-editor';
 import CopyButton from '../../components/copyButton/CopyButton';
 import formatCode from '../../utils/formatCode';
+import AppEditor from '../../components/appEditor/AppEditor';
 
 // interface FormattedLanguage {
 //     prettierParser: prettier.BuiltInParserName,
@@ -45,15 +44,11 @@ import formatCode from '../../utils/formatCode';
 //
 // window.prettier = prettier;
 
-const loadingNode = <Spin size="large" />;
-
 const monacoOptions: editor.IStandaloneEditorConstructionOptions = {
     formatOnPaste: true
 };
 
 const CodeFormatterPage: FunctionComponent = () => {
-    const { isDarkMode } = useAppTheme();
-
     const [selectedLanguage, setSelectedLanguage] = useLocalstorageState<MonacoLanguage>(
         'mrgrd56:code-formatter/selectedLanguage',
         'typescript'
@@ -61,10 +56,6 @@ const CodeFormatterPage: FunctionComponent = () => {
     const [code, setCode] = useState<string>('');
 
     const monacoEditorRef = useRef<editor.IStandaloneCodeEditor>();
-
-    const handleCodeChange = (value: string | undefined) => {
-        setCode(value ?? '');
-    };
 
     const handleMonacoMount = useCallback<OnMount>((editor, monaco) => {
         monacoEditorRef.current = editor;
@@ -108,15 +99,13 @@ const CodeFormatterPage: FunctionComponent = () => {
                         <CopyButton value={code} type="default" />
                     </Row>
                 </Col>
-                <Editor
-                    theme={isDarkMode ? 'vs-dark' : 'light'}
-                    className={classNames('app-monaco-editor', styles.editor)}
+                <AppEditor
+                    className={styles.editor}
                     language={selectedLanguage}
                     value={code}
-                    onChange={handleCodeChange}
+                    onChange={setCode}
                     options={monacoOptions}
                     onMount={handleMonacoMount}
-                    loading={loadingNode}
                 />
             </div>
         </PageContainer>

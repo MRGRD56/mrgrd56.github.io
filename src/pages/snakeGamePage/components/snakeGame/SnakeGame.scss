@@ -1,12 +1,10 @@
+@import '../../../../styles/main';
+
 .SnakeGame__container {
     .konvajs-content {
         border: 1px solid black !important;
-    }
-}
 
-body[data-theme='dark'] {
-    .SnakeGame__container {
-        .konvajs-content {
+        @include themeDark {
             border-color: rgb(67, 67, 67) !important;
         }
     }

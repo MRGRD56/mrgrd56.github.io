@@ -21,6 +21,7 @@ import SettingsPage from '../../pages/settingsPage/SettingsPage';
 import AboutPage from '../../pages/aboutPage/AboutPage';
 import CodeFormatterPage from '../../pages/codeFormatterPage/CodeFormatterPage';
 import DiffEditorPage from '../../pages/DiffEditorPage';
+import JsonToTypeScriptPage from '../../pages/jsonToTypeScriptPage/JsonToTypeScriptPage';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
@@ -45,6 +46,7 @@ type AppRoutesMap = Readonly<{
     uuidGenerator: AppRoute;
     diffEditor: AppRoute;
     codeFormatter: AppRoute;
+    jsonToTypescript: AppRoute;
     settings: AppRoute;
     about: AppRoute;
 }>;
@@ -129,6 +131,11 @@ export const routes: AppRoutesMap = {
         path: '/tools/code-formatter',
         component: CodeFormatterPage,
         title: 'Code Formatter'
+    },
+    jsonToTypescript: {
+        path: '/tools/json-to-typescript',
+        component: JsonToTypeScriptPage,
+        title: 'JSON to TypeScript'
     },
     settings: {
         path: '/settings',

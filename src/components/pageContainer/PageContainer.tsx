@@ -3,6 +3,7 @@ import styles from './PageContainer.module.scss';
 import { Space, SpaceProps, Tag } from 'antd';
 import Paragraph from 'antd/lib/typography/Paragraph';
 import { ClockCircleOutlined, WarningOutlined } from '@ant-design/icons';
+import classNames from 'classnames';
 
 export enum PageTag {
     WIP = 'WIP',
@@ -14,6 +15,7 @@ interface Props extends Omit<SpaceProps, 'title'> {
     description?: ReactNode;
     titleExtra?: ReactNode;
     tags?: PageTag[];
+    noPadding?: boolean;
 }
 
 const getTagNodes = (key: number | string): Readonly<Record<PageTag, ReactNode>> => ({
@@ -31,11 +33,13 @@ const getTagNodes = (key: number | string): Readonly<Record<PageTag, ReactNode>>
 
 const renderTag = (tag: PageTag, index: number) => getTagNodes(index)[tag];
 
-const PageContainer: FunctionComponent<Props> = ({ title, description, titleExtra, tags, children, ...props }) => {
+const PageContainer: FunctionComponent<Props> = (props) => {
+    const { title, description, titleExtra, tags, noPadding, children, className, ...restProps } = props;
+
     const renderedTags = useMemo(() => tags?.map(renderTag), [tags]);
 
     return (
-        <div className={styles.container} {...props}>
+        <div className={classNames(styles.container, { [styles.noPadding]: noPadding }, className)} {...restProps}>
             {tags?.length && <div>{renderedTags}</div>}
             {title && (
                 <Space direction="horizontal" size="middle" className={styles.headingContainer}>
