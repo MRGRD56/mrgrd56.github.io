@@ -3,10 +3,15 @@
 }
 
 .codeEditor {
-    border: 1px solid #d9d9d9;
     border-radius: 2px;
+
+    border: 1px solid #d9d9d9;
 
     & * {
         transition: none !important;
+    }
+
+    &.codeEditorDark {
+        border-color: rgb(67, 67, 67);
     }
 }

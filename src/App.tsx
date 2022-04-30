@@ -6,17 +6,23 @@ import { store } from './reducers';
 import AppLayout from './layouts/appLayout/AppLayout';
 import { HashRouter } from 'react-router-dom';
 import ErudaLayout from './layouts/ErudaLayout';
+import ThemeProvider from './layouts/ThemeProvider';
+import AppLoadingLayout from './layouts/appLoadingLayout/AppLoadingLayout';
 
 const App: FunctionComponent = () => (
-    <ErudaLayout>
-        <Provider store={store}>
-            <HashRouter>
-                <AppLayout>
-                    <AppRouter />
-                </AppLayout>
-            </HashRouter>
-        </Provider>
-    </ErudaLayout>
+    <ThemeProvider>
+        <ErudaLayout>
+            <AppLoadingLayout>
+                <Provider store={store}>
+                    <HashRouter>
+                        <AppLayout>
+                            <AppRouter />
+                        </AppLayout>
+                    </HashRouter>
+                </Provider>
+            </AppLoadingLayout>
+        </ErudaLayout>
+    </ThemeProvider>
 );
 
 export default App;

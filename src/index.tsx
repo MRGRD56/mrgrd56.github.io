@@ -1,5 +1,5 @@
 import React from 'react';
-import 'antd/dist/antd.min.css';
+// import 'antd/dist/antd.dark.min.css';
 import 'bootstrap/dist/css/bootstrap-utilities.min.css';
 import './index.scss';
 import App from './App';

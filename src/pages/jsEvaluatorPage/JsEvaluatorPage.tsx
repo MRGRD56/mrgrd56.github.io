@@ -18,6 +18,7 @@ import Editor, { BeforeMount, OnChange } from '@monaco-editor/react';
 import { editor } from 'monaco-editor';
 import './JsEvaluatorPage.scss';
 import classNames from 'classnames';
+import useAppSettings from '../../hooks/useAppSettings';
 
 interface ShowCountProps {
     formatter: (args: { count: number; maxLength?: number }) => string;
@@ -43,6 +44,8 @@ declare const pluralize;`);
 };
 
 const JsEvaluatorPage = () => {
+    const { isDarkMode } = useAppSettings();
+
     const [value, , setValueByEvent] = useInputState<string>('');
     const [evalValue, setEvalValue] = useState<string>('');
     const [evaluatedJs, setEvaluatedJs] = useState<string>('');
@@ -105,6 +108,7 @@ const JsEvaluatorPage = () => {
                     onChange={setValueByEvent}
                     className={classNames('mb-3', styles.valueTextArea)}
                     placeholder="$value"
+                    id="$value-textarea"
                 />
                 <Col>
                     <Col>
@@ -112,8 +116,10 @@ const JsEvaluatorPage = () => {
                             <Paragraph className="mb-1">Evaluate JavaScript</Paragraph>
                             <Paragraph className="mb-2">
                                 Available variables:{' '}
-                                <Tooltip title="The string">
-                                    <code>$value</code>
+                                <Tooltip title="The string above">
+                                    <label htmlFor="$value-textarea">
+                                        <code>$value</code>
+                                    </label>
                                 </Tooltip>
                                 ,{' '}
                                 <ExternalLink href="https://lodash.com/">
@@ -132,9 +138,11 @@ const JsEvaluatorPage = () => {
 
                         {/*<TextArea className="font-monospace mt-1" value={evalValue} onChange={setEvalValueByEvent} />*/}
                         <Editor
-                            theme="light"
+                            theme={isDarkMode ? 'vs-dark' : 'light'}
                             defaultLanguage="javascript"
-                            className={classNames('mt-1 JsEvaluatorPage__monaco-editor', styles.codeEditor)}
+                            className={classNames('mt-1 JsEvaluatorPage__monaco-editor', styles.codeEditor, {
+                                [styles.codeEditorDark]: isDarkMode
+                            })}
                             value={evalValue}
                             onChange={handleEvalValueChange}
                             options={codeEditorOptions}

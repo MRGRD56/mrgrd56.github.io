@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useRef, useState } from 'react';
 import PageContainer from '../../components/pageContainer/PageContainer';
-import { Col, Input, InputNumber } from 'antd';
+import { Col, Input, InputNumber, Switch } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import useInputState from '../../hooks/useInputState';
 import { QRCodeSVG } from 'qrcode.react';
@@ -15,6 +15,7 @@ const QrGeneratorPage: FunctionComponent = () => {
     const [size, setSize] = useState<number>(220);
     const [fgColor, , setFgColorByEvent] = useInputState<string>('#000000');
     const [bgColor, , setBgColorByEvent] = useInputState<string>('#ffffff');
+    const [doIncludeMargin, setDoIncludeMargin] = useInputState<boolean>(false);
 
     return (
         <PageContainer title="QR Generator">
@@ -32,14 +33,18 @@ const QrGeneratorPage: FunctionComponent = () => {
                     <div>Background</div>
                     <Input value={bgColor} onChange={setBgColorByEvent} className="font-monospace" />
                 </label>
-                <div ref={qrCodeWrapperRef}>
+                <label className={classNames(styles.formItem, styles.switchFormItem)}>
+                    <Switch checked={doIncludeMargin} onChange={setDoIncludeMargin} />
+                    <div>Margin</div>
+                </label>
+                <div ref={qrCodeWrapperRef} className={styles.qrCodeWrapper}>
                     <SvgImage>
                         <QRCodeSVG
                             value={text}
                             size={size}
                             fgColor={fgColor}
                             bgColor={bgColor}
-                            includeMargin={false}
+                            includeMargin={doIncludeMargin}
                             level={undefined}
                         />
                     </SvgImage>

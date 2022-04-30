@@ -3,12 +3,22 @@
     flex-direction: row;
     align-items: center;
     margin-bottom: 0.5rem;
+    gap: 10px;
 
     & > div:first-child {
-        width: 120px;
+        width: 110px;
     }
+}
+
+.switchFormItem {
+    align-self: flex-start;
 }
 
 .numericInput {
     width: 100%;
+}
+
+.qrCodeWrapper {
+    padding: 10px;
+    display: inline-block;
 }

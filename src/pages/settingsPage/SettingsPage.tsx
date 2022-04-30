@@ -43,7 +43,7 @@ const SettingsPage: FunctionComponent = () => {
         <PageContainer title="Settings">
             <Space direction="vertical">
                 <label>
-                    <Switch checked={false} onChange={handleAppSettingChange('isDarkMode')} disabled />
+                    <Switch checked={appSettings.isDarkMode} onChange={handleAppSettingChange('isDarkMode')} />
                     <span className="ms-3">Dark mode</span>
                 </label>
                 <label>

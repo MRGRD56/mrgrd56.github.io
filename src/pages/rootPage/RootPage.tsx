@@ -15,7 +15,9 @@ const RootPage: FunctionComponent = () => {
             <PageContainer tags={[PageTag.WIP]}>
                 <Paragraph>
                     Hello! Maybe one day I will write something here 🙂 <br />
-                    But you can check out other sections, look at the menu on the left!
+                    But you can check out other sections, look at the menu on the{' '}
+                    <span className="d-none d-lg-inline">left</span>
+                    <span className="d-lg-none">right</span>!
                 </Paragraph>
             </PageContainer>
         </>
