@@ -17,7 +17,7 @@ const ThemeProvider: FunctionComponent = ({ children }) => {
         <ThemeSwitcherProvider
             themeMap={themes}
             defaultTheme={theme}
-            insertionPoint="antd-theme-styles-insertion-point"
+            insertionPoint={document.querySelector('#app-title') as HTMLElement}
         >
             {children}
         </ThemeSwitcherProvider>
