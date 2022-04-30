@@ -8,7 +8,7 @@ const themes = {
     dark: `${PUBLIC_URL}/styles/antd/antd.dark.min.css`
 };
 
-const appTitle = document.querySelector('#app-title') as HTMLElement;
+const insertionPoint = document.querySelector('#app-title') as HTMLElement;
 
 const ThemeProvider: FunctionComponent = ({ children }) => {
     const { isDarkMode } = useAppSettings();
@@ -16,7 +16,7 @@ const ThemeProvider: FunctionComponent = ({ children }) => {
     const theme = isDarkMode ? 'dark' : 'light';
 
     return (
-        <ThemeSwitcherProvider themeMap={themes} defaultTheme={theme} insertionPoint={appTitle}>
+        <ThemeSwitcherProvider themeMap={themes} defaultTheme={theme} insertionPoint={insertionPoint}>
             {children}
         </ThemeSwitcherProvider>
     );
