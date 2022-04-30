@@ -2,7 +2,7 @@ import React, { FunctionComponent, useCallback, useRef, useState } from 'react';
 import PageContainer from '../../components/pageContainer/PageContainer';
 import useAppTheme from '../../hooks/useAppTheme';
 import Editor, { OnMount } from '@monaco-editor/react';
-import { Button, Col, Row, Select } from 'antd';
+import { Button, Col, Row, Select, Spin } from 'antd';
 import styles from './CodeFormatterPage.module.scss';
 import classNames from 'classnames';
 import MonacoLanguage, { monacoLanguages } from '../../types/MonacoLanguage';
@@ -44,6 +44,8 @@ import formatCode from '../../utils/formatCode';
 // };
 //
 // window.prettier = prettier;
+
+const loadingNode = <Spin size="large" />;
 
 const monacoOptions: editor.IStandaloneEditorConstructionOptions = {
     formatOnPaste: true
@@ -114,6 +116,7 @@ const CodeFormatterPage: FunctionComponent = () => {
                     onChange={handleCodeChange}
                     options={monacoOptions}
                     onMount={handleMonacoMount}
+                    loading={loadingNode}
                 />
             </div>
         </PageContainer>
