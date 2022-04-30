@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.e143b29a.css",
+    "main.css": "/static/css/main.43aac6ff.css",
     "main.js": "/static/js/main.da813dad.js",
     "static/js/684.03d622ae.chunk.js": "/static/js/684.03d622ae.chunk.js",
     "static/media/forkMeOnGitHub.svg": "/static/media/forkMeOnGitHub.090b71a21363c890bf744b2a27026b79.svg",
@@ -8,12 +8,12 @@
     "index.html": "/index.html",
     "static/media/telegram-logo-dark-2.svg": "/static/media/telegram-logo-dark-2.8ddae8aa7bdf8c8add9866b7cb7cb944.svg",
     "static/media/github-logo-dark.svg": "/static/media/github-logo-dark.019f034e2bdc968c41ab0f370a530a0d.svg",
-    "main.e143b29a.css.map": "/static/css/main.e143b29a.css.map",
+    "main.43aac6ff.css.map": "/static/css/main.43aac6ff.css.map",
     "main.da813dad.js.map": "/static/js/main.da813dad.js.map",
     "684.03d622ae.chunk.js.map": "/static/js/684.03d622ae.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e143b29a.css",
+    "static/css/main.43aac6ff.css",
     "static/js/main.da813dad.js"
   ]
 }
