@@ -1,1 +1,1 @@
-export const APP_SETTINGS_LOCALSTORAGE = 'app-settings';
+export const APP_SETTINGS_LOCALSTORAGE = 'mrgrd56:app-settings';

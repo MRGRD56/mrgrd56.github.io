@@ -1,20 +1,21 @@
-import React, { ChangeEvent, FunctionComponent, useCallback } from 'react';
+import React, { ChangeEvent, FunctionComponent, useCallback, useMemo } from 'react';
 import PageContainer from '../../components/pageContainer/PageContainer';
 import AppSettings from '../../types/AppSettings';
-import { Col, Select, Switch } from 'antd';
+import { Button, Col, Modal, Select, Switch } from 'antd';
 import call from '../../utils/call';
 import { isObjectLike } from 'lodash';
 import { useAppSettingsState } from '../../hooks/useAppSettings';
 import ExternalLink from '../../components/ExternalLink';
 import AppTheme, { SpecialAppTheme } from '../../types/AppTheme';
 import styles from './SettingsPage.module.scss';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const isChangeEvent = (value: any): value is ChangeEvent<unknown> => {
     return isObjectLike(value) && 'target' in value;
 };
 
 const SettingsPage: FunctionComponent = () => {
-    const [appSettings, setAppSettings] = useAppSettingsState();
+    const { appSettings, setAppSettings, resetAppSettings } = useAppSettingsState();
 
     const changeAppSetting = useCallback(<K extends keyof AppSettings>(key: K, value: AppSettings[K]) => {
         setAppSettings((settings) => ({
@@ -41,9 +42,21 @@ const SettingsPage: FunctionComponent = () => {
         [changeAppSetting]
     );
 
+    const handleResetClick = useCallback(() => {
+        Modal.confirm({
+            title: 'Are you sure you want to reset the settings?',
+            icon: <ExclamationCircleOutlined />,
+            onOk() {
+                resetAppSettings();
+            }
+        });
+    }, [resetAppSettings]);
+
+    const titleExtra = useMemo(() => <Button onClick={handleResetClick}>Reset</Button>, [handleResetClick]);
+
     return (
-        <PageContainer title="Settings">
-            <Col xs={8} className={styles.formContainer}>
+        <PageContainer title="Settings" titleExtra={titleExtra}>
+            <Col xs={24} md={18} lg={14} xl={10} xxl={8} className={styles.formContainer}>
                 <label className={styles.formItem}>
                     <span className={styles.label}>App theme</span>
                     <Select
