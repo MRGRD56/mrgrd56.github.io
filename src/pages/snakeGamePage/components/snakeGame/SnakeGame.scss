@@ -5,7 +5,9 @@
 }
 
 body[data-theme='dark'] {
-    .konvajs-content {
-        border-color: rgb(67, 67, 67) !important;
+    .SnakeGame__container {
+        .konvajs-content {
+            border-color: rgb(67, 67, 67) !important;
+        }
     }
 }
