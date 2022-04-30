@@ -6,12 +6,29 @@
     align-items: center;
     justify-content: center;
 
-    transition-duration: 0.15s;
-    transition-property: opacity;
+    overflow: hidden;
+
+    background-color: white;
+
+    transition-duration: 0.075s;
+    transition-property: opacity, background-color;
     transition-timing-function: linear;
 
-    &.hidden {
+    z-index: 999; //eruda=1000
+
+    &:not(.loaded) + * {
+        display: none;
+    }
+
+    &.loaded {
+        background-color: transparent;
         opacity: 0;
         pointer-events: none;
+    }
+}
+
+body[data-theme='dark'] {
+    .loading {
+        background-color: black;
     }
 }
