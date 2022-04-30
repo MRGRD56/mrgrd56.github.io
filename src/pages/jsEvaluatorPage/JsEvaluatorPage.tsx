@@ -18,7 +18,7 @@ import Editor, { BeforeMount, OnChange } from '@monaco-editor/react';
 import { editor } from 'monaco-editor';
 import './JsEvaluatorPage.scss';
 import classNames from 'classnames';
-import useAppSettings from '../../hooks/useAppSettings';
+import useAppTheme from '../../hooks/useAppTheme';
 
 interface ShowCountProps {
     formatter: (args: { count: number; maxLength?: number }) => string;
@@ -44,7 +44,7 @@ declare const pluralize;`);
 };
 
 const JsEvaluatorPage = () => {
-    const { isDarkMode } = useAppSettings();
+    const { isDarkMode } = useAppTheme();
 
     const [value, , setValueByEvent] = useInputState<string>('');
     const [evalValue, setEvalValue] = useState<string>('');

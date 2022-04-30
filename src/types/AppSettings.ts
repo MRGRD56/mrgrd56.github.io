@@ -1,5 +1,7 @@
+import { SelectableAppTheme } from './AppTheme';
+
 interface AppSettings {
-    isDarkMode: boolean;
+    theme: SelectableAppTheme;
     isErudaEnabled: boolean;
 }
 

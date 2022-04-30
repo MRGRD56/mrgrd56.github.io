@@ -1,0 +1,19 @@
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.formItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .label {
+        width: 120px;
+    }
+
+    .input {
+        flex: 1;
+    }
+}

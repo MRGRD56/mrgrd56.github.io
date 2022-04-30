@@ -1,10 +1,10 @@
 import AppSettings from '../types/AppSettings';
 import { useLocalstorageState } from 'rooks';
 import { APP_SETTINGS_LOCALSTORAGE } from '../constants/localStorage';
-import checkBrowserTheme from '../utils/checkBrowserTheme';
+import { SpecialAppTheme } from '../types/AppTheme';
 
 const initialState: AppSettings = {
-    isDarkMode: checkBrowserTheme('dark'),
+    theme: SpecialAppTheme.AUTO,
     isErudaEnabled: false
 };
 

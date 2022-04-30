@@ -7,19 +7,9 @@ const AppLoadingLayout: FunctionComponent = ({ children }) => {
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
     useEffect(() => {
-        const htmlElement = document.querySelector('html');
-
-        if (htmlElement) {
-            htmlElement.style.overflow = 'hidden';
-        }
-
         const handleReadyStateChange = () => {
             if (document.readyState === 'complete') {
                 setIsLoaded(true);
-
-                if (htmlElement) {
-                    htmlElement.style.overflow = 'auto';
-                }
             }
         };
 
