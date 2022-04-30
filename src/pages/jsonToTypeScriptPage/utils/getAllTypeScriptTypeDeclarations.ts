@@ -4,7 +4,13 @@ import getTypeScriptTypeDeclaration from './getTypeScriptTypeDeclaration';
 import ExportType from '../types/ExportType';
 
 const getAllTypeScriptTypeDeclarations = (type: TypeScriptType, name: string, exportType?: ExportType) => {
-    return getAllTypeScriptTypeDeclarableTypes(type)
+    const declarableTypes = getAllTypeScriptTypeDeclarableTypes(type);
+
+    if (declarableTypes.length === 0) {
+        return getTypeScriptTypeDeclaration(type, name, exportType);
+    }
+
+    return declarableTypes
         .map((declarable) => getTypeScriptTypeDeclaration(declarable as TypeScriptType, name, exportType))
         .join('\n\n');
 };
