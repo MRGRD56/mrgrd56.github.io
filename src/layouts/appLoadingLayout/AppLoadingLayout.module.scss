@@ -5,15 +5,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    //background: white;
 
     transition-duration: 0.15s;
     transition-property: opacity;
     transition-timing-function: linear;
-
-    &.dark {
-        //background: black;
-    }
 
     &.hidden {
         opacity: 0;

@@ -10,8 +10,10 @@
     & * {
         transition: none !important;
     }
+}
 
-    &.codeEditorDark {
+body[data-theme='dark'] {
+    .codeEditor {
         border-color: rgb(67, 67, 67);
     }
 }

@@ -140,9 +140,7 @@ const JsEvaluatorPage = () => {
                         <Editor
                             theme={isDarkMode ? 'vs-dark' : 'light'}
                             defaultLanguage="javascript"
-                            className={classNames('mt-1 JsEvaluatorPage__monaco-editor', styles.codeEditor, {
-                                [styles.codeEditorDark]: isDarkMode
-                            })}
+                            className={classNames('mt-1 JsEvaluatorPage__monaco-editor', styles.codeEditor)}
                             value={evalValue}
                             onChange={handleEvalValueChange}
                             options={codeEditorOptions}
