@@ -3,3 +3,9 @@
         border: 1px solid black !important;
     }
 }
+
+body[data-theme='dark'] {
+    .konvajs-content {
+        border-color: rgb(67, 67, 67) !important;
+    }
+}
