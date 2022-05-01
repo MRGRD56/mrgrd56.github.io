@@ -1,6 +1,13 @@
 import { chain, isString } from 'lodash';
-import { TypeScriptInterface, TypeScriptObjectField, TypeScriptType, TypeScriptUnion } from '../types/typescript';
+import {
+    TypeScriptArray,
+    TypeScriptInterface,
+    TypeScriptObjectField,
+    TypeScriptType,
+    TypeScriptUnion
+} from '../types/typescript';
 import mergeTypeScriptTypesList from './mergeTypeScriptTypesList';
+import getTypeScriptUnion from './getTypeScriptUnion';
 
 const mergeTypeScriptTypes = (a: TypeScriptType, b: TypeScriptType): TypeScriptType[] => {
     const singleType = [a];
@@ -61,6 +68,11 @@ const mergeTypeScriptTypes = (a: TypeScriptType, b: TypeScriptType): TypeScriptT
             .value();
 
         return [new TypeScriptInterface(a.name, mergedFields)];
+    }
+
+    if (a instanceof TypeScriptArray && b instanceof TypeScriptArray) {
+        const mergedTypes = mergeTypeScriptTypes(a.type, b.type);
+        return [new TypeScriptArray(getTypeScriptUnion('', mergedTypes))];
     }
 
     if (a instanceof TypeScriptUnion || b instanceof TypeScriptUnion) {

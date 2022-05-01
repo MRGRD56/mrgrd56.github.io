@@ -8,7 +8,7 @@ const renameConflictingType = (
 ): void => {
     const match = /^(.*?)(\d+)$/.exec(type.name);
     if (!match) {
-        type.name += '1';
+        type.name += '2';
     } else {
         const [, left, numericPart] = match;
         const numeric = Number(numericPart);
