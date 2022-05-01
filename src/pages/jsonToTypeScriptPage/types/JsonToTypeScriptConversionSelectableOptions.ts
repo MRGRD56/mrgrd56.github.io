@@ -5,7 +5,8 @@ export enum NameTransformer {
     CAMEL_CASE = 'CAMEL_CASE',
     PASCAL_CASE = 'PASCAL_CASE',
     SNAKE_CASE = 'SNAKE_CASE',
-    SCREAMING_SNAKE_CASE = 'SCREAMING_SNAKE_CASE'
+    SCREAMING_SNAKE_CASE = 'SCREAMING_SNAKE_CASE',
+    KEBAB_CASE = 'KEBAB_CASE'
 }
 
 interface JsonToTypeScriptConversionSelectableOptions {

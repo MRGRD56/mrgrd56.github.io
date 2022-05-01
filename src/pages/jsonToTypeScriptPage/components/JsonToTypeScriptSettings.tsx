@@ -47,7 +47,9 @@ const JsonToTypeScriptSettings: FunctionComponent<Props> = ({ options, setOption
                     <Select.Option key={ExportType.NONE}>None</Select.Option>
                     <Select.Option key={ExportType.ES_MODULE}>ES Module</Select.Option>
                     <Select.Option key={ExportType.COMMONJS}>
-                        <Text type="danger">CommonJS</Text>
+                        <Text type="danger" title="CommonJS">
+                            CommonJS
+                        </Text>
                     </Select.Option>
                 </Select>
             </label>
@@ -63,6 +65,7 @@ const JsonToTypeScriptSettings: FunctionComponent<Props> = ({ options, setOption
                     <Select.Option key={NameTransformer.PASCAL_CASE}>PascalCase</Select.Option>
                     <Select.Option key={NameTransformer.SNAKE_CASE}>snake_case</Select.Option>
                     <Select.Option key={NameTransformer.SCREAMING_SNAKE_CASE}>SCREAMING_SNAKE_CASE</Select.Option>
+                    <Select.Option key={NameTransformer.KEBAB_CASE}>kebab-case</Select.Option>
                 </Select>
             </label>
             <label className={styles.formItem}>

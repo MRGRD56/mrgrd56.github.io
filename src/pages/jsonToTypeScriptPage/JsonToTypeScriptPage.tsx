@@ -17,9 +17,10 @@ import JsonToTypeScriptConversionSelectableOptions, {
     NameTransformer
 } from './types/JsonToTypeScriptConversionSelectableOptions';
 import JsonToTypeScriptConversionOptions from './types/JsonToTypeScriptConversionOptions';
-import { camelCase, snakeCase, upperCase } from 'lodash';
+import { camelCase, kebabCase, snakeCase } from 'lodash';
 import pascalCase from '../../utils/pascalCase';
 import JsonToTypeScriptSettings from './components/JsonToTypeScriptSettings';
+import screamingSnakeCase from '../../utils/screamingSnakeCase';
 
 const jsonEditorOptions: editor.IStandaloneEditorConstructionOptions = {
     minimap: { enabled: false }
@@ -43,7 +44,8 @@ const nameTransformers: Readonly<Record<NameTransformer, (name: string) => strin
     [NameTransformer.CAMEL_CASE]: camelCase,
     [NameTransformer.PASCAL_CASE]: pascalCase,
     [NameTransformer.SNAKE_CASE]: snakeCase,
-    [NameTransformer.SCREAMING_SNAKE_CASE]: (name) => upperCase(snakeCase(name))
+    [NameTransformer.SCREAMING_SNAKE_CASE]: screamingSnakeCase,
+    [NameTransformer.KEBAB_CASE]: kebabCase
 };
 
 const getConversionOptions = (
