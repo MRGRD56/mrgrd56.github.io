@@ -1,5 +1,4 @@
 import { JsonPrimitive } from './json';
-import { IObject } from './common';
 import getTypeScriptTypeReference from '../utils/getTypeScriptTypeReference';
 import mapObject from '../../../utils/mapObject';
 import ExportType from './ExportType';
@@ -8,10 +7,13 @@ export interface ITypeScriptType {
     stringifyReference(): string;
 }
 
-export interface IDeclarableTypeScriptType {
+export interface IDeclarable {
+    stringifyDeclarationBody(): string;
+}
+
+export interface IDeclarableTypeScriptType extends IDeclarable {
     readonly name: string;
     stringifyDeclaration(exportType?: ExportType): string;
-    stringifyDeclarationBody(): string;
 }
 
 export class TypeScriptUnknown implements ITypeScriptType {
@@ -22,10 +24,16 @@ export class TypeScriptUnknown implements ITypeScriptType {
     }
 }
 
-export class TypeScriptInterface extends IObject<TypeScriptType> implements ITypeScriptType, IDeclarableTypeScriptType {
-    public constructor(public readonly name: string, public readonly fields: Record<string, TypeScriptType>) {
-        super(fields);
+export class TypeScriptObjectField implements IDeclarable {
+    public constructor(public readonly type: TypeScriptType, public readonly isOptional = false) {}
+
+    stringifyDeclarationBody(): string {
+        return `${this.isOptional ? '?' : ''}: ${getTypeScriptTypeReference(this.type)}`;
     }
+}
+
+export class TypeScriptInterface implements ITypeScriptType, IDeclarableTypeScriptType {
+    public constructor(public readonly name: string, public readonly fields: Record<string, TypeScriptObjectField>) {}
 
     stringifyDeclaration(exportType?: ExportType): string {
         return `${getExportKeyword(exportType)}interface ${this.name} ${this.stringifyDeclarationBody()}`;
@@ -34,8 +42,8 @@ export class TypeScriptInterface extends IObject<TypeScriptType> implements ITyp
     stringifyDeclarationBody(): string {
         return (
             '{\n' +
-            mapObject(this.fields, (key, value) => {
-                return `    ${key}: ${getTypeScriptTypeReference(value)};`;
+            mapObject(this.fields, (key, field) => {
+                return `    ${key}${field.stringifyDeclarationBody()};`;
             }).join('\n') +
             '\n}'
         );

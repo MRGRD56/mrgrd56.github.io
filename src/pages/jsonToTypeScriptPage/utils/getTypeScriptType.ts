@@ -2,6 +2,7 @@ import { JsonArray, JsonType } from '../types/json';
 import {
     TypeScriptArray,
     TypeScriptInterface,
+    TypeScriptObjectField,
     TypeScriptType,
     TypeScriptUnion,
     TypeScriptUnknown
@@ -9,6 +10,7 @@ import {
 import { camelCase, isString, mapValues } from 'lodash';
 import { singular } from 'pluralize';
 import capitalizeFirst from '../../../utils/capitalizeFirst';
+import getMergedTypeScriptTypes from './mergeTypeScriptTypesList';
 
 const getTypeScriptType = (name: string, jsonObject: JsonType): TypeScriptType => {
     // const parsedJson = parseJsonType(object);
@@ -25,24 +27,22 @@ const getTypeScriptType = (name: string, jsonObject: JsonType): TypeScriptType =
     }
 
     if (jsonObject instanceof JsonArray) {
-        if (jsonObject.types.length === 0) {
+        const typeScriptTypes = jsonObject.types.map((type) => getTypeScriptType(arrayElementName, type));
+        const mergedTypeScriptTypes = getMergedTypeScriptTypes(typeScriptTypes);
+
+        if (mergedTypeScriptTypes.length === 0) {
             return new TypeScriptArray(new TypeScriptUnknown());
         }
-        if (jsonObject.types.length === 1) {
-            return new TypeScriptArray(getTypeScriptType(arrayElementName, jsonObject.types[0]));
+        if (mergedTypeScriptTypes.length === 1) {
+            return new TypeScriptArray(mergedTypeScriptTypes[0]);
         }
 
-        return new TypeScriptArray(
-            new TypeScriptUnion(
-                arrayElementName,
-                jsonObject.types.map((type) => getTypeScriptType(arrayElementName, type))
-            )
-        );
+        return new TypeScriptArray(new TypeScriptUnion(arrayElementName, mergedTypeScriptTypes));
     }
 
     return new TypeScriptInterface(
         typeName,
-        mapValues(jsonObject.fields, (field, name) => getTypeScriptType(name, field))
+        mapValues(jsonObject.fields, (field, name) => new TypeScriptObjectField(getTypeScriptType(name, field)))
     );
 };
 

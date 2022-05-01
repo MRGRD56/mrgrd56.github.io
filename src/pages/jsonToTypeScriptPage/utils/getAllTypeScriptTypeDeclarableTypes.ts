@@ -22,7 +22,7 @@ const getAllTypeScriptTypeDeclarableTypes = (type: TypeScriptType): IDeclarableT
     }
 
     return [
-        ...mapObject(type.fields, (fieldName, fieldType) => getAllTypeScriptTypeDeclarableTypes(fieldType)).flatMap(
+        ...mapObject(type.fields, (fieldName, field) => getAllTypeScriptTypeDeclarableTypes(field.type)).flatMap(
             (value) => value
         ),
         type
