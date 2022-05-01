@@ -31,7 +31,10 @@ const JsonToTypeScriptPage = () => {
             }
 
             const typeScriptType = getTypeScriptType('Root', parseJsonObject(JSON.parse(json)));
-            return getAllTypeScriptTypeDeclarations(typeScriptType, 'Root', ExportType.ES_MODULE);
+            return getAllTypeScriptTypeDeclarations(typeScriptType, 'Root', {
+                exportType: ExportType.ES_MODULE,
+                isReversedOrder: true
+            });
         },
         [json],
         50

@@ -1,13 +1,10 @@
 import { chain, isString } from 'lodash';
 import { TypeScriptInterface, TypeScriptObjectField, TypeScriptType, TypeScriptUnion } from '../types/typescript';
+import mergeTypeScriptTypesList from './mergeTypeScriptTypesList';
 
 const mergeTypeScriptTypes = (a: TypeScriptType, b: TypeScriptType): TypeScriptType[] => {
     const singleType = [a];
     const bothTypes = [a, b];
-
-    if (a.constructor !== b.constructor) {
-        return bothTypes;
-    }
 
     if (isString(a) && isString(b)) {
         return a === b ? singleType : bothTypes;
@@ -44,20 +41,33 @@ const mergeTypeScriptTypes = (a: TypeScriptType, b: TypeScriptType): TypeScriptT
 
                 //has both keys
 
+                const isOptional = aField.isOptional || bField.isOptional;
+
                 const mergedFieldTypes = mergeTypeScriptTypes(aField.type, bField.type);
                 if (mergedFieldTypes.length === 0) {
                     return result;
                 }
                 if (mergedFieldTypes.length === 1) {
-                    result[fieldKey] = new TypeScriptObjectField(mergedFieldTypes[0], false);
+                    result[fieldKey] = new TypeScriptObjectField(mergedFieldTypes[0], isOptional);
+                    return result;
                 }
 
-                result[fieldKey] = new TypeScriptObjectField(new TypeScriptUnion(fieldKey, mergedFieldTypes));
+                result[fieldKey] = new TypeScriptObjectField(
+                    new TypeScriptUnion(fieldKey, mergedFieldTypes),
+                    isOptional
+                );
                 return result;
             }, {} as Record<string, TypeScriptObjectField>)
             .value();
 
         return [new TypeScriptInterface(a.name, mergedFields)];
+    }
+
+    if (a instanceof TypeScriptUnion || b instanceof TypeScriptUnion) {
+        const aTypes = a instanceof TypeScriptUnion ? a.types : [a];
+        const bTypes = b instanceof TypeScriptUnion ? b.types : [b];
+
+        return mergeTypeScriptTypesList([...aTypes, ...bTypes]);
     }
 
     return bothTypes; //TODO
