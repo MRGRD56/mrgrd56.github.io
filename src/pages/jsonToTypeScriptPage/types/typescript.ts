@@ -2,8 +2,9 @@ import { JsonPrimitive } from './json';
 import getTypeScriptTypeReference from '../utils/getTypeScriptTypeReference';
 import mapObject from '../../../utils/mapObject';
 import ExportType from './ExportType';
-import { isObject, isString } from 'lodash';
+import { filter, isObject, isString } from 'lodash';
 import TypeScriptDeclarationOptions from './TypeScriptDeclarationOptions';
+import isValidJsIdentifier, { isValidTsTypeFieldName } from '../../../utils/isValidJsIdentifier';
 
 export interface ITypeScriptType {
     stringifyReference(): string;
@@ -32,7 +33,9 @@ export class DeclarableTypeScriptType implements IDeclarableTypeScriptType {
             return this.type.stringifyDeclaration(options);
         }
 
-        return `${getExportKeyword(options.exportType)}type ${this.name} = ${this.stringifyDeclarationBody()}`;
+        return `${getExportKeyword(options.exportType)}type ${stringifyTypeName(
+            this.name
+        )} = ${this.stringifyDeclarationBody()};`;
     }
 
     stringifyDeclarationBody(): string {
@@ -68,21 +71,23 @@ export class TypeScriptInterface implements ITypeScriptType, IDeclarableTypeScri
     public constructor(public name: string, public readonly fields: Record<string, TypeScriptObjectField>) {}
 
     stringifyDeclaration({ exportType }: TypeScriptDeclarationOptions): string {
-        return `${getExportKeyword(exportType)}interface ${this.name} ${this.stringifyDeclarationBody()}`;
+        return `${getExportKeyword(
+            exportType
+        )}interface ${this.stringifyReference()} ${this.stringifyDeclarationBody()}`;
     }
 
     stringifyDeclarationBody(): string {
         return (
             '{\n' +
             mapObject(this.fields, (key, field) => {
-                return `    ${key}${field.stringifyDeclarationBody()};`;
+                return `    ${stringifyFieldName(key)}${field.stringifyDeclarationBody()};`;
             }).join('\n') +
             '\n}'
         );
     }
 
     stringifyReference(): string {
-        return this.name;
+        return stringifyTypeName(this.name);
     }
 }
 
@@ -143,4 +148,26 @@ const getExportKeyword = (exportType: ExportType = ExportType.NONE) => {
         [ExportType.ES_MODULE]: 'export ',
         [ExportType.COMMONJS]: 'module.exports = '
     }[exportType];
+};
+
+const stringifyFieldName = (name: string) => {
+    if (isValidTsTypeFieldName(name)) {
+        return name;
+    }
+
+    return `'${name}'`;
+};
+
+const stringifyTypeName = (name: string) => {
+    if (isValidJsIdentifier(name)) {
+        return name;
+    }
+
+    let result = name;
+
+    if (/^\d$/.test(name[0])) {
+        result = 'N' + result;
+    }
+
+    return filter(result, isValidTsTypeFieldName).join('');
 };

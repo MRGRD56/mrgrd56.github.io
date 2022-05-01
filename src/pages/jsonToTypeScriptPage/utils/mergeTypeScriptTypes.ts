@@ -1,4 +1,4 @@
-import { chain, isString } from 'lodash';
+import { chain, isString, uniq } from 'lodash';
 import {
     TypeScriptArray,
     TypeScriptInterface,
@@ -6,12 +6,11 @@ import {
     TypeScriptType,
     TypeScriptUnion
 } from '../types/typescript';
-import mergeTypeScriptTypesList from './mergeTypeScriptTypesList';
 import getTypeScriptUnion from './getTypeScriptUnion';
 
-const mergeTypeScriptTypes = (a: TypeScriptType, b: TypeScriptType): TypeScriptType[] => {
-    const singleType = [a];
-    const bothTypes = [a, b];
+const mergeTypeScriptTypes = (a: TypeScriptType, b: TypeScriptType): TypeScriptType => {
+    const singleType = a;
+    const bothTypes = getTypeScriptUnion('', [a, b]);
 
     if (isString(a) && isString(b)) {
         return a === b ? singleType : bothTypes;
@@ -50,36 +49,48 @@ const mergeTypeScriptTypes = (a: TypeScriptType, b: TypeScriptType): TypeScriptT
 
                 const isOptional = aField.isOptional || bField.isOptional;
 
-                const mergedFieldTypes = mergeTypeScriptTypes(aField.type, bField.type);
-                if (mergedFieldTypes.length === 0) {
-                    return result;
-                }
-                if (mergedFieldTypes.length === 1) {
-                    result[fieldKey] = new TypeScriptObjectField(mergedFieldTypes[0], isOptional);
-                    return result;
-                }
+                const mergedFieldType = mergeTypeScriptTypes(aField.type, bField.type);
 
-                result[fieldKey] = new TypeScriptObjectField(
-                    new TypeScriptUnion(fieldKey, mergedFieldTypes),
-                    isOptional
-                );
+                result[fieldKey] = new TypeScriptObjectField(mergedFieldType, isOptional);
                 return result;
             }, {} as Record<string, TypeScriptObjectField>)
             .value();
 
-        return [new TypeScriptInterface(a.name, mergedFields)];
+        return new TypeScriptInterface(a.name, mergedFields);
     }
 
     if (a instanceof TypeScriptArray && b instanceof TypeScriptArray) {
         const mergedTypes = mergeTypeScriptTypes(a.type, b.type);
-        return [new TypeScriptArray(getTypeScriptUnion('', mergedTypes))];
+        return new TypeScriptArray(mergedTypes);
     }
 
     if (a instanceof TypeScriptUnion || b instanceof TypeScriptUnion) {
-        const aTypes = a instanceof TypeScriptUnion ? a.types : [a];
-        const bTypes = b instanceof TypeScriptUnion ? b.types : [b];
+        if (a instanceof TypeScriptUnion && b instanceof TypeScriptUnion) {
+            return new TypeScriptUnion(a.name, uniq([...a.types, ...b.types]));
+        }
 
-        return mergeTypeScriptTypesList([...aTypes, ...bTypes]);
+        const union = a instanceof TypeScriptUnion ? a : b instanceof TypeScriptUnion ? b : undefined;
+        const notUnion = a instanceof TypeScriptUnion ? b : b instanceof TypeScriptUnion ? a : undefined;
+
+        if (union === undefined || notUnion === undefined) {
+            throw new Error();
+        }
+
+        const defaultResult = new TypeScriptUnion(union.name, uniq([...union.types, notUnion]));
+
+        if (isString(notUnion)) {
+            return defaultResult;
+        }
+
+        const unionSameTypeIndex = union.types.findIndex((value) => value.constructor === notUnion.constructor);
+
+        if (unionSameTypeIndex === -1) {
+            return defaultResult;
+        }
+
+        const unionObject = union.types[unionSameTypeIndex];
+        union.types[unionSameTypeIndex] = mergeTypeScriptTypes(unionObject, notUnion);
+        return union;
     }
 
     return bothTypes; //TODO

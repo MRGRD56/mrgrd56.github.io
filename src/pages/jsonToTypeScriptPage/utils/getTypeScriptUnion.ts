@@ -2,6 +2,10 @@ import { TypeScriptType, TypeScriptUnion, TypeScriptUnknown } from '../types/typ
 import { remove } from 'lodash';
 
 const getTypeScriptUnion = (name: string, types: TypeScriptType[]): TypeScriptType => {
+    if (types.length > 1) {
+        remove(types, (type) => type instanceof TypeScriptUnknown);
+    }
+
     if (types.length === 0) {
         return new TypeScriptUnknown();
     }
@@ -9,7 +13,6 @@ const getTypeScriptUnion = (name: string, types: TypeScriptType[]): TypeScriptTy
         return types[0];
     }
 
-    remove(types, (type) => type instanceof TypeScriptUnknown);
     return new TypeScriptUnion(name, types);
 };
 

@@ -6,10 +6,8 @@ import classNames from 'classnames';
 import AppEditor from '../../components/appEditor/AppEditor';
 import { editor } from 'monaco-editor';
 import { useDebouncedMemo } from '../../hooks/debouncedMemo';
-import getTypeScriptType from './utils/getTypeScriptType';
-import parseJsonObject from './utils/parseJsonObject';
 import ExportType from './types/ExportType';
-import getAllTypeScriptTypeDeclarations from './utils/getAllTypeScriptTypeDeclarations';
+import convertJsonToTypeScript from './utils/convertJsonToTypeScript';
 
 const jsonEditorOptions: editor.IStandaloneEditorConstructionOptions = {
     minimap: { enabled: false }
@@ -30,8 +28,7 @@ const JsonToTypeScriptPage = () => {
                 return '';
             }
 
-            const typeScriptType = getTypeScriptType('Root', parseJsonObject(JSON.parse(json)));
-            return getAllTypeScriptTypeDeclarations(typeScriptType, 'Root', {
+            return convertJsonToTypeScript(json, {
                 exportType: ExportType.ES_MODULE,
                 isReversedOrder: true
             });
