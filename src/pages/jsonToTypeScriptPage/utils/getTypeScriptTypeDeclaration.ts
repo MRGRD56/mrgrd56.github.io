@@ -1,11 +1,11 @@
 import { DeclarableTypeScriptType, TypeScriptType } from '../types/typescript';
 import { isObject } from 'lodash';
-import TypeScriptDeclarationOptions from '../types/TypeScriptDeclarationOptions';
+import JsonToTypeScriptConversionOptions from '../types/JsonToTypeScriptConversionOptions';
 
 const getTypeScriptTypeDeclaration = (
     type: TypeScriptType,
     name: string,
-    options: TypeScriptDeclarationOptions
+    options: JsonToTypeScriptConversionOptions
 ): string => {
     if (isObject(type) && 'stringifyDeclaration' in type) {
         return type.stringifyDeclaration(options);

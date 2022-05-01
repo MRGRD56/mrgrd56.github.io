@@ -1,6 +1,6 @@
 import { getAllTypeScriptTypeDeclarableTypes } from './getAllTypeScriptTypeInnerDeclarableTypes';
 import { IDeclarableTypeScriptType, TypeScriptType } from '../types/typescript';
-import TypeScriptDeclarationOptions from '../types/TypeScriptDeclarationOptions';
+import JsonToTypeScriptConversionOptions from '../types/JsonToTypeScriptConversionOptions';
 
 const renameConflictingType = (
     type: IDeclarableTypeScriptType,
@@ -22,10 +22,12 @@ const renameConflictingType = (
 
 const getAllTypeScriptTypeDeclarations = (
     type: TypeScriptType,
-    name: string,
-    options: TypeScriptDeclarationOptions
+    rootName: string,
+    options: JsonToTypeScriptConversionOptions
 ): string => {
-    const declarableTypes = getAllTypeScriptTypeDeclarableTypes(type, name, options);
+    const actualRootName = options.typeNameTransformer ? options.typeNameTransformer(rootName) : rootName;
+
+    const declarableTypes = getAllTypeScriptTypeDeclarableTypes(type, actualRootName, options);
 
     const correctlyNamedDeclarableTypes: IDeclarableTypeScriptType[] = [];
 

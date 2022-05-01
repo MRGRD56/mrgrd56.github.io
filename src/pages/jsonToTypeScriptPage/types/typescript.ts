@@ -3,7 +3,7 @@ import getTypeScriptTypeReference from '../utils/getTypeScriptTypeReference';
 import mapObject from '../../../utils/mapObject';
 import ExportType from './ExportType';
 import { filter, isObject, isString } from 'lodash';
-import TypeScriptDeclarationOptions from './TypeScriptDeclarationOptions';
+import JsonToTypeScriptConversionOptions from './JsonToTypeScriptConversionOptions';
 import isValidJsIdentifier, { isValidTsTypeFieldName } from '../../../utils/isValidJsIdentifier';
 
 export interface ITypeScriptType {
@@ -16,7 +16,7 @@ export interface IDeclarable {
 
 export interface IDeclarableTypeScriptType extends IDeclarable {
     name: string;
-    stringifyDeclaration(options: TypeScriptDeclarationOptions): string;
+    stringifyDeclaration(options: JsonToTypeScriptConversionOptions): string;
 }
 
 export class DeclarableTypeScriptType implements IDeclarableTypeScriptType {
@@ -28,7 +28,7 @@ export class DeclarableTypeScriptType implements IDeclarableTypeScriptType {
     public readonly name: string;
     private readonly type: IDeclarableTypeScriptType | TypeScriptType;
 
-    stringifyDeclaration(options: TypeScriptDeclarationOptions): string {
+    stringifyDeclaration(options: JsonToTypeScriptConversionOptions): string {
         if (isObject(this.type) && 'stringifyDeclaration' in this.type) {
             return this.type.stringifyDeclaration(options);
         }
@@ -70,7 +70,7 @@ export class TypeScriptObjectField implements IDeclarable {
 export class TypeScriptInterface implements ITypeScriptType, IDeclarableTypeScriptType {
     public constructor(public name: string, public readonly fields: Record<string, TypeScriptObjectField>) {}
 
-    stringifyDeclaration({ exportType }: TypeScriptDeclarationOptions): string {
+    stringifyDeclaration({ exportType }: JsonToTypeScriptConversionOptions): string {
         return `${getExportKeyword(
             exportType
         )}interface ${this.stringifyReference()} ${this.stringifyDeclarationBody()}`;

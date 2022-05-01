@@ -8,11 +8,11 @@ import {
 } from '../types/typescript';
 import { isObject, isString } from 'lodash';
 import mapObject from '../../../utils/mapObject';
-import TypeScriptDeclarationOptions from '../types/TypeScriptDeclarationOptions';
+import JsonToTypeScriptConversionOptions from '../types/JsonToTypeScriptConversionOptions';
 
 const getAllTypeScriptTypeInnerDeclarableTypes = (
     type: TypeScriptType,
-    options: TypeScriptDeclarationOptions,
+    options: JsonToTypeScriptConversionOptions,
     includeSelf = false
 ): IDeclarableTypeScriptType[] => {
     if (isString(type) || type instanceof TypeScriptUnknown) {
@@ -45,7 +45,7 @@ const getAllTypeScriptTypeInnerDeclarableTypes = (
 export const getAllTypeScriptTypeDeclarableTypes = (
     type: TypeScriptType,
     name: string,
-    options: TypeScriptDeclarationOptions
+    options: JsonToTypeScriptConversionOptions
 ): IDeclarableTypeScriptType[] => {
     const declarableTypes: IDeclarableTypeScriptType[] = getAllTypeScriptTypeInnerDeclarableTypes(type, options);
 

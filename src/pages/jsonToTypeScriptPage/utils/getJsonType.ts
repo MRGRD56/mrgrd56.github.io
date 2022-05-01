@@ -1,15 +1,15 @@
 import { JsonArray, JsonObject, JsonType } from '../types/json';
 import { chain, isArray, isBoolean, isNil, isObject, isString, mapValues } from 'lodash';
 
-const parseJsonObject = (object: unknown): JsonType => {
+const getJsonType = (object: unknown): JsonType => {
     if (isObject(object)) {
         if (isArray(object)) {
-            return new JsonArray(chain(object).map(parseJsonObject).uniq().value()); //TODO remove `uniq` here?
+            return new JsonArray(chain(object).map(getJsonType).uniq().value()); //TODO remove `uniq` here?
         }
 
         return new JsonObject(
             mapValues(object, (value) => {
-                return parseJsonObject(value);
+                return getJsonType(value);
             }) as Record<string, JsonType>
         );
     }
@@ -34,4 +34,4 @@ const parseJsonObject = (object: unknown): JsonType => {
     throw new Error('Unable to parse JSON object');
 };
 
-export default parseJsonObject;
+export default getJsonType;

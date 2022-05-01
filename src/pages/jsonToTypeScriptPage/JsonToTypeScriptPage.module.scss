@@ -1,6 +1,8 @@
 @import '../../styles/main';
 
 .pageContainer {
+    position: relative;
+
     background-color: white;
 
     @include themeDark {
@@ -25,17 +27,37 @@
             &.colRight {
             }
 
-            .colTitle {
-                padding: 5px 10px;
+            .colHeader {
+                min-height: 40px;
+                max-height: 40px;
+
+                padding: 3px 10px;
                 border-width: 0 0 1px 0;
                 border-style: solid;
                 @include borderColor;
+
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+
+                .colTitle {
+                    margin-bottom: 0;
+                }
             }
 
             .editor {
                 flex: 1;
-                height: 100%;
+                height: 99%;
             }
         }
+    }
+
+    .messageContainer {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
     }
 }

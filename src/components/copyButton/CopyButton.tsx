@@ -1,6 +1,6 @@
 import React, { MouseEvent, MouseEventHandler, useRef, useState } from 'react';
 import copyText from '../../utils/copyText';
-import { Button, ButtonProps, Space } from 'antd';
+import { Button, ButtonProps } from 'antd';
 import { CheckOutlined, CopyOutlined } from '@ant-design/icons';
 import { isNil, isString } from 'lodash';
 import copyBlob from '../../utils/copyBlob';
@@ -13,7 +13,7 @@ interface Props<T extends ContentType> extends Omit<ButtonProps, 'value'> {
     onClick?: (event: MouseEvent<HTMLButtonElement>) => T;
 }
 
-function CopyButton<T extends ContentType>({ value, copyEmpty, children, onClick, ...props }: Props<T>) {
+function CopyButton<T extends ContentType>({ value, copyEmpty, children, onClick, icon, ...props }: Props<T>) {
     const [isCopied, setIsCopied] = useState<boolean>(false);
 
     const copiedTimeoutRef = useRef<NodeJS.Timeout>();
@@ -45,11 +45,8 @@ function CopyButton<T extends ContentType>({ value, copyEmpty, children, onClick
     };
 
     return (
-        <Button onClick={handleClick} {...props}>
-            <Space align="center">
-                {isCopied ? <CheckOutlined /> : <CopyOutlined />}
-                {children ?? 'Copy'}
-            </Space>
+        <Button onClick={handleClick} icon={icon ?? (isCopied ? <CheckOutlined /> : <CopyOutlined />)} {...props}>
+            {children ?? 'Copy'}
         </Button>
     );
 }

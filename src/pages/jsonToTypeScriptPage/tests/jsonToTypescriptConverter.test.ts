@@ -1,10 +1,11 @@
 import convertJsonToTypeScript from '../utils/convertJsonToTypeScript';
-import TypeScriptDeclarationOptions from '../types/TypeScriptDeclarationOptions';
+import JsonToTypeScriptConversionOptions from '../types/JsonToTypeScriptConversionOptions';
 import ExportType from '../types/ExportType';
 
-const defaultOptions: TypeScriptDeclarationOptions = {
+const defaultOptions: JsonToTypeScriptConversionOptions = {
     exportType: ExportType.ES_MODULE,
-    isReversedOrder: true
+    isReversedOrder: true,
+    rootTypeName: 'Root'
 };
 
 test('test1', () => {

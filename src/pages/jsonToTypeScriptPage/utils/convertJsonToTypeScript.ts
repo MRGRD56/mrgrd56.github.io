@@ -1,13 +1,16 @@
 import getTypeScriptType from './getTypeScriptType';
-import parseJsonObject from './parseJsonObject';
+import getJsonType from './getJsonType';
 import getAllTypeScriptTypeDeclarations from './getAllTypeScriptTypeDeclarations';
-import TypeScriptDeclarationOptions from '../types/TypeScriptDeclarationOptions';
+import JsonToTypeScriptConversionOptions from '../types/JsonToTypeScriptConversionOptions';
 
-const rootName = 'Root';
+const convertJsonToTypeScript = (json: string, options: JsonToTypeScriptConversionOptions): string => {
+    const jsonObject = JSON.parse(json);
+    const jsonType = getJsonType(jsonObject);
 
-const convertJsonToTypeScript = (json: string, options: TypeScriptDeclarationOptions): string => {
-    const typeScriptType = getTypeScriptType(rootName, parseJsonObject(JSON.parse(json)));
-    return getAllTypeScriptTypeDeclarations(typeScriptType, rootName, options);
+    const { rootTypeName } = options;
+
+    const typeScriptType = getTypeScriptType(rootTypeName, jsonType, options);
+    return getAllTypeScriptTypeDeclarations(typeScriptType, rootTypeName, options);
 };
 
 export default convertJsonToTypeScript;
