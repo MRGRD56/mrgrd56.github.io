@@ -165,7 +165,11 @@ const stringifyTypeName = (name: string) => {
 
     let result = name;
 
-    if (/^\d$/.test(name[0])) {
+    if (!result?.trim()) {
+        result = 'Type';
+    }
+
+    if (/^\d$/.test(result[0])) {
         result = 'N' + result;
     }
 

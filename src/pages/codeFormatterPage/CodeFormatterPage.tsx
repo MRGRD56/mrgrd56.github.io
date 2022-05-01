@@ -9,6 +9,7 @@ import { editor, languages } from 'monaco-editor';
 import CopyButton from '../../components/copyButton/CopyButton';
 import formatCode from '../../utils/formatCode';
 import AppEditor from '../../components/appEditor/AppEditor';
+import getLocalStorageKey from '../../utils/getLocalStorageKey';
 
 // interface FormattedLanguage {
 //     prettierParser: prettier.BuiltInParserName,
@@ -50,7 +51,7 @@ const monacoOptions: editor.IStandaloneEditorConstructionOptions = {
 
 const CodeFormatterPage: FunctionComponent = () => {
     const [selectedLanguage, setSelectedLanguage] = useLocalstorageState<MonacoLanguage>(
-        'mrgrd56:code-formatter/selectedLanguage',
+        getLocalStorageKey('code-formatter', 'selectedLanguage'),
         'typescript'
     );
     const [code, setCode] = useState<string>('');

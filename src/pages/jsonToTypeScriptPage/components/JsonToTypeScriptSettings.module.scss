@@ -1,0 +1,37 @@
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    width: 280px;
+    padding-bottom: 5px;
+}
+
+.title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 0.25rem;
+
+    .closeButton {
+        margin-top: -6px;
+    }
+}
+
+.formItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .label {
+        width: 120px;
+    }
+
+    .input {
+        flex: 1;
+        width: 160px;
+        max-width: 160px;
+    }
+}
