@@ -3,7 +3,7 @@ import {
     IDeclarableTypeScriptType,
     TypeScriptArray,
     TypeScriptType,
-    TypeScriptUnion,
+    TypeScriptTypesCombination,
     TypeScriptUnknown
 } from '../types/typescript';
 import { isObject, isString } from 'lodash';
@@ -19,7 +19,7 @@ const getAllTypeScriptTypeInnerDeclarableTypes = (
         return []; //getTypeScriptTypeDeclaration(type, name, exportType)
     }
 
-    if (type instanceof TypeScriptUnion) {
+    if (type instanceof TypeScriptTypesCombination) {
         return type.types.flatMap((innerType) => getAllTypeScriptTypeInnerDeclarableTypes(innerType, options, true));
     }
 

@@ -94,7 +94,11 @@ const JsonToTypeScriptPage = () => {
             } catch (e) {
                 setError(getErrorMessage(e));
 
-                return noResult;
+                if (e instanceof SyntaxError) {
+                    return noResult;
+                } else {
+                    throw e;
+                }
             }
         },
         [json, conversionOptions],

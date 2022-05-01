@@ -7,8 +7,13 @@ import {
     TypeScriptUnion
 } from '../types/typescript';
 import getTypeScriptUnion from './getTypeScriptUnion';
+import JsonToTypeScriptConversionOptions from '../types/JsonToTypeScriptConversionOptions';
 
-const mergeTypeScriptTypes = (a: TypeScriptType, b: TypeScriptType): TypeScriptType => {
+const mergeTypeScriptTypes = (
+    a: TypeScriptType,
+    b: TypeScriptType,
+    options: JsonToTypeScriptConversionOptions
+): TypeScriptType => {
     const singleType = a;
     const bothTypes = getTypeScriptUnion('', [a, b]);
 
@@ -49,7 +54,7 @@ const mergeTypeScriptTypes = (a: TypeScriptType, b: TypeScriptType): TypeScriptT
 
                 const isOptional = aField.isOptional || bField.isOptional;
 
-                const mergedFieldType = mergeTypeScriptTypes(aField.type, bField.type);
+                const mergedFieldType = mergeTypeScriptTypes(aField.type, bField.type, options);
 
                 result[fieldKey] = new TypeScriptObjectField(mergedFieldType, isOptional);
                 return result;
@@ -60,7 +65,7 @@ const mergeTypeScriptTypes = (a: TypeScriptType, b: TypeScriptType): TypeScriptT
     }
 
     if (a instanceof TypeScriptArray && b instanceof TypeScriptArray) {
-        const mergedTypes = mergeTypeScriptTypes(a.type, b.type);
+        const mergedTypes = mergeTypeScriptTypes(a.type, b.type, options);
         return new TypeScriptArray(mergedTypes);
     }
 
@@ -89,7 +94,7 @@ const mergeTypeScriptTypes = (a: TypeScriptType, b: TypeScriptType): TypeScriptT
         }
 
         const unionObject = union.types[unionSameTypeIndex];
-        union.types[unionSameTypeIndex] = mergeTypeScriptTypes(unionObject, notUnion);
+        union.types[unionSameTypeIndex] = mergeTypeScriptTypes(unionObject, notUnion, options);
         return union;
     }
 

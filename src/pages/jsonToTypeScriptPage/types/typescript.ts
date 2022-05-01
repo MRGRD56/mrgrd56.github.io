@@ -105,9 +105,17 @@ export class TypeScriptArray implements ITypeScriptType {
     }
 }
 
-export class TypeScriptUnion implements ITypeScriptType {
+export abstract class TypeScriptTypesCombination implements ITypeScriptType {
+    protected constructor(public name: string, public readonly types: TypeScriptType[]) {}
+
+    abstract stringifyReference(): string;
+}
+
+export class TypeScriptUnion extends TypeScriptTypesCombination {
     //, IDeclarableTypeScriptType {
-    public constructor(public name: string, public readonly types: TypeScriptType[]) {}
+    public constructor(public name: string, public readonly types: TypeScriptType[]) {
+        super(name, types);
+    }
 
     // stringifyDeclaration(exportType?: ExportType): string {
     //     return `${getExportKeyword(exportType)}type ${this.name} = ${this.stringifyDeclarationBody()};`;
@@ -123,8 +131,10 @@ export class TypeScriptUnion implements ITypeScriptType {
 }
 
 //TODO add tuples support
-export class TypeScriptTuple implements ITypeScriptType {
-    public constructor(public name: string, public readonly types: TypeScriptType[]) {}
+export class TypeScriptTuple extends TypeScriptTypesCombination {
+    public constructor(public name: string, public readonly types: TypeScriptType[]) {
+        super(name, types);
+    }
 
     stringifyDeclarationBody(): string {
         return '[' + this.types.map(getTypeScriptTypeReference).join(', ') + ']';
@@ -140,6 +150,7 @@ export type TypeScriptType =
     | TypeScriptInterface
     | TypeScriptArray
     | TypeScriptUnion
+    | TypeScriptTuple
     | TypeScriptUnknown;
 
 const getExportKeyword = (exportType: ExportType = ExportType.NONE) => {

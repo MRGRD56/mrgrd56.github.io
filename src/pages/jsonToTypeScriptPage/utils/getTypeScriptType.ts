@@ -1,5 +1,12 @@
 import { JsonArray, JsonType } from '../types/json';
-import { TypeScriptArray, TypeScriptInterface, TypeScriptObjectField, TypeScriptType } from '../types/typescript';
+import {
+    TypeScriptArray,
+    TypeScriptInterface,
+    TypeScriptObjectField,
+    TypeScriptTuple,
+    TypeScriptType,
+    TypeScriptUnknown
+} from '../types/typescript';
 import { chain, isString } from 'lodash';
 import { singular } from 'pluralize';
 import getMergedTypeScriptTypes from './mergeTypeScriptTypesList';
@@ -23,10 +30,25 @@ const getTypeScriptType = (
     }
 
     if (jsonType instanceof JsonArray) {
-        const typeScriptTypes = jsonType.types.map((type) => getTypeScriptType(arrayElementName, type, options));
-        const mergedTypeScriptTypes = getMergedTypeScriptTypes(typeScriptTypes);
+        if (options.isTuplesEnabled) {
+            if (jsonType.types.length === 0) {
+                return new TypeScriptTuple('', []);
+            }
 
-        return new TypeScriptArray(mergedTypeScriptTypes);
+            const typeScriptTypes = jsonType.types.map((type) => getTypeScriptType(arrayElementName, type, options));
+            // const mergedType = getMergedTypeScriptTypes(typeScriptTypes, options);
+
+            return new TypeScriptTuple(arrayElementName, typeScriptTypes);
+        } else {
+            if (jsonType.types.length === 0) {
+                return new TypeScriptArray(new TypeScriptUnknown());
+            }
+
+            const typeScriptTypes = jsonType.types.map((type) => getTypeScriptType(arrayElementName, type, options));
+            const mergedType = getMergedTypeScriptTypes(typeScriptTypes, options);
+
+            return new TypeScriptArray(mergedType);
+        }
     }
 
     return new TypeScriptInterface(

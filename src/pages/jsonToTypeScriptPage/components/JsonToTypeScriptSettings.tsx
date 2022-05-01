@@ -2,7 +2,7 @@ import React, { Dispatch, FunctionComponent, SetStateAction } from 'react';
 import JsonToTypeScriptConversionSelectableOptions, {
     NameTransformer
 } from '../types/JsonToTypeScriptConversionSelectableOptions';
-import { Button, Col, Input, Select, Switch, Tooltip } from 'antd';
+import { Button, Col, Input, Select, Switch, Tag } from 'antd';
 import useChangeStateHandler from '../../../hooks/useChangeStateHandler';
 import styles from './JsonToTypeScriptSettings.module.scss';
 import ExportType from '../types/ExportType';
@@ -88,13 +88,13 @@ const JsonToTypeScriptSettings: FunctionComponent<Props> = ({ options, setOption
             </label>
 
             <label className={classNames('mt-1', styles.formItem)}>
-                <Switch checked={options.isTuplesEnabled} onChange={handleOptionChange('isTuplesEnabled')} disabled />
-                <Tooltip title="Coming soon" placement="bottom">
-                    <Text className="ms-3" type="secondary">
-                        Enable tuples
-                        {/*<Text italic type="secondary" className="ms-2">Coming soon</Text>*/}
-                    </Text>
-                </Tooltip>
+                <Switch checked={options.isTuplesEnabled} onChange={handleOptionChange('isTuplesEnabled')} />
+                <Text className="ms-3">
+                    Enable tuples{' '}
+                    <Tag color="warning" className="ms-1">
+                        unstable
+                    </Tag>
+                </Text>
             </label>
         </Col>
     );

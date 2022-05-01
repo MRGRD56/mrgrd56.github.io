@@ -4,7 +4,7 @@ import { chain, isArray, isBoolean, isNil, isObject, isString, mapValues } from 
 const getJsonType = (object: unknown): JsonType => {
     if (isObject(object)) {
         if (isArray(object)) {
-            return new JsonArray(chain(object).map(getJsonType).uniq().value()); //TODO remove `uniq` here?
+            return new JsonArray(chain(object).map(getJsonType).value());
         }
 
         return new JsonObject(
