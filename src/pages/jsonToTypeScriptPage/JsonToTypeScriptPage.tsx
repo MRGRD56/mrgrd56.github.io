@@ -36,7 +36,8 @@ const defaultSelectableConversionOptions: JsonToTypeScriptConversionSelectableOp
     exportType: ExportType.ES_MODULE,
     isReversedOrder: true,
     typeNameTransformer: NameTransformer.PASCAL_CASE,
-    fieldNameTransformer: NameTransformer.NONE
+    fieldNameTransformer: NameTransformer.NONE,
+    isTuplesEnabled: false
 };
 
 const nameTransformers: Readonly<Record<NameTransformer, (name: string) => string>> = {

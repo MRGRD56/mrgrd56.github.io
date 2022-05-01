@@ -1,4 +1,4 @@
-import ExportType from './ExportType';
+import JsonToTypeScriptConversionOptions from './JsonToTypeScriptConversionOptions';
 
 export enum NameTransformer {
     NONE = 'NONE',
@@ -9,12 +9,10 @@ export enum NameTransformer {
     KEBAB_CASE = 'KEBAB_CASE'
 }
 
-interface JsonToTypeScriptConversionSelectableOptions {
-    exportType: ExportType;
-    isReversedOrder: boolean;
+interface JsonToTypeScriptConversionSelectableOptions
+    extends Required<Omit<JsonToTypeScriptConversionOptions, 'typeNameTransformer' | 'fieldNameTransformer'>> {
     fieldNameTransformer: NameTransformer;
     typeNameTransformer: NameTransformer;
-    rootTypeName: string;
 }
 
 export default JsonToTypeScriptConversionSelectableOptions;
