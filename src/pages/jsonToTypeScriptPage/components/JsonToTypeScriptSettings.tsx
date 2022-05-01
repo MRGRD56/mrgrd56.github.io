@@ -92,7 +92,7 @@ const JsonToTypeScriptSettings: FunctionComponent<Props> = ({ options, setOption
                 <Text className="ms-3">
                     Enable tuples{' '}
                     <Tag color="warning" className="ms-1">
-                        unstable
+                        experimental
                     </Tag>
                 </Text>
             </label>
