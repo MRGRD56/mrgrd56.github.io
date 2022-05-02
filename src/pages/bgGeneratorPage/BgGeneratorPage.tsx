@@ -48,8 +48,9 @@ const BgGeneratorPage = () => {
         50
     );
 
-    const handleColorChange = useCallback<ColorChangeHandler>(({ hex }) => {
-        setColor(hex);
+    const handleColorChange = useCallback<ColorChangeHandler>(({ rgb }) => {
+        const { r, g, b, a } = rgb;
+        setColor(`rgba(${r}, ${g}, ${b}, ${a})`);
     }, []);
 
     const handleSizeChange = useCallback(
