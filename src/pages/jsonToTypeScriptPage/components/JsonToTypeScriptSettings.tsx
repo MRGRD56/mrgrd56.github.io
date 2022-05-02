@@ -9,6 +9,7 @@ import ExportType from '../types/ExportType';
 import Text from 'antd/lib/typography/Text';
 import classNames from 'classnames';
 import { CloseOutlined } from '@ant-design/icons';
+import { NullType, UnknownType } from '../types/JsonToTypeScriptConversionOptions';
 
 interface Props {
     options: JsonToTypeScriptConversionSelectableOptions;
@@ -80,6 +81,24 @@ const JsonToTypeScriptSettings: FunctionComponent<Props> = ({ options, setOption
                     <Select.Option key={NameTransformer.PASCAL_CASE}>PascalCase</Select.Option>
                     <Select.Option key={NameTransformer.SNAKE_CASE}>snake_case</Select.Option>
                     <Select.Option key={NameTransformer.SCREAMING_SNAKE_CASE}>SCREAMING_SNAKE_CASE</Select.Option>
+                </Select>
+            </label>
+            <label className={styles.formItem}>
+                <span className={styles.label}>Unknown type</span>
+                <Select
+                    className={styles.input}
+                    value={options.unknownType}
+                    onChange={handleOptionChange('unknownType')}
+                >
+                    <Select.Option key={UnknownType.UNKNOWN}>unknown</Select.Option>
+                    <Select.Option key={UnknownType.ANY}>any</Select.Option>
+                </Select>
+            </label>
+            <label className={styles.formItem}>
+                <span className={styles.label}>Null type</span>
+                <Select className={styles.input} value={options.nullType} onChange={handleOptionChange('nullType')}>
+                    <Select.Option key={NullType.NULL}>null</Select.Option>
+                    <Select.Option key={NullType.UNDEFINED}>undefined</Select.Option>
                 </Select>
             </label>
             <label className={classNames('mt-1', styles.formItem)}>

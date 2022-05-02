@@ -7,11 +7,11 @@ import JsonToTypeScriptConversionOptions from './JsonToTypeScriptConversionOptio
 import isValidJsIdentifier, { isValidTsTypeFieldName } from '../../../utils/isValidJsIdentifier';
 
 export interface ITypeScriptType {
-    stringifyReference(): string;
+    stringifyReference(options: JsonToTypeScriptConversionOptions): string;
 }
 
 export interface IDeclarable {
-    stringifyDeclarationBody(): string;
+    stringifyDeclarationBody(options: JsonToTypeScriptConversionOptions): string;
 }
 
 export interface IDeclarableTypeScriptType extends IDeclarable {
@@ -35,18 +35,18 @@ export class DeclarableTypeScriptType implements IDeclarableTypeScriptType {
 
         return `${getExportKeyword(options.exportType)}type ${stringifyTypeName(
             this.name
-        )} = ${this.stringifyDeclarationBody()};`;
+        )} = ${this.stringifyDeclarationBody(options)};`;
     }
 
-    stringifyDeclarationBody(): string {
+    stringifyDeclarationBody(options: JsonToTypeScriptConversionOptions): string {
         if (isString(this.type)) {
-            return this.type;
+            return getTypeScriptTypeReference(this.type, options);
         }
 
         return 'stringifyDeclarationBody' in this.type
-            ? this.type.stringifyDeclarationBody()
+            ? this.type.stringifyDeclarationBody(options)
             : 'stringifyReference' in this.type
-            ? this.type.stringifyReference()
+            ? this.type.stringifyReference(options)
             : '';
     }
 }
@@ -54,39 +54,39 @@ export class DeclarableTypeScriptType implements IDeclarableTypeScriptType {
 export class TypeScriptUnknown implements ITypeScriptType {
     public readonly isUnknown = true;
 
-    stringifyReference(): string {
-        return 'unknown';
+    stringifyReference(options: JsonToTypeScriptConversionOptions): string {
+        return options.unknownType ?? 'unknown';
     }
 }
 
 export class TypeScriptObjectField implements IDeclarable {
     public constructor(public readonly type: TypeScriptType, public readonly isOptional = false) {}
 
-    stringifyDeclarationBody(): string {
-        return `${this.isOptional ? '?' : ''}: ${getTypeScriptTypeReference(this.type)}`;
+    stringifyDeclarationBody(options: JsonToTypeScriptConversionOptions): string {
+        return `${this.isOptional ? '?' : ''}: ${getTypeScriptTypeReference(this.type, options)}`;
     }
 }
 
 export class TypeScriptInterface implements ITypeScriptType, IDeclarableTypeScriptType {
     public constructor(public name: string, public readonly fields: Record<string, TypeScriptObjectField>) {}
 
-    stringifyDeclaration({ exportType }: JsonToTypeScriptConversionOptions): string {
-        return `${getExportKeyword(
-            exportType
-        )}interface ${this.stringifyReference()} ${this.stringifyDeclarationBody()}`;
+    stringifyDeclaration(options: JsonToTypeScriptConversionOptions): string {
+        return `${getExportKeyword(options.exportType)}interface ${this.stringifyReference(
+            options
+        )} ${this.stringifyDeclarationBody(options)}`;
     }
 
-    stringifyDeclarationBody(): string {
+    stringifyDeclarationBody(options: JsonToTypeScriptConversionOptions): string {
         return (
             '{\n' +
             mapObject(this.fields, (key, field) => {
-                return `    ${stringifyFieldName(key)}${field.stringifyDeclarationBody()};`;
+                return `    ${stringifyFieldName(key)}${field.stringifyDeclarationBody(options)};`;
             }).join('\n') +
             '\n}'
         );
     }
 
-    stringifyReference(): string {
+    stringifyReference(options: JsonToTypeScriptConversionOptions): string {
         return stringifyTypeName(this.name);
     }
 }
@@ -94,8 +94,8 @@ export class TypeScriptInterface implements ITypeScriptType, IDeclarableTypeScri
 export class TypeScriptArray implements ITypeScriptType {
     public constructor(public readonly type: TypeScriptType) {}
 
-    stringifyReference(): string {
-        const typeReference = getTypeScriptTypeReference(this.type);
+    stringifyReference(options: JsonToTypeScriptConversionOptions): string {
+        const typeReference = getTypeScriptTypeReference(this.type, options);
 
         if (this.type instanceof TypeScriptUnion) {
             return `Array<${typeReference}>`;
@@ -108,7 +108,7 @@ export class TypeScriptArray implements ITypeScriptType {
 export abstract class TypeScriptTypesCombination implements ITypeScriptType {
     protected constructor(public name: string, public readonly types: TypeScriptType[]) {}
 
-    abstract stringifyReference(): string;
+    abstract stringifyReference(options: JsonToTypeScriptConversionOptions): string;
 }
 
 export class TypeScriptUnion extends TypeScriptTypesCombination {
@@ -121,12 +121,12 @@ export class TypeScriptUnion extends TypeScriptTypesCombination {
     //     return `${getExportKeyword(exportType)}type ${this.name} = ${this.stringifyDeclarationBody()};`;
     // }
 
-    stringifyDeclarationBody(): string {
-        return this.types.map(getTypeScriptTypeReference).join(' | ');
+    stringifyDeclarationBody(options: JsonToTypeScriptConversionOptions): string {
+        return this.types.map((type) => getTypeScriptTypeReference(type, options)).join(' | ');
     }
 
-    stringifyReference(): string {
-        return this.stringifyDeclarationBody();
+    stringifyReference(options: JsonToTypeScriptConversionOptions): string {
+        return this.stringifyDeclarationBody(options);
     }
 }
 
@@ -136,12 +136,12 @@ export class TypeScriptTuple extends TypeScriptTypesCombination {
         super(name, types);
     }
 
-    stringifyDeclarationBody(): string {
-        return '[' + this.types.map(getTypeScriptTypeReference).join(', ') + ']';
+    stringifyDeclarationBody(options: JsonToTypeScriptConversionOptions): string {
+        return '[' + this.types.map((type) => getTypeScriptTypeReference(type, options)).join(', ') + ']';
     }
 
-    stringifyReference(): string {
-        return this.stringifyDeclarationBody();
+    stringifyReference(options: JsonToTypeScriptConversionOptions): string {
+        return this.stringifyDeclarationBody(options);
     }
 }
 
