@@ -15,6 +15,7 @@ import Text from 'antd/lib/typography/Text';
 import ImgCrop from 'antd-img-crop';
 import CopyButton from '../../components/copyButton/CopyButton';
 import ExternalLink from '../../components/ExternalLink';
+import getNpmPackageLink from '../../utils/getNpmPackageLink';
 
 interface QrImage {
     blob: Blob;
@@ -32,7 +33,7 @@ const beforeUpload = (file: RcFile) => {
 
 const titleExtra = (
     <Text type="secondary">
-        uses <ExternalLink href="https://www.npmjs.com/package/qr-scanner">qr-scanner</ExternalLink>
+        uses <ExternalLink href={getNpmPackageLink('qr-scanner')}>qr-scanner</ExternalLink>
     </Text>
 );
 

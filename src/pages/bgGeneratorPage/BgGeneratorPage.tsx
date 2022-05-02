@@ -10,6 +10,7 @@ import stringifySize from '../../utils/stringifySize';
 import { useDebouncedMemo } from '../../hooks/debouncedMemo';
 import getWindowSize from '../../utils/getWindowSize';
 import getScreenSize from '../../utils/getScreenSize';
+import './BgGeneratorPage.scss';
 
 const generateImage = ({ width, height }: Size, color: string, imgCanvas: HTMLCanvasElement): string | undefined => {
     if (width < 0 || height < 0) {
@@ -77,7 +78,11 @@ const BgGeneratorPage = () => {
             <Col>
                 <Row gutter={16}>
                     <Col className="mb-3">
-                        <SketchPicker color={color} onChange={handleColorChange} />
+                        <SketchPicker
+                            color={color}
+                            onChange={handleColorChange}
+                            className="BgGeneratorPage_color-picker"
+                        />
                     </Col>
                     <Col className="mb-3">
                         <Space direction="vertical">

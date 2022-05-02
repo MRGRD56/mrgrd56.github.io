@@ -5,10 +5,11 @@ import { v4 } from 'uuid';
 import Text from 'antd/lib/typography/Text';
 import ExternalLink from '../../components/ExternalLink';
 import CopyButton from '../../components/copyButton/CopyButton';
+import getNpmPackageLink from '../../utils/getNpmPackageLink';
 
 const titleExtra = (
     <Text type="secondary">
-        uses <ExternalLink href="https://www.npmjs.com/package/uuid">uuid</ExternalLink>
+        uses <ExternalLink href={getNpmPackageLink('uuid')}>uuid</ExternalLink>
     </Text>
 );
 

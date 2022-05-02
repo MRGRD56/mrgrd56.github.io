@@ -1,0 +1,24 @@
+@import '../../styles/main';
+
+.BgGeneratorPage_color-picker {
+    @include themeDark {
+        //color: black;
+        //background: #1d1d1d !important;
+
+        background: rgba(150, 150, 150, 0.15) !important;
+        //border: 1px solid rgba(100, 100, 100, 0.2) !important;
+
+        label {
+            color: #dddddd !important;
+        }
+
+        input {
+            background: transparent !important;
+            box-shadow: rgba(100, 100, 100, 0.2) 0 0 0 1px inset !important;
+        }
+
+        div.flexbox-fix {
+            border-color: rgba(100, 100, 100, 0.2) !important;
+        }
+    }
+}

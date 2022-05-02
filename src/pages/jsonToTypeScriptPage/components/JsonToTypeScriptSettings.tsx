@@ -24,15 +24,15 @@ const JsonToTypeScriptSettings: FunctionComponent<Props> = ({ options, setOption
         <Col className={styles.formContainer}>
             <div className={styles.title}>
                 <h3 className="mb-0">Settings</h3>
-                {onClose && (
-                    <Button
-                        size="small"
-                        type="text"
-                        icon={<CloseOutlined />}
-                        className={styles.closeButton}
-                        onClick={onClose}
-                    />
-                )}
+                <div className={styles.rightSide}>
+                    {/*<Button*/}
+                    {/*    size="small"*/}
+                    {/*    type="dashed"*/}
+                    {/*>*/}
+                    {/*    Reset*/}
+                    {/*</Button>*/}
+                    {onClose && <Button size="small" type="text" icon={<CloseOutlined />} onClick={onClose} />}
+                </div>
             </div>
             <label className={styles.formItem}>
                 <span className={styles.label}>Root type name</span>

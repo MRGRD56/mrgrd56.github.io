@@ -3,6 +3,7 @@ import { Space } from 'antd';
 import Text from 'antd/lib/typography/Text';
 import styles from './AppDependency.module.scss';
 import ExternalLink from '../../../components/ExternalLink';
+import getNpmPackageLink from '../../../utils/getNpmPackageLink';
 
 interface Props {
     name: string;
@@ -10,7 +11,7 @@ interface Props {
 }
 
 const AppDependency: FunctionComponent<Props> = ({ name, version }) => {
-    const link = `https://www.npmjs.com/package/${name}`;
+    const link = getNpmPackageLink(name);
 
     return (
         <Space direction="horizontal" className={styles.container}>

@@ -28,6 +28,21 @@ const menuItems: MenuItem[] = [
         icon: ToolFilled,
         routes: [
             {
+                route: routes.jsonToTypescript
+            },
+            {
+                route: routes.jsEvaluator
+            },
+            {
+                route: routes.diffEditor
+            },
+            {
+                route: routes.codeFormatter
+            },
+            {
+                route: routes.uuidGenerator
+            },
+            {
                 route: routes.jsonStringifier
             },
             {
@@ -39,21 +54,6 @@ const menuItems: MenuItem[] = [
             {
                 route: routes.bgGenerator,
                 title: 'BG Generator'
-            },
-            {
-                route: routes.jsEvaluator
-            },
-            {
-                route: routes.uuidGenerator
-            },
-            {
-                route: routes.diffEditor
-            },
-            {
-                route: routes.codeFormatter
-            },
-            {
-                route: routes.jsonToTypescript
             },
             {
                 route: routes.templateTextGenerator,

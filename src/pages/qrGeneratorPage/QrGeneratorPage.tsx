@@ -7,6 +7,15 @@ import { QRCodeSVG } from 'qrcode.react';
 import SvgImage from '../../components/svgImage/SvgImage';
 import styles from './QrGeneratorPage.module.scss';
 import classNames from 'classnames';
+import Text from 'antd/lib/typography/Text';
+import ExternalLink from '../../components/ExternalLink';
+import getNpmPackageLink from '../../utils/getNpmPackageLink';
+
+const titleExtra = (
+    <Text type="secondary">
+        uses <ExternalLink href={getNpmPackageLink('qrcode.react')}>qrcode.react</ExternalLink>
+    </Text>
+);
 
 const QrGeneratorPage: FunctionComponent = () => {
     const qrCodeWrapperRef = useRef<HTMLDivElement>(null);
@@ -18,7 +27,7 @@ const QrGeneratorPage: FunctionComponent = () => {
     const [doIncludeMargin, setDoIncludeMargin] = useInputState<boolean>(false);
 
     return (
-        <PageContainer title="QR Generator">
+        <PageContainer title="QR Generator" titleExtra={titleExtra}>
             <Col xs={24} lg={12}>
                 <TextArea value={text} onChange={setTextByEvent} placeholder="Input text" rows={3} allowClear />
                 <label className={classNames(styles.formItem, 'mt-2')}>

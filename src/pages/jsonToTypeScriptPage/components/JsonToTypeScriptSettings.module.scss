@@ -1,9 +1,13 @@
+$containerWidth: 290px;
+$labelWidth: 130px;
+$inputWidth: $containerWidth - $labelWidth;
+
 .formContainer {
     display: flex;
     flex-direction: column;
     gap: 6px;
 
-    width: 280px;
+    width: $containerWidth;
     padding-bottom: 5px;
 }
 
@@ -15,8 +19,11 @@
 
     margin-bottom: 0.25rem;
 
-    .closeButton {
+    .rightSide {
         margin-top: -6px;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
     }
 }
 
@@ -26,12 +33,12 @@
     align-items: center;
 
     .label {
-        width: 120px;
+        width: $labelWidth;
     }
 
     .input {
         flex: 1;
-        width: 160px;
-        max-width: 160px;
+        width: $inputWidth;
+        max-width: $inputWidth;
     }
 }
