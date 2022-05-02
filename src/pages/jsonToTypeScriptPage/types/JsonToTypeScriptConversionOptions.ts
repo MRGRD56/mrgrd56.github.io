@@ -10,6 +10,11 @@ export enum UnknownType {
     ANY = 'any'
 }
 
+export enum ObjectDeclaration {
+    INTERFACE = 'INTERFACE',
+    TYPE = 'TYPE'
+}
+
 interface JsonToTypeScriptConversionOptions {
     exportType?: ExportType;
     isReversedOrder?: boolean;
@@ -19,6 +24,7 @@ interface JsonToTypeScriptConversionOptions {
     isTuplesEnabled?: boolean;
     nullType?: NullType;
     unknownType?: UnknownType;
+    objectDeclaration?: ObjectDeclaration;
 }
 
 export default JsonToTypeScriptConversionOptions;

@@ -3,7 +3,7 @@ import getTypeScriptTypeReference from '../utils/getTypeScriptTypeReference';
 import mapObject from '../../../utils/mapObject';
 import ExportType from './ExportType';
 import { filter, isObject, isString } from 'lodash';
-import JsonToTypeScriptConversionOptions from './JsonToTypeScriptConversionOptions';
+import JsonToTypeScriptConversionOptions, { ObjectDeclaration } from './JsonToTypeScriptConversionOptions';
 import isValidJsIdentifier, { isValidTsTypeFieldName } from '../../../utils/isValidJsIdentifier';
 
 export interface ITypeScriptType {
@@ -67,13 +67,22 @@ export class TypeScriptObjectField implements IDeclarable {
     }
 }
 
-export class TypeScriptInterface implements ITypeScriptType, IDeclarableTypeScriptType {
+export class TypeScriptObject implements ITypeScriptType, IDeclarableTypeScriptType {
     public constructor(public name: string, public readonly fields: Record<string, TypeScriptObjectField>) {}
 
     stringifyDeclaration(options: JsonToTypeScriptConversionOptions): string {
-        return `${getExportKeyword(options.exportType)}interface ${this.stringifyReference(
-            options
-        )} ${this.stringifyDeclarationBody(options)}`;
+        const exportKeyword = getExportKeyword(options.exportType);
+        const name = this.stringifyReference(options);
+        const declarationBody = this.stringifyDeclarationBody(options);
+
+        const declarationType = options.objectDeclaration ?? ObjectDeclaration.INTERFACE;
+
+        const declarations: Readonly<Record<ObjectDeclaration, string>> = {
+            [ObjectDeclaration.INTERFACE]: `${exportKeyword}interface ${name} ${declarationBody}`,
+            [ObjectDeclaration.TYPE]: `${exportKeyword}type ${name} = ${declarationBody};`
+        };
+
+        return declarations[declarationType];
     }
 
     stringifyDeclarationBody(options: JsonToTypeScriptConversionOptions): string {
@@ -130,7 +139,6 @@ export class TypeScriptUnion extends TypeScriptTypesCombination {
     }
 }
 
-//TODO add tuples support
 export class TypeScriptTuple extends TypeScriptTypesCombination {
     public constructor(public name: string, public readonly types: TypeScriptType[]) {
         super(name, types);
@@ -147,7 +155,7 @@ export class TypeScriptTuple extends TypeScriptTypesCombination {
 
 export type TypeScriptType =
     | JsonPrimitive
-    | TypeScriptInterface
+    | TypeScriptObject
     | TypeScriptArray
     | TypeScriptUnion
     | TypeScriptTuple

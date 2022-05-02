@@ -1,7 +1,7 @@
 import { chain, isString, uniq } from 'lodash';
 import {
     TypeScriptArray,
-    TypeScriptInterface,
+    TypeScriptObject,
     TypeScriptObjectField,
     TypeScriptType,
     TypeScriptUnion
@@ -21,7 +21,7 @@ const mergeTypeScriptTypes = (
         return a === b ? singleType : bothTypes;
     }
 
-    if (a instanceof TypeScriptInterface && b instanceof TypeScriptInterface) {
+    if (a instanceof TypeScriptObject && b instanceof TypeScriptObject) {
         const aKeys = Object.keys(a.fields);
         const bKeys = Object.keys(b.fields);
 
@@ -61,7 +61,7 @@ const mergeTypeScriptTypes = (
             }, {} as Record<string, TypeScriptObjectField>)
             .value();
 
-        return new TypeScriptInterface(a.name, mergedFields);
+        return new TypeScriptObject(a.name, mergedFields);
     }
 
     if (a instanceof TypeScriptArray && b instanceof TypeScriptArray) {

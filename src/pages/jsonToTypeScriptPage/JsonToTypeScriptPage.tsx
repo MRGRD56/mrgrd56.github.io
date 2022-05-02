@@ -16,7 +16,11 @@ import getLocalStorageKey from '../../utils/getLocalStorageKey';
 import JsonToTypeScriptConversionSelectableOptions, {
     NameTransformer
 } from './types/JsonToTypeScriptConversionSelectableOptions';
-import JsonToTypeScriptConversionOptions, { NullType, UnknownType } from './types/JsonToTypeScriptConversionOptions';
+import JsonToTypeScriptConversionOptions, {
+    NullType,
+    ObjectDeclaration,
+    UnknownType
+} from './types/JsonToTypeScriptConversionOptions';
 import { camelCase, kebabCase, snakeCase } from 'lodash';
 import pascalCase from '../../utils/pascalCase';
 import JsonToTypeScriptSettings from './components/JsonToTypeScriptSettings';
@@ -39,7 +43,8 @@ const defaultSelectableConversionOptions: JsonToTypeScriptConversionSelectableOp
     fieldNameTransformer: NameTransformer.NONE,
     isTuplesEnabled: false,
     nullType: NullType.NULL,
-    unknownType: UnknownType.UNKNOWN
+    unknownType: UnknownType.UNKNOWN,
+    objectDeclaration: ObjectDeclaration.INTERFACE
 };
 
 const nameTransformers: Readonly<Record<NameTransformer, (name: string) => string>> = {

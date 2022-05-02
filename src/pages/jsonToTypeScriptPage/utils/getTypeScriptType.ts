@@ -1,7 +1,7 @@
 import { JsonArray, JsonType } from '../types/json';
 import {
     TypeScriptArray,
-    TypeScriptInterface,
+    TypeScriptObject,
     TypeScriptObjectField,
     TypeScriptTuple,
     TypeScriptType,
@@ -51,7 +51,7 @@ const getTypeScriptType = (
         }
     }
 
-    return new TypeScriptInterface(
+    return new TypeScriptObject(
         typeName,
         chain(jsonType.fields)
             .mapValues((field, name) => {

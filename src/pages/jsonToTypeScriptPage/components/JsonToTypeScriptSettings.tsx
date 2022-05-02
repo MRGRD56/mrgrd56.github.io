@@ -9,7 +9,7 @@ import ExportType from '../types/ExportType';
 import Text from 'antd/lib/typography/Text';
 import classNames from 'classnames';
 import { CloseOutlined } from '@ant-design/icons';
-import { NullType, UnknownType } from '../types/JsonToTypeScriptConversionOptions';
+import { NullType, ObjectDeclaration, UnknownType } from '../types/JsonToTypeScriptConversionOptions';
 
 interface Props {
     options: JsonToTypeScriptConversionSelectableOptions;
@@ -101,11 +101,22 @@ const JsonToTypeScriptSettings: FunctionComponent<Props> = ({ options, setOption
                     <Select.Option key={NullType.UNDEFINED}>undefined</Select.Option>
                 </Select>
             </label>
+            <label className={styles.formItem}>
+                <span className={styles.label}>Object declaration</span>
+                <Select
+                    className={styles.input}
+                    value={options.objectDeclaration}
+                    onChange={handleOptionChange('objectDeclaration')}
+                >
+                    <Select.Option key={ObjectDeclaration.INTERFACE}>Interface</Select.Option>
+                    <Select.Option key={ObjectDeclaration.TYPE}>Type</Select.Option>
+                </Select>
+            </label>
+
             <label className={classNames('mt-1', styles.formItem)}>
                 <Switch checked={options.isReversedOrder} onChange={handleOptionChange('isReversedOrder')} />
                 <span className="ms-3">Reverse declarations</span>
             </label>
-
             <label className={classNames('mt-1', styles.formItem)}>
                 <Switch checked={options.isTuplesEnabled} onChange={handleOptionChange('isTuplesEnabled')} />
                 <Text className="ms-3">
