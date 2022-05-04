@@ -7,8 +7,9 @@ export interface AsyncHookParams<T> {
     onComplete?: () => void;
     onLoadingChange?: (isLoading: boolean) => void;
     onErrorChange?: (error: unknown) => void;
-    isLoadingInitial?: boolean;
-    errorInitial?: boolean;
+    initialResult?: T;
+    initialIsLoading?: boolean;
+    initialError?: boolean;
     doInvokeOnMount?: boolean;
 }
 
@@ -19,13 +20,23 @@ const useAsync = <T>(promiseFn: (() => Promise<T>) | Promise<T>, params?: AsyncH
         onComplete,
         onLoadingChange,
         onErrorChange,
-        isLoadingInitial,
-        errorInitial,
+        initialResult,
+        initialIsLoading,
+        initialError,
         doInvokeOnMount
     } = params ?? {};
 
-    const [isLoading, setIsLoading] = useState<boolean>(isLoadingInitial ?? false);
-    const [error, setError] = useState<unknown>(errorInitial);
+    const [result, setResult] = useState<T | undefined>(initialResult);
+    const [isLoading, setIsLoading] = useState<boolean>(initialIsLoading ?? false);
+    const [error, setError] = useState<unknown>(initialError);
+
+    const changeResult = useCallback(
+        (value: T) => {
+            setResult(value);
+            onSuccess?.(value);
+        },
+        [onSuccess]
+    );
 
     const changeLoading = useCallback(
         (value: boolean) => {
@@ -50,7 +61,7 @@ const useAsync = <T>(promiseFn: (() => Promise<T>) | Promise<T>, params?: AsyncH
 
             const result: T = isFunction(promiseFn) ? await promiseFn() : await promiseFn;
 
-            onSuccess?.(result);
+            changeResult(result);
         } catch (e) {
             changeError(e);
             onError?.(e);
@@ -67,6 +78,7 @@ const useAsync = <T>(promiseFn: (() => Promise<T>) | Promise<T>, params?: AsyncH
     }, []);
 
     return {
+        result,
         invoke,
         isLoading,
         error

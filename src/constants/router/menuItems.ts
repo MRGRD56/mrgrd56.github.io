@@ -56,11 +56,10 @@ const menuItems: MenuItem[] = [
                 title: 'BG Generator'
             },
             {
-                route: routes.templateTextGenerator,
-                isGray: true
+                route: routes.userInfo
             },
             {
-                route: routes.userInfo,
+                route: routes.templateTextGenerator,
                 isGray: true
             },
             {

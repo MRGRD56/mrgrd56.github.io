@@ -1,0 +1,30 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .ipAddress {
+        font-size: 1.1rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .ipAddressSkeleton {
+        height: 22px !important;
+        width: 165px;
+        margin-top: 3px;
+    }
+
+    .locationSkeleton {
+        height: 22px !important;
+        width: 165px;
+        margin-top: 1px;
+    }
+
+    .ipDataProviderSkeleton {
+        height: 20px !important;
+        width: 200px;
+        margin-bottom: 3.5px;
+    }
+}
