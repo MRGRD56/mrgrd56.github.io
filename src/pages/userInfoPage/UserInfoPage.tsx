@@ -45,22 +45,31 @@ const UserInfoPage: FunctionComponent = () => {
                                 <Skeleton.Input active className={styles.ipDataProviderSkeleton} />
                             </>
                         ) : (
-                            <>
-                                <Text strong className={styles.ipAddress}>
-                                    <Text strong>IP: </Text>
-                                    <Text copyable>{userIpInfo?.ip}</Text>
-                                </Text>
-                                <Text>
-                                    <Text strong>Location:</Text>
-                                    <Text className="ms-1">
-                                        {userIpInfo?.countryName}, {userIpInfo?.city}
+                            userIpInfo && (
+                                <>
+                                    <Text strong className={styles.ipAddress}>
+                                        <Text strong>IP: </Text>
+                                        <Text copyable>{userIpInfo.ip}</Text>
                                     </Text>
-                                </Text>
-                                <Text type="secondary">
-                                    The data is provided by{' '}
-                                    <ExternalLink href="https://ipapi.co/">ipapi.co</ExternalLink>
-                                </Text>
-                            </>
+                                    <Text className="d-flex align-items-center">
+                                        <Text strong>Location:</Text>
+                                        <img
+                                            className="ms-2"
+                                            src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${userIpInfo.country}.svg`}
+                                            alt={userIpInfo.country}
+                                            height={12}
+                                            width={18}
+                                        />
+                                        <Text className="ms-1">
+                                            {userIpInfo.countryName}, {userIpInfo.city}
+                                        </Text>
+                                    </Text>
+                                    <Text type="secondary">
+                                        The data is provided by{' '}
+                                        <ExternalLink href="https://ipapi.co/">ipapi.co</ExternalLink>
+                                    </Text>
+                                </>
+                            )
                         )}
                     </Space>
                 )}
