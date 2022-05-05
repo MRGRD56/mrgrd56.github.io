@@ -1,7 +1,7 @@
 import React from 'react';
-import PageContainer from '../components/pageContainer/PageContainer';
+import PageContainer from '../../components/pageContainer/PageContainer';
 import { editor } from 'monaco-editor';
-import AppDiffEditor from '../components/appDiffEditor/AppDiffEditor';
+import AppDiffEditor from '../../components/appDiffEditor/AppDiffEditor';
 
 const options: editor.IDiffEditorConstructionOptions = {
     originalEditable: true

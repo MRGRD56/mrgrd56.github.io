@@ -1,4 +1,4 @@
-const scopedEval = (expression: string, context: object) => {
+const scopedEval = (expression: string, context: object = {}) => {
     const evaluator = Function.apply(null, [
         ...Object.keys(context),
         'expression',

@@ -59,6 +59,9 @@ const menuItems: MenuItem[] = [
                 route: routes.userInfo
             },
             {
+                route: routes.notificationsTest
+            },
+            {
                 route: routes.templateTextGenerator,
                 isGray: true
             },
