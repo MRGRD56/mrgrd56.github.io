@@ -23,6 +23,7 @@ import CodeFormatterPage from '../../pages/codeFormatterPage/CodeFormatterPage';
 import DiffEditorPage from '../../pages/diffEditorPage/DiffEditorPage';
 import JsonToTypeScriptPage from '../../pages/jsonToTypeScriptPage/JsonToTypeScriptPage';
 import NotificationsTestPage from '../../pages/notificationsTestPage/NotificationsTestPage';
+import DateUtilsPage from '../../pages/dateUtilsPage/DateUtilsPage';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
@@ -49,6 +50,7 @@ type AppRoutesMap = Readonly<{
     codeFormatter: AppRoute;
     jsonToTypescript: AppRoute;
     notificationsTest: AppRoute;
+    dateUtils: AppRoute;
     settings: AppRoute;
     about: AppRoute;
 }>;
@@ -143,6 +145,11 @@ export const routes: AppRoutesMap = {
         path: '/tools/notifications-test',
         component: NotificationsTestPage,
         title: 'Notifications Test'
+    },
+    dateUtils: {
+        path: '/tools/date-utils',
+        component: DateUtilsPage,
+        title: 'Date Utils'
     },
     settings: {
         path: '/settings',

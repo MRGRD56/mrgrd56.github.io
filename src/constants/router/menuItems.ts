@@ -62,6 +62,10 @@ const menuItems: MenuItem[] = [
                 route: routes.notificationsTest
             },
             {
+                route: routes.dateUtils,
+                isGray: true
+            },
+            {
                 route: routes.templateTextGenerator,
                 isGray: true
             },
