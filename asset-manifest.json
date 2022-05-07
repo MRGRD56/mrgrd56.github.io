@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.b8b775a2.css",
-    "main.js": "/static/js/main.ba372c1e.js",
+    "main.css": "/static/css/main.2c89b52c.css",
+    "main.js": "/static/js/main.f4db4b51.js",
     "static/js/684.03d622ae.chunk.js": "/static/js/684.03d622ae.chunk.js",
     "static/media/forkMeOnGitHub.svg": "/static/media/forkMeOnGitHub.090b71a21363c890bf744b2a27026b79.svg",
     "index.html": "/index.html",
@@ -9,12 +9,12 @@
     "static/media/telegram-logo-dark-2.svg": "/static/media/telegram-logo-dark-2.8ddae8aa7bdf8c8add9866b7cb7cb944.svg",
     "static/media/github-logo-dark.svg": "/static/media/github-logo-dark.019f034e2bdc968c41ab0f370a530a0d.svg",
     "static/media/react-logo.svg": "/static/media/react-logo.928f956d9c8ebcffb98a8e917154a81a.svg",
-    "main.b8b775a2.css.map": "/static/css/main.b8b775a2.css.map",
-    "main.ba372c1e.js.map": "/static/js/main.ba372c1e.js.map",
+    "main.2c89b52c.css.map": "/static/css/main.2c89b52c.css.map",
+    "main.f4db4b51.js.map": "/static/js/main.f4db4b51.js.map",
     "684.03d622ae.chunk.js.map": "/static/js/684.03d622ae.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b8b775a2.css",
-    "static/js/main.ba372c1e.js"
+    "static/css/main.2c89b52c.css",
+    "static/js/main.f4db4b51.js"
   ]
 }
