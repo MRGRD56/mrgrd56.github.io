@@ -46,6 +46,13 @@ const SettingsPage: FunctionComponent = () => {
                         Enable <ExternalLink href="https://github.com/liriliri/eruda">Eruda</ExternalLink>
                     </span>
                 </label>
+                <label>
+                    <Switch
+                        checked={appSettings.doShowHiddenMenuItems}
+                        onChange={handleAppSettingChange('doShowHiddenMenuItems')}
+                    />
+                    <span className="ms-3">Show hidden menu items</span>
+                </label>
             </Col>
         </PageContainer>
     );

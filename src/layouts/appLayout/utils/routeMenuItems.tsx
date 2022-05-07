@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { isArray } from 'lodash';
 import classNames from 'classnames';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
+import AppSettings from '../../../types/AppSettings';
 
 export const renderRoute = ({ route, title, icon, isGray }: MenuRouteItem): ItemType => {
     const { path } = route;
@@ -49,14 +50,22 @@ export const isSubMenuItem = (menuItem: MenuItem): menuItem is SubMenuItem => {
     return 'routes' in menuItem && isArray(menuItem.routes);
 };
 
-export const renderMenuItem = (menuItem: MenuItem, index: number): ItemType => {
+export const renderMenuItem = (menuItem: MenuItem, index: number, settings: AppSettings): ItemType => {
     if (isSubMenuItem(menuItem)) {
         return {
             key: index,
             icon: renderComponent(menuItem.icon),
             label: menuItem.title,
             children: menuItem.routes.length
-                ? menuItem.routes.map(renderMenuItem)
+                ? menuItem.routes
+                      .filter((item) => {
+                          if (settings.doShowHiddenMenuItems) {
+                              return true;
+                          }
+
+                          return !('route' in item) || !item.isGray;
+                      })
+                      .map((item, index) => renderMenuItem(item, index, settings))
                 : [
                       {
                           key: 'nothing',
@@ -70,4 +79,5 @@ export const renderMenuItem = (menuItem: MenuItem, index: number): ItemType => {
     return renderRoute(menuItem);
 };
 
-export const renderMenuItems = (menuItems: MenuItem[]) => menuItems.map(renderMenuItem);
+export const renderMenuItems = (menuItems: MenuItem[], settings: AppSettings) =>
+    menuItems.map((item, index) => renderMenuItem(item, index, settings));

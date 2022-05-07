@@ -6,7 +6,8 @@ import { useEffect, useMemo } from 'react';
 
 const initialState: AppSettings = {
     theme: SpecialAppTheme.AUTO,
-    isErudaEnabled: false
+    isErudaEnabled: false,
+    doShowHiddenMenuItems: false
 };
 
 export const useAppSettingsState = () => {

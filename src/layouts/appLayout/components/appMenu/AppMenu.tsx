@@ -1,11 +1,11 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useMemo } from 'react';
 import { Menu } from 'antd';
 import styles from './AppMenu.module.scss';
 import { renderMenuItems } from '../../utils/routeMenuItems';
 import menuItems from '../../../../constants/router/menuItems';
 import { useLocation } from 'react-router-dom';
-
-const renderedMenuItems = renderMenuItems(menuItems);
+import useAppSettings from '../../../../hooks/useAppSettings';
+import { ItemType } from 'antd/lib/menu/hooks/useItems';
 
 interface Props {
     onItemSelect?: () => void;
@@ -13,6 +13,11 @@ interface Props {
 
 const AppMenu: FunctionComponent<Props> = ({ onItemSelect }) => {
     const { pathname } = useLocation();
+    const appSettings = useAppSettings();
+
+    const renderedMenuItems = useMemo<ItemType[]>(() => {
+        return renderMenuItems(menuItems, appSettings);
+    }, [appSettings]);
 
     return (
         <Menu
