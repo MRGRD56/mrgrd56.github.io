@@ -1,8 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import PageContainer from '../../components/pageContainer/PageContainer';
-import { Alert, Button, Col, Popover, Row, Tooltip } from 'antd';
+import { Alert, Button, Popover, Tooltip } from 'antd';
 import styles from './JsonToTypeScriptPage.module.scss';
-import classNames from 'classnames';
 import AppEditor from '../../components/appEditor/AppEditor';
 import { editor } from 'monaco-editor';
 import { useDebouncedMemo } from '../../hooks/debouncedMemo';
@@ -25,6 +23,7 @@ import { camelCase, kebabCase, snakeCase } from 'lodash';
 import pascalCase from '../../utils/pascalCase';
 import JsonToTypeScriptSettings from './components/JsonToTypeScriptSettings';
 import screamingSnakeCase from '../../utils/screamingSnakeCase';
+import DoubleConverterPageContainer from '../../layouts/pages/doubleConverterPageContainer/DoubleConverterPageContainer';
 
 const jsonEditorOptions: editor.IStandaloneEditorConstructionOptions = {
     minimap: { enabled: false }
@@ -127,59 +126,58 @@ const JsonToTypeScriptPage = () => {
     );
 
     return (
-        <PageContainer noPadding className={styles.pageContainer}>
-            <Row className={styles.container}>
-                <Col xs={12} className={classNames(styles.col, styles.colLeft)}>
-                    <div className={styles.colHeader}>
-                        <h3 className={styles.colTitle}>JSON</h3>
-                        <Popover
-                            trigger="click"
-                            visible={isSettingsVisible}
-                            onVisibleChange={setIsSettingsVisible}
-                            content={
-                                <JsonToTypeScriptSettings
-                                    options={selectableConversionOptions}
-                                    setOptions={setSelectableConversionOptions}
-                                    onClose={handleSettingsClick}
-                                />
-                            }
-                            placement="bottomRight"
-                        >
-                            <Tooltip
-                                title="Settings"
-                                placement="bottomRight"
-                                visible={isSettingsVisible ? false : isSettingsTooltipVisible}
-                                onVisibleChange={handleSettingsTooltipVisibleChange}
-                            >
-                                <Button type="text" icon={<SettingOutlined />} onClick={handleSettingsClick} />
-                            </Tooltip>
-                        </Popover>
-                    </div>
-                    <AppEditor
-                        className={styles.editor}
-                        language="json"
-                        options={jsonEditorOptions}
-                        value={json}
-                        onChange={setJson}
-                    />
-                </Col>
-                <Col xs={12} className={classNames(styles.col, styles.colRight)}>
-                    <div className={styles.colHeader}>
-                        <h3 className={styles.colTitle}>TypeScript</h3>
-                        <Tooltip title="Copy" placement="bottomLeft">
-                            <CopyButton value={typeScript} type="text" children="" />
-                        </Tooltip>
-                    </div>
-                    <AppEditor
-                        className={styles.editor}
-                        language="typescript"
-                        options={typescriptEditorOptions}
-                        value={typeScript}
-                    />
-                </Col>
-                {error && <Alert className={styles.messageContainer} type="error" showIcon message={error} />}
-            </Row>
-        </PageContainer>
+        <DoubleConverterPageContainer
+            className={styles.pageContainer}
+            leftTitle="JSON"
+            leftExtra={
+                <Popover
+                    trigger="click"
+                    visible={isSettingsVisible}
+                    onVisibleChange={setIsSettingsVisible}
+                    content={
+                        <JsonToTypeScriptSettings
+                            options={selectableConversionOptions}
+                            setOptions={setSelectableConversionOptions}
+                            onClose={handleSettingsClick}
+                        />
+                    }
+                    placement="bottomRight"
+                >
+                    <Tooltip
+                        title="Settings"
+                        placement="bottomRight"
+                        visible={isSettingsVisible ? false : isSettingsTooltipVisible}
+                        onVisibleChange={handleSettingsTooltipVisibleChange}
+                    >
+                        <Button type="text" icon={<SettingOutlined />} onClick={handleSettingsClick} />
+                    </Tooltip>
+                </Popover>
+            }
+            left={
+                <AppEditor
+                    className={styles.editor}
+                    language="json"
+                    options={jsonEditorOptions}
+                    value={json}
+                    onChange={setJson}
+                />
+            }
+            rightTitle="TypeScript"
+            rightExtra={
+                <Tooltip title="Copy" placement="bottomLeft">
+                    <CopyButton value={typeScript} type="text" children="" />
+                </Tooltip>
+            }
+            right={
+                <AppEditor
+                    className={styles.editor}
+                    language="typescript"
+                    options={typescriptEditorOptions}
+                    value={typeScript}
+                />
+            }
+            extra={error && <Alert className={styles.messageContainer} type="error" showIcon message={error} />}
+        />
     );
 };
 

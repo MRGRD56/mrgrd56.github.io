@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useCallback, useMemo } from 'react';
-import PageContainer from '../../components/pageContainer/PageContainer';
+import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import { Button, Col, Modal, Select, Switch } from 'antd';
 import { useAppSettingsState } from '../../hooks/useAppSettings';
 import ExternalLink from '../../components/ExternalLink';

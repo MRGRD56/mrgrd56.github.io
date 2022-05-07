@@ -10,12 +10,13 @@ export enum PageTag {
     NOT_WORKING = 'NOT_WORKING'
 }
 
-interface Props extends Omit<SpaceProps, 'title'> {
+export interface PageContainerProps extends Omit<SpaceProps, 'title'> {
     title?: ReactNode;
     description?: ReactNode;
     titleExtra?: ReactNode;
     tags?: PageTag[];
     noPadding?: boolean;
+    noContentPadding?: boolean;
 }
 
 const getTagNodes = (key: number | string): Readonly<Record<PageTag, ReactNode>> => ({
@@ -33,13 +34,24 @@ const getTagNodes = (key: number | string): Readonly<Record<PageTag, ReactNode>>
 
 const renderTag = (tag: PageTag, index: number) => getTagNodes(index)[tag];
 
-const PageContainer: FunctionComponent<Props> = (props) => {
-    const { title, description, titleExtra, tags, noPadding, children, className, ...restProps } = props;
+const PageContainer: FunctionComponent<PageContainerProps> = (props) => {
+    const { title, description, titleExtra, tags, noPadding, noContentPadding, children, className, ...restProps } =
+        props;
 
     const renderedTags = useMemo(() => tags?.map(renderTag), [tags]);
 
     return (
-        <div className={classNames(styles.container, { [styles.noPadding]: noPadding }, className)} {...restProps}>
+        <div
+            className={classNames(
+                styles.container,
+                {
+                    [styles.noPadding]: noPadding,
+                    [styles.noContentPadding]: noContentPadding
+                },
+                className
+            )}
+            {...restProps}
+        >
             {tags?.length && <div>{renderedTags}</div>}
             {title && (
                 <Space direction="horizontal" size="middle" className={styles.headingContainer}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import PageContainer from '../../components/pageContainer/PageContainer';
+import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 
 const LongContentPage = () => {
     return (

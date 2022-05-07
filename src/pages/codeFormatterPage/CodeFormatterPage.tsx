@@ -1,15 +1,16 @@
 import React, { FunctionComponent, useCallback, useRef, useState } from 'react';
-import PageContainer from '../../components/pageContainer/PageContainer';
+import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import { OnMount } from '@monaco-editor/react';
-import { Button, Col, Row, Select } from 'antd';
+import { Button, Col, Row } from 'antd';
 import styles from './CodeFormatterPage.module.scss';
-import MonacoLanguage, { monacoLanguages } from '../../types/MonacoLanguage';
+import MonacoLanguage from '../../types/MonacoLanguage';
 import { useLocalstorageState } from 'rooks';
 import { editor, languages } from 'monaco-editor';
 import CopyButton from '../../components/copyButton/CopyButton';
 import formatCode from '../../utils/formatCode';
 import AppEditor from '../../components/appEditor/AppEditor';
 import getLocalStorageKey from '../../utils/getLocalStorageKey';
+import MonacoLanguageSelect from '../../components/MonacoLanguageSelect';
 
 // interface FormattedLanguage {
 //     prettierParser: prettier.BuiltInParserName,
@@ -81,19 +82,15 @@ const CodeFormatterPage: FunctionComponent = () => {
     }, []);
 
     return (
-        <PageContainer title="Code Formatter">
+        <PageContainer title="Code Formatter" className={styles.page} noContentPadding>
             <div className={styles.container}>
                 <Col className={styles.controlsContainer}>
                     <Row className={styles.formatContainer}>
-                        <Select
+                        <MonacoLanguageSelect
                             className={styles.languageSelect}
                             value={selectedLanguage}
                             onChange={setSelectedLanguage}
-                        >
-                            {monacoLanguages.map((language) => (
-                                <Select.Option key={language}>{language}</Select.Option>
-                            ))}
-                        </Select>
+                        />
                         <Button type="primary" className={styles.formatButton} onClick={handleFormatClick}>
                             Format
                         </Button>

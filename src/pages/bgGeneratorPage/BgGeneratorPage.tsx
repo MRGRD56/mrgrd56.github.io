@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 import styles from './BgGeneratorPage.module.scss';
-import PageContainer from '../../components/pageContainer/PageContainer';
+import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import ExternalLink from '../../components/ExternalLink';
 import { Button, Col, Image, InputNumber, Row, Space } from 'antd';
 import { Size } from '../../types';

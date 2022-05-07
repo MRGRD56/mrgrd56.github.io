@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useCallback, useState } from 'react';
-import PageContainer from '../../components/pageContainer/PageContainer';
+import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import { Button, Col, notification, Tooltip } from 'antd';
 import Text from 'antd/lib/typography/Text';
 import styles from './NotificationsTestPage.module.scss';

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import Paragraph from 'antd/lib/typography/Paragraph';
-import PageContainer, { PageTag } from '../../components/pageContainer/PageContainer';
+import PageContainer, { PageTag } from '../../layouts/pages/pageContainer/PageContainer';
 import { ReactComponent as ForkMeOnGitHub } from './assets/forkMeOnGitHub.svg';
 import styles from './RootPage.module.scss';
 import ExternalLink from '../../components/ExternalLink';

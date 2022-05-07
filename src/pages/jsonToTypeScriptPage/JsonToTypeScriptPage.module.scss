@@ -3,54 +3,9 @@
 .pageContainer {
     position: relative;
 
-    background-color: white;
-
-    @include themeDark {
-        background-color: rgb(30, 30, 30);
-    }
-
-    .container {
-        height: 100%;
-
-        .col {
-            border-width: 0;
-            border-style: solid;
-            @include borderColor;
-
-            display: flex;
-            flex-direction: column;
-
-            &.colLeft {
-                border-right-width: 1px;
-            }
-
-            &.colRight {
-            }
-
-            .colHeader {
-                min-height: 40px;
-                max-height: 40px;
-
-                padding: 3px 10px;
-                border-width: 0 0 1px 0;
-                border-style: solid;
-                @include borderColor;
-
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-
-                .colTitle {
-                    margin-bottom: 0;
-                }
-            }
-
-            .editor {
-                flex: 1;
-                height: 99%;
-            }
-        }
+    .editor {
+        flex: 1;
+        height: 99%;
     }
 
     .messageContainer {

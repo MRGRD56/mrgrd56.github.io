@@ -1,5 +1,5 @@
 import React from 'react';
-import PageContainer from '../../components/pageContainer/PageContainer';
+import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import { Col } from 'antd';
 import packageJson from '../../../package.json';
 import AppDependency from './components/AppDependency';

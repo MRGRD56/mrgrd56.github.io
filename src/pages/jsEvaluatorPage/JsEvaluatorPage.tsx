@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PageContainer from '../../components/pageContainer/PageContainer';
+import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import { Button, Col, notification, Row, Select, Spin, Tooltip } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import useInputState from '../../hooks/useInputState';
@@ -17,7 +17,6 @@ import CopyButton from '../../components/copyButton/CopyButton';
 import { BeforeMount } from '@monaco-editor/react';
 import { editor } from 'monaco-editor';
 import classNames from 'classnames';
-import useAppTheme from '../../hooks/useAppTheme';
 import AppEditor from '../../components/appEditor/AppEditor';
 
 interface ShowCountProps {
@@ -90,7 +89,7 @@ const JsEvaluatorPage = () => {
     };
 
     return (
-        <PageContainer title="JavaScript Evaluator">
+        <PageContainer title="JavaScript Evaluator" className={styles.container}>
             <Col>
                 <TextArea
                     rows={6}
@@ -98,7 +97,7 @@ const JsEvaluatorPage = () => {
                     showCount={textAreaShowCount}
                     value={value}
                     onChange={setValueByEvent}
-                    className={classNames('mb-3', styles.valueTextArea)}
+                    className={classNames('mb-3', styles.textarea)}
                     placeholder="$value"
                     id="$value-textarea"
                 />
@@ -154,7 +153,11 @@ const JsEvaluatorPage = () => {
                     <Spin spinning={isLoading} delay={10}>
                         {outputMode === OutputMode.TEXT && (
                             <Col>
-                                <TextArea className="font-monospace mb-2" readOnly value={evaluatedJs} />
+                                <TextArea
+                                    className={classNames('font-monospace mb-2', styles.textarea)}
+                                    readOnly
+                                    value={evaluatedJs}
+                                />
                                 <CopyButton value={evaluatedJs} />
                             </Col>
                         )}

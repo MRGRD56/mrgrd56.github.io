@@ -10,13 +10,13 @@ const pagesDirectoryPath = path.resolve(appRootPath, 'src/pages');
 const getTsxContent = (pageName: string): string => {
     return `
 import React, { FunctionComponent } from 'react';
-import PageContainer from '../../components/pageContainer/PageContainer';
+import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import styles from './${pageName}.module.scss';
 
 const ${pageName}: FunctionComponent = () => {
     return (
         <PageContainer title="${pageName}">
-
+            
         </PageContainer>
     );
 };

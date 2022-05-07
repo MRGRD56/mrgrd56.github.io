@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PageContainer from '../../components/pageContainer/PageContainer';
+import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import { Button, Col, Row, Space } from 'antd';
 import { v4 } from 'uuid';
 import Text from 'antd/lib/typography/Text';

@@ -1,0 +1,34 @@
+@import '../../../styles/main';
+
+.pageContainer {
+    @include monacoBackground;
+
+    .container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .titleContainer {
+            min-height: 40px;
+            max-height: 40px;
+            padding: 3px 10px;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+
+            border-width: 0 0 1px 0;
+            border-style: solid;
+            @include borderColor;
+
+            .title {
+                margin-bottom: 0;
+            }
+        }
+
+        .content {
+            flex: 1;
+        }
+    }
+}

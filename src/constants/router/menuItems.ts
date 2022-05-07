@@ -62,6 +62,9 @@ const menuItems: MenuItem[] = [
                 route: routes.notificationsTest
             },
             {
+                route: routes.imageCompressor
+            },
+            {
                 route: routes.dateUtils,
                 isGray: true
             },

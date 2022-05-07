@@ -1,5 +1,5 @@
 import React, { ClipboardEventHandler, useCallback, useEffect, useState } from 'react';
-import PageContainer from '../../components/pageContainer/PageContainer';
+import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import { Col, Image, notification, Row, Space, Spin, Upload } from 'antd';
 import './QrScannerPage.scss';
 import { RcFile, UploadChangeParam } from 'antd/lib/upload';
@@ -74,8 +74,17 @@ const QrScannerPage = () => {
 
         const blob = value.file.originFileObj;
 
+        console.log(value.file);
+
         if (blob) {
-            setQrImage(await getQrImage(blob));
+            const actualBlob =
+                blob.type === 'image/svg+xml' //ImgCrop converts svg to png but doesn't change the mime type
+                    ? blob.slice(0, blob.size, 'image/png')
+                    : blob;
+
+            console.log(actualBlob);
+
+            setQrImage(await getQrImage(actualBlob));
         }
 
         setIsLoading(false);

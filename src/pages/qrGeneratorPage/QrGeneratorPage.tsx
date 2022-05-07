@@ -1,15 +1,19 @@
-import React, { FunctionComponent, useRef, useState } from 'react';
-import PageContainer from '../../components/pageContainer/PageContainer';
-import { Col, Input, InputNumber, Switch } from 'antd';
+import React, { FunctionComponent, useCallback, useMemo, useRef } from 'react';
+import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
+import { Col, Input, InputNumber, Switch, Tabs } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import useInputState from '../../hooks/useInputState';
-import { QRCodeSVG } from 'qrcode.react';
+import { QRCodeCanvas, QRCodeSVG } from 'qrcode.react';
 import SvgImage from '../../components/svgImage/SvgImage';
 import styles from './QrGeneratorPage.module.scss';
 import classNames from 'classnames';
 import Text from 'antd/lib/typography/Text';
 import ExternalLink from '../../components/ExternalLink';
 import getNpmPackageLink from '../../utils/getNpmPackageLink';
+import { useLocalstorageState } from 'rooks';
+import useChangeStateHandler from '../../hooks/useChangeStateHandler';
+import getLocalStorageKey from '../../utils/getLocalStorageKey';
+import CanvasImage from '../../components/canvasImage/CanvasImage';
 
 const titleExtra = (
     <Text type="secondary">
@@ -17,14 +21,55 @@ const titleExtra = (
     </Text>
 );
 
+interface QrOptions {
+    size: number;
+    fgColor: string;
+    bgColor: string;
+    doIncludeMargin: boolean;
+}
+
+const qrOptionsDefault: QrOptions = {
+    size: 220,
+    fgColor: '#000000',
+    bgColor: '#ffffff',
+    doIncludeMargin: true
+};
+
+enum QrOutputFormat {
+    SVG_IMAGE = 'SVG_IMAGE',
+    PNG_IMAGE = 'PNG_IMAGE'
+}
+
 const QrGeneratorPage: FunctionComponent = () => {
     const qrCodeWrapperRef = useRef<HTMLDivElement>(null);
 
     const [text, , setTextByEvent] = useInputState<string>('');
-    const [size, setSize] = useState<number>(220);
-    const [fgColor, , setFgColorByEvent] = useInputState<string>('#000000');
-    const [bgColor, , setBgColorByEvent] = useInputState<string>('#ffffff');
-    const [doIncludeMargin, setDoIncludeMargin] = useInputState<boolean>(false);
+    const [qrOptions, setQrOptions] = useLocalstorageState<QrOptions>(
+        getLocalStorageKey('qr-generator', 'qrOptions'),
+        qrOptionsDefault
+    );
+    const [outputFormat, setOutputFormat] = useLocalstorageState<QrOutputFormat>(
+        getLocalStorageKey('qr-generator', 'outputFormat'),
+        QrOutputFormat.SVG_IMAGE
+    );
+
+    const handleQrOptionChange = useChangeStateHandler(setQrOptions);
+
+    const handleOutputFormatChange = useCallback((key: string) => {
+        setOutputFormat(key as QrOutputFormat);
+    }, []);
+
+    const qrProps = useMemo(
+        () => ({
+            value: text,
+            size: qrOptions.size,
+            fgColor: qrOptions.fgColor,
+            bgColor: qrOptions.bgColor,
+            includeMargin: qrOptions.doIncludeMargin,
+            level: undefined
+        }),
+        [text, qrOptions]
+    );
 
     return (
         <PageContainer title="QR Generator" titleExtra={titleExtra}>
@@ -32,31 +77,45 @@ const QrGeneratorPage: FunctionComponent = () => {
                 <TextArea value={text} onChange={setTextByEvent} placeholder="Input text" rows={3} allowClear />
                 <label className={classNames(styles.formItem, 'mt-2')}>
                     <div>Size</div>
-                    <InputNumber value={size} onChange={setSize} className={styles.numericInput} />
+                    <InputNumber
+                        value={qrOptions.size}
+                        onChange={handleQrOptionChange('size')}
+                        className={styles.numericInput}
+                    />
                 </label>
                 <label className={styles.formItem}>
                     <div>Foreground</div>
-                    <Input value={fgColor} onChange={setFgColorByEvent} className="font-monospace" />
+                    <Input
+                        value={qrOptions.fgColor}
+                        onChange={handleQrOptionChange('fgColor')}
+                        className="font-monospace"
+                    />
                 </label>
                 <label className={styles.formItem}>
                     <div>Background</div>
-                    <Input value={bgColor} onChange={setBgColorByEvent} className="font-monospace" />
+                    <Input
+                        value={qrOptions.bgColor}
+                        onChange={handleQrOptionChange('bgColor')}
+                        className="font-monospace"
+                    />
                 </label>
                 <label className={classNames(styles.formItem, styles.switchFormItem)}>
-                    <Switch checked={doIncludeMargin} onChange={setDoIncludeMargin} />
+                    <Switch checked={qrOptions.doIncludeMargin} onChange={handleQrOptionChange('doIncludeMargin')} />
                     <div>Margin</div>
                 </label>
                 <div ref={qrCodeWrapperRef} className={styles.qrCodeWrapper}>
-                    <SvgImage>
-                        <QRCodeSVG
-                            value={text}
-                            size={size}
-                            fgColor={fgColor}
-                            bgColor={bgColor}
-                            includeMargin={doIncludeMargin}
-                            level={undefined}
-                        />
-                    </SvgImage>
+                    <Tabs activeKey={outputFormat} onChange={handleOutputFormatChange}>
+                        <Tabs.TabPane tab="SVG" key={QrOutputFormat.SVG_IMAGE}>
+                            <SvgImage>
+                                <QRCodeSVG {...qrProps} />
+                            </SvgImage>
+                        </Tabs.TabPane>
+                        <Tabs.TabPane tab="PNG" key={QrOutputFormat.PNG_IMAGE}>
+                            <CanvasImage>
+                                <QRCodeCanvas {...qrProps} />
+                            </CanvasImage>
+                        </Tabs.TabPane>
+                    </Tabs>
                 </div>
             </Col>
         </PageContainer>

@@ -1,13 +1,15 @@
 .container {
-    width: 100%;
+    width: calc(100% - 15px);
     height: 100%;
-    padding: 8px 15px;
+    padding: 8px 0 8px 15px;
     display: flex;
     flex-direction: column;
     gap: 8px;
 
-    &.noPadding {
+    &.noPadding,
+    &.noContentPadding {
         padding: 0;
+        width: 100%;
     }
 
     .headingContainer {
@@ -17,5 +19,11 @@
 
     .contentContainer {
         flex: 1;
+    }
+
+    &.noContentPadding {
+        .headingContainer {
+            padding: 8px 15px 0;
+        }
     }
 }

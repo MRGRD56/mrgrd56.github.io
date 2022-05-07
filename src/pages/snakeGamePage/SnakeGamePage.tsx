@@ -1,5 +1,5 @@
 import React from 'react';
-import PageContainer, { PageTag } from '../../components/pageContainer/PageContainer';
+import PageContainer, { PageTag } from '../../layouts/pages/pageContainer/PageContainer';
 import SnakeGame from './components/snakeGame/SnakeGame';
 
 const tags = [PageTag.WIP];

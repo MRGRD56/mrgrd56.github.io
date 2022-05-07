@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import PageContainer from '../../components/pageContainer/PageContainer';
+import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import Text from 'antd/lib/typography/Text';
 import { Col, notification, Skeleton, Space, Tag, Tooltip } from 'antd';
 import styles from './UserInfoPage.module.scss';

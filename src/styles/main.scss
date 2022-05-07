@@ -61,3 +61,16 @@ $borderColorDark: #434343;
         border-color: $borderColorDark;
     }
 }
+
+$monacoBackgroundLight: white;
+$monacoBackgroundDark: rgb(30, 30, 30);
+
+@mixin monacoBackground {
+    background-color: $monacoBackgroundLight;
+
+    @include themeDark {
+        background-color: $monacoBackgroundDark;
+    }
+}
+
+$contentHeight: calc(100vh - 64px - 76px);

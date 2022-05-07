@@ -1,19 +1,23 @@
 @import '../../styles/main';
 
-.outputModeComboBox {
-    width: 100px;
-}
-
-.codeEditor {
-    border-radius: 2px;
-
-    border: 1px solid #d9d9d9;
-
-    @include themeDark {
-        border-color: rgb(67, 67, 67);
+.container {
+    .outputModeComboBox {
+        width: 100px;
     }
 
-    & * {
-        transition: none !important;
+    .textarea {
+        @include monacoBackground;
+    }
+
+    .codeEditor {
+        border-radius: 2px;
+
+        border: 1px solid;
+
+        @include borderColor;
+
+        & * {
+            transition: none !important;
+        }
     }
 }
