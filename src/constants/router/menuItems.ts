@@ -62,6 +62,9 @@ const menuItems: MenuItem[] = [
                 route: routes.notificationsTest
             },
             {
+                route: routes.htmlEditor
+            },
+            {
                 route: routes.imageCompressor,
                 isGray: true
             },

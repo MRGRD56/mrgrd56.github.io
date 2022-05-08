@@ -25,6 +25,7 @@ import JsonToTypeScriptPage from '../../pages/jsonToTypeScriptPage/JsonToTypeScr
 import NotificationsTestPage from '../../pages/notificationsTestPage/NotificationsTestPage';
 import DateUtilsPage from '../../pages/dateUtilsPage/DateUtilsPage';
 import ImageCompressorPage from '../../pages/imageCompressorPage/ImageCompressorPage';
+import HtmlEditorPage from '../../pages/htmlEditorPage/HtmlEditorPage';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
@@ -53,6 +54,7 @@ type AppRoutesMap = Readonly<{
     notificationsTest: AppRoute;
     dateUtils: AppRoute;
     imageCompressor: AppRoute;
+    htmlEditor: AppRoute;
     settings: AppRoute;
     about: AppRoute;
 }>;
@@ -157,6 +159,11 @@ export const routes: AppRoutesMap = {
         path: '/tools/image-compressor',
         component: ImageCompressorPage,
         title: 'Image Compressor'
+    },
+    htmlEditor: {
+        path: '/tools/html-editor',
+        component: HtmlEditorPage,
+        title: 'HTML Editor'
     },
     settings: {
         path: '/settings',

@@ -1,0 +1,60 @@
+@import '../../styles/main';
+
+.container {
+    @include monacoBackground;
+
+    .containerRow {
+        height: 100%;
+
+        .col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .leftCol {
+            border-right: 1px solid;
+            @include borderColor;
+
+            .editorTabs {
+                flex: 1;
+                display: flex;
+
+                & > *:last-child {
+                    display: flex;
+                }
+
+                .editorTab {
+                    flex: 1;
+                    display: flex;
+
+                    .editor {
+                        flex: 1;
+                    }
+                }
+
+                .tabTitleWrapper {
+                    height: 20px !important;
+                    width: 50px !important;
+
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+
+                    .tabTitle {
+                        font-size: 28px;
+                    }
+                }
+            }
+        }
+
+        .rightCol {
+            background: white;
+        }
+
+        .resultFrame {
+            flex: 1;
+            border: none;
+        }
+    }
+}
