@@ -53,6 +53,10 @@ const SettingsPage: FunctionComponent = () => {
                     />
                     <span className="ms-3">Show hidden menu items</span>
                 </label>
+                <label>
+                    <Switch checked={appSettings.isFooterHidden} onChange={handleAppSettingChange('isFooterHidden')} />
+                    <span className="ms-3">Hide the footer</span>
+                </label>
             </Col>
         </PageContainer>
     );

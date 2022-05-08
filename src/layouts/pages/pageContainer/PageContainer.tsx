@@ -11,6 +11,7 @@ export enum PageTag {
 }
 
 export interface PageContainerProps extends Omit<SpaceProps, 'title'> {
+    contentClassName?: string;
     title?: ReactNode;
     description?: ReactNode;
     titleExtra?: ReactNode;
@@ -35,8 +36,18 @@ const getTagNodes = (key: number | string): Readonly<Record<PageTag, ReactNode>>
 const renderTag = (tag: PageTag, index: number) => getTagNodes(index)[tag];
 
 const PageContainer: FunctionComponent<PageContainerProps> = (props) => {
-    const { title, description, titleExtra, tags, noPadding, noContentPadding, children, className, ...restProps } =
-        props;
+    const {
+        title,
+        description,
+        titleExtra,
+        tags,
+        noPadding,
+        noContentPadding,
+        children,
+        className,
+        contentClassName,
+        ...restProps
+    } = props;
 
     const renderedTags = useMemo(() => tags?.map(renderTag), [tags]);
 
@@ -61,7 +72,7 @@ const PageContainer: FunctionComponent<PageContainerProps> = (props) => {
             )}
             {description && <Paragraph>{description}</Paragraph>}
 
-            <div className={styles.contentContainer}>{children}</div>
+            <div className={classNames(styles.contentContainer, contentClassName)}>{children}</div>
         </div>
     );
 };

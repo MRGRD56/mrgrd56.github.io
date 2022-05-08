@@ -7,7 +7,8 @@ import { useEffect, useMemo } from 'react';
 const initialState: AppSettings = {
     theme: SpecialAppTheme.AUTO,
     isErudaEnabled: false,
-    doShowHiddenMenuItems: false
+    doShowHiddenMenuItems: false,
+    isFooterHidden: false
 };
 
 export const useAppSettingsState = () => {

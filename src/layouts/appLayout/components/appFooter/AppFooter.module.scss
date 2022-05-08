@@ -1,3 +1,5 @@
+@import '../../../../styles/main';
+
 .container {
     background: #212121 !important;
     color: white !important;
@@ -8,8 +10,29 @@
     align-items: center;
     gap: 16px;
 
+    padding-left: 26px;
+    padding-right: 26px;
+
+    justify-content: space-between;
+
+    @include mediaSM {
+        justify-content: flex-start;
+    }
+
+    @include mediaLG {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+
     .copyright {
         margin-right: 10px;
+    }
+
+    .socials {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 16px;
     }
 
     .link {
