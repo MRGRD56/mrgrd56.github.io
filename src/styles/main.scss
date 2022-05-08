@@ -74,3 +74,18 @@ $monacoBackgroundDark: rgb(30, 30, 30);
 }
 
 $contentHeight: calc(100vh - 64px - 76px);
+
+$primaryColorLight: #1890ff;
+$primaryColorDark: rgb(23, 125, 220);
+
+@mixin primaryColor {
+    color: $primaryColorLight;
+
+    @include themeDark {
+        color: $primaryColorDark;
+    }
+}
+
+.antd-text-primary {
+    @include primaryColor;
+}

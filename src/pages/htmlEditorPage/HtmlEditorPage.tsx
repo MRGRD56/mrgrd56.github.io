@@ -1,7 +1,7 @@
 import React, { CSSProperties, FunctionComponent, useCallback } from 'react';
 import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import styles from './HtmlEditorPage.module.scss';
-import { Col, Row, Tabs } from 'antd';
+import { Button, Col, Row, Tabs } from 'antd';
 import { useLocalstorageState } from 'rooks';
 import getLocalStorageKey from '../../utils/getLocalStorageKey';
 import useChangeStateHandler from '../../hooks/useChangeStateHandler';
@@ -14,6 +14,9 @@ import Javascript from '@mui/icons-material/Javascript';
 import { OnMount } from '@monaco-editor/react';
 import { emmetCSS, emmetHTML, emmetJSX } from 'emmet-monaco-es';
 import { editor } from 'monaco-editor';
+import ButtonGroup from 'antd/lib/button/button-group';
+import { VerticalSplit, ViewHeadline } from '@mui/icons-material';
+import useChangeValueStateHandler from '../../hooks/useChangeValueStateHandler';
 
 enum EditorTab {
     HTML = 'html',
@@ -58,6 +61,23 @@ const editorOptions: editor.IStandaloneEditorConstructionOptions = {
     minimap: { enabled: false }
 };
 
+enum ViewMode {
+    EDITOR = 'EDITOR',
+    SPLIT = 'SPLIT',
+    VIEW = 'VIEW'
+}
+
+// const viewModes: CheckboxOptionType[] = [
+//     {
+//         value: ViewMode.EDITOR,
+//         label: <ViewHeadline/>
+//     },
+//     {
+//         value: ViewMode.SPLIT,
+//         label: <VerticalSplit/>
+//     }
+// ];
+
 const HtmlEditorPage: FunctionComponent = () => {
     const [sources, setSources] = useLocalstorageState<EditorSources>(
         getLocalStorageKey('html-editor', 'sources'),
@@ -69,11 +89,18 @@ const HtmlEditorPage: FunctionComponent = () => {
         EditorTab.HTML
     );
 
+    const [viewMode, setViewMode] = useLocalstorageState<ViewMode>(
+        getLocalStorageKey('html-editor', 'viewMode'),
+        ViewMode.SPLIT
+    );
+
     const handleSourceChange = useChangeStateHandler(setSources);
 
     const handleEditorTabChange = useCallback((tab: string) => {
         setEditorTab(tab as EditorTab);
     }, []);
+
+    const handleViewModeChange = useChangeValueStateHandler(setViewMode);
 
     const resultSource = useDebouncedMemo(
         { sources },
@@ -99,16 +126,47 @@ ${sources.js}
         emmetJSX(monaco);
     }, []);
 
+    const leftColSpan = {
+        [ViewMode.EDITOR]: 24,
+        [ViewMode.SPLIT]: 12,
+        [ViewMode.VIEW]: 0
+    }[viewMode];
+
+    const rightColSpan = {
+        [ViewMode.EDITOR]: 0,
+        [ViewMode.SPLIT]: 12,
+        [ViewMode.VIEW]: 24
+    }[viewMode];
+
     return (
         <PageContainer noPadding className={styles.container}>
             <Row className={styles.containerRow}>
-                <Col span={12} className={classNames(styles.col, styles.leftCol)}>
+                <Col
+                    span={leftColSpan}
+                    className={classNames(styles.col, styles.leftCol, { 'd-none': viewMode === ViewMode.VIEW })}
+                >
                     <Tabs
                         activeKey={editorTab}
                         onChange={handleEditorTabChange}
                         tabBarStyle={tabBarStyle}
                         className={styles.editorTabs}
                         tabBarGutter={10}
+                        tabBarExtraContent={
+                            <ButtonGroup>
+                                <Button
+                                    type="text"
+                                    icon={<ViewHeadline />}
+                                    className={classNames({ 'antd-text-primary': viewMode === ViewMode.EDITOR })}
+                                    onClick={handleViewModeChange(ViewMode.EDITOR)}
+                                />
+                                <Button
+                                    type="text"
+                                    icon={<VerticalSplit />}
+                                    className={classNames({ 'antd-text-primary': viewMode === ViewMode.SPLIT })}
+                                    onClick={handleViewModeChange(ViewMode.SPLIT)}
+                                />
+                            </ButtonGroup>
+                        }
                     >
                         <Tabs.TabPane
                             tab={
@@ -166,7 +224,12 @@ ${sources.js}
                         </Tabs.TabPane>
                     </Tabs>
                 </Col>
-                <Col span={12} className={classNames('yui3-cssreset', styles.col, styles.rightCol)}>
+                <Col
+                    span={rightColSpan}
+                    className={classNames('yui3-cssreset', styles.col, styles.rightCol, {
+                        'd-none': viewMode === ViewMode.EDITOR
+                    })}
+                >
                     <iframe srcDoc={resultSource} className={styles.resultFrame} />
                 </Col>
             </Row>

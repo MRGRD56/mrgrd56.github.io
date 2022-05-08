@@ -9,6 +9,9 @@
         .col {
             display: flex;
             flex-direction: column;
+
+            transition-property: flex-basis;
+            transition-duration: 0.2s;
         }
 
         .leftCol {
