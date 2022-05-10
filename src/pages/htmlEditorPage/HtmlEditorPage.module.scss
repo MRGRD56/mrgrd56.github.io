@@ -5,6 +5,8 @@
 
     .containerRow {
         height: 100%;
+        display: flex;
+        flex-direction: row;
 
         .col {
             display: flex;
@@ -12,11 +14,17 @@
 
             transition-property: flex-basis;
             transition-duration: 0.2s;
+
+            &:only-child {
+                flex: 1;
+            }
         }
 
         .leftCol {
-            border-right: 1px solid;
-            @include borderColor;
+            &:not(:only-child) {
+                border-right: 1px solid;
+                @include borderColor;
+            }
 
             .editorTabs {
                 flex: 1;
@@ -58,6 +66,8 @@
         .resultFrame {
             flex: 1;
             border: none;
+            max-width: 100%;
+            overflow: auto;
         }
     }
 }
