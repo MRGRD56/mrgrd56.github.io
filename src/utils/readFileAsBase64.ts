@@ -1,8 +1,8 @@
-const readFileAsBase64 = (file: Blob): Promise<string> =>
-    new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.addEventListener('load', () => resolve(reader.result as string));
-        reader.readAsDataURL(file);
-    });
+import readFileAsDataUrl from './readFileAsDataUrl';
+
+const readFileAsBase64 = async (blob: Blob): Promise<string> => {
+    const dataUrl = await readFileAsDataUrl(blob);
+    return dataUrl.split('base64,')[1];
+};
 
 export default readFileAsBase64;

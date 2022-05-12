@@ -65,20 +65,27 @@ const menuItems: MenuItem[] = [
                 route: routes.htmlEditor
             },
             {
+                route: routes.dataUrl
+            },
+            {
+                route: routes.base64,
+                isHidden: true
+            },
+            {
                 route: routes.imageCompressor,
-                isGray: true
+                isHidden: true
             },
             {
                 route: routes.dateUtils,
-                isGray: true
+                isHidden: true
             },
             {
                 route: routes.templateTextGenerator,
-                isGray: true
+                isHidden: true
             },
             {
                 route: routes.unitConverter,
-                isGray: true
+                isHidden: true
             }
         ]
     },

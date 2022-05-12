@@ -15,6 +15,12 @@ const AppLayout: FunctionComponent = ({ children }) => {
 
     const isFooterShown = !isFooterHidden || appRoute === routes.root;
 
+    const isLayoutHidden = appRoute?.isLayoutHidden === true;
+
+    if (isLayoutHidden) {
+        return <>{children}</>;
+    }
+
     return (
         <Layout className={styles.container}>
             <AppHeader />

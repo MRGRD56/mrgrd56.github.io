@@ -26,11 +26,15 @@ import NotificationsTestPage from '../../pages/notificationsTestPage/Notificatio
 import DateUtilsPage from '../../pages/dateUtilsPage/DateUtilsPage';
 import ImageCompressorPage from '../../pages/imageCompressorPage/ImageCompressorPage';
 import HtmlEditorPage from '../../pages/htmlEditorPage/HtmlEditorPage';
+import Base64Page from '../../pages/base64Page/Base64Page';
+import DataUrlPage from '../../pages/dataUrlPage/DataUrlPage';
+import DataUrlViewPage from '../../pages/dataUrlViewPage/DataUrlViewPage';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
     component: ComponentType;
     title: string;
+    isLayoutHidden?: boolean;
 }
 
 type AppRoutesMap = Readonly<{
@@ -55,6 +59,9 @@ type AppRoutesMap = Readonly<{
     dateUtils: AppRoute;
     imageCompressor: AppRoute;
     htmlEditor: AppRoute;
+    base64: AppRoute;
+    dataUrl: AppRoute;
+    dataUrlView: AppRoute;
     settings: AppRoute;
     about: AppRoute;
 }>;
@@ -164,6 +171,22 @@ export const routes: AppRoutesMap = {
         path: '/tools/html-editor',
         component: HtmlEditorPage,
         title: 'HTML Editor'
+    },
+    base64: {
+        path: '/tools/base64',
+        component: Base64Page,
+        title: 'Base64 Tools'
+    },
+    dataUrl: {
+        path: '/tools/data-url',
+        component: DataUrlPage,
+        title: 'Data URL Generator'
+    },
+    dataUrlView: {
+        path: '/tools/data-url/view',
+        component: DataUrlViewPage,
+        title: 'Content View',
+        isLayoutHidden: true
     },
     settings: {
         path: '/settings',

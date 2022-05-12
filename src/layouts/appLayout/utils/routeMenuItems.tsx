@@ -7,14 +7,14 @@ import classNames from 'classnames';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
 import AppSettings from '../../../types/AppSettings';
 
-export const renderRoute = ({ route, title, icon, isGray }: MenuRouteItem): ItemType => {
+export const renderRoute = ({ route, title, icon, isHidden }: MenuRouteItem): ItemType => {
     const { path } = route;
 
     return {
         key: path,
         icon: renderComponent(icon),
         label: (
-            <Link to={path ?? ''} className={classNames({ 'opacity-50': isGray })}>
+            <Link to={path ?? ''} className={classNames({ 'opacity-50': isHidden })}>
                 {title ?? route.title}
             </Link>
         )
@@ -36,7 +36,7 @@ interface MenuItemBase {
 export interface MenuRouteItem extends MenuItemBase {
     title?: string;
     route: AppRoute;
-    isGray?: boolean;
+    isHidden?: boolean;
 }
 
 export interface SubMenuItem extends MenuItemBase {
@@ -63,7 +63,7 @@ export const renderMenuItem = (menuItem: MenuItem, index: number, settings: AppS
                               return true;
                           }
 
-                          return !('route' in item) || !item.isGray;
+                          return !('route' in item) || !item.isHidden;
                       })
                       .map((item, index) => renderMenuItem(item, index, settings))
                 : [

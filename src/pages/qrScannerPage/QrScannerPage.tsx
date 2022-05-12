@@ -6,7 +6,6 @@ import { RcFile, UploadChangeParam } from 'antd/lib/upload';
 import { UploadFile } from 'antd/lib/upload/interface';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import dummyAntdUploadRequest from '../../utils/dummyAntdUploadRequest';
-import readFileAsBase64 from '../../utils/readFileAsBase64';
 import TextArea from 'antd/lib/input/TextArea';
 import QrScanner from 'qr-scanner';
 import { isNil, isString } from 'lodash';
@@ -16,6 +15,7 @@ import ImgCrop from 'antd-img-crop';
 import CopyButton from '../../components/copyButton/CopyButton';
 import ExternalLink from '../../components/ExternalLink';
 import getNpmPackageLink from '../../utils/getNpmPackageLink';
+import readFileAsDataUrl from '../../utils/readFileAsDataUrl';
 
 interface QrImage {
     blob: Blob;
@@ -23,7 +23,7 @@ interface QrImage {
 }
 
 const getQrImage = async (blob: Blob): Promise<QrImage> => {
-    const base64 = await readFileAsBase64(blob);
+    const base64 = await readFileAsDataUrl(blob);
     return { blob, base64 };
 };
 

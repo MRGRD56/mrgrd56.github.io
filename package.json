@@ -19,6 +19,7 @@
         "classnames": "^2.3.1",
         "emmet-monaco-es": "^5.1.0",
         "immer": "^9.0.12",
+        "js-base64": "^3.7.2",
         "konva": "^8.3.5",
         "lodash": "^4.17.21",
         "moment": "^2.29.1",

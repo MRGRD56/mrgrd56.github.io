@@ -1,8 +1,8 @@
 import promisifyFileReaderMethod from './helper/promisifyFileReaderMethod';
 
-const readFileText = (blob: Blob) =>
+const readFileAsDataUrl = (blob: Blob) =>
     promisifyFileReaderMethod<string>((reader) => {
-        reader.readAsText(blob);
+        reader.readAsDataURL(blob);
     });
 
-export default readFileText;
+export default readFileAsDataUrl;
