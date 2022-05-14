@@ -17,8 +17,6 @@ const convertSvgToPng = async (svgBlob: Blob): Promise<Blob> => {
 
     const svgString = await svgBlob.text();
 
-    console.log('SVGSTRING', svgString);
-
     const canvg = Canvg.fromString(canvasContext, svgString);
     await canvg.render();
 

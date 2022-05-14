@@ -1,9 +1,18 @@
 import { createContext, Dispatch, SetStateAction } from 'react';
 
-export interface RouteContextType {
+export interface RouteContextState {
     title: string;
 }
 
-const RouteContext = createContext<[RouteContextType, Dispatch<SetStateAction<RouteContextType>>]>([] as any);
+export interface RouteContextMeta {
+    isInitialized: boolean;
+}
+
+export interface RouteContextType {
+    state: [RouteContextState, Dispatch<SetStateAction<RouteContextState>>];
+    meta: [RouteContextMeta, Dispatch<SetStateAction<RouteContextMeta>>];
+}
+
+const RouteContext = createContext<RouteContextType>({} as any);
 
 export default RouteContext;

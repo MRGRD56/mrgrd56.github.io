@@ -28,7 +28,7 @@ import HtmlEditorPage from '../../pages/htmlEditorPage/HtmlEditorPage';
 import Base64Page from '../../pages/base64Page/Base64Page';
 import DataUrlPage from '../../pages/dataUrlPage/DataUrlPage';
 import DataUrlViewPage from '../../pages/dataUrlViewPage/DataUrlViewPage';
-import RouteWrapper from '../../layouts/RouteWrapper';
+import RouteContextInitializer from '../../layouts/RouteContextInitializer';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
@@ -202,7 +202,11 @@ export const routes: AppRoutesMap = {
 
 export const convertAppRoute = ({ component, title, ...route }: AppRoute): RouteProps => ({
     ...route,
-    element: <RouteWrapper title={title}>{renderComponent(component)}</RouteWrapper>
+    element: (
+        <RouteContextInitializer title={title} key={route.path}>
+            {renderComponent(component)}
+        </RouteContextInitializer>
+    )
 });
 
 export const appRoutesList: AppRoute[] = values(routes);
