@@ -11,7 +11,6 @@ import QrScannerPage from '../../pages/qrScannerPage/QrScannerPage';
 import BgGeneratorPage from '../../pages/bgGeneratorPage/BgGeneratorPage';
 import JsEvaluatorPage from '../../pages/jsEvaluatorPage/JsEvaluatorPage';
 import UserInfoPage from '../../pages/userInfoPage/UserInfoPage';
-import RouteWrapper from '../../layouts/RouteWrapper';
 import NotFoundPage from '../../pages/notFoundPage/NotFoundPage';
 import UnitConverterPage from '../../pages/unitConverterPage/UnitConverterPage';
 import SnakeGamePage from '../../pages/snakeGamePage/SnakeGamePage';
@@ -29,6 +28,7 @@ import HtmlEditorPage from '../../pages/htmlEditorPage/HtmlEditorPage';
 import Base64Page from '../../pages/base64Page/Base64Page';
 import DataUrlPage from '../../pages/dataUrlPage/DataUrlPage';
 import DataUrlViewPage from '../../pages/dataUrlViewPage/DataUrlViewPage';
+import RouteWrapper from '../../layouts/RouteWrapper';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;

@@ -1,3 +1,5 @@
+@import '../../styles/main';
+
 .container {
     display: flex;
     flex-direction: column;
@@ -11,7 +13,11 @@
 
     .label {
         margin-top: 4px;
-        width: 120px;
+
+        width: 100px;
+        @include mediaSM {
+            width: 120px;
+        }
     }
 
     .input {
@@ -27,4 +33,9 @@
     .label {
         margin-bottom: 6px;
     }
+}
+
+.copyButton {
+    align-self: flex-start;
+    margin-top: -22px;
 }

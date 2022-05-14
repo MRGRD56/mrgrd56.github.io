@@ -1,9 +1,10 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import useQuery from '../../hooks/useQuery';
 import styles from './DataUrlViewPage.module.scss';
 import { Navigate } from 'react-router-dom';
 import { routes } from '../../constants/router/routes';
-import RouteWrapper from '../../layouts/RouteWrapper';
+import useRouteContext from '../../hooks/useRouteContext';
+import useStateProducer from '../../hooks/useStateProducer';
 
 export interface DataUrlViewPageQueryParams {
     data?: string;
@@ -12,18 +13,24 @@ export interface DataUrlViewPageQueryParams {
 
 const DataUrlViewPage: FunctionComponent = () => {
     const { data, title } = useQuery<DataUrlViewPageQueryParams>();
+    const [, setRouteContext] = useRouteContext();
+
+    const produceRouteContext = useStateProducer(setRouteContext);
 
     if (!data) {
         return <Navigate to={routes.dataUrl.path} />;
     }
 
+    useEffect(() => {
+        produceRouteContext((routeContext) => {
+            routeContext.title = title ?? routes.dataUrlView.title;
+        });
+    }, [title]);
+
     return (
-        //FIXME title is not displayed
-        <RouteWrapper title={title ?? routes.dataUrlView.title}>
-            <div className={styles.container}>
-                <iframe className={styles.iframe} src={data} />
-            </div>
-        </RouteWrapper>
+        <div className={styles.container}>
+            <iframe className={styles.iframe} src={data} />
+        </div>
     );
 };
 

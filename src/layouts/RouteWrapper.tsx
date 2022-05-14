@@ -1,17 +1,15 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useState } from 'react';
+import RouteContext, { RouteContextType } from '../context/RouteContext';
+import RouteContextConsumer from './RouteContextConsumer';
 
-interface Props {
-    title: string;
-}
+const RouteWrapper: FunctionComponent<RouteContextType> = ({ children, ...contextValue }) => {
+    const contextState = useState(contextValue);
 
-const RouteWrapper: FunctionComponent<Props> = ({ title, children }) => {
-    useEffect(() => {
-        if (title) {
-            document.title = title;
-        }
-    }, [title]);
-
-    return <>{children}</>;
+    return (
+        <RouteContext.Provider value={contextState}>
+            <RouteContextConsumer>{children}</RouteContextConsumer>
+        </RouteContext.Provider>
+    );
 };
 
 export default RouteWrapper;
