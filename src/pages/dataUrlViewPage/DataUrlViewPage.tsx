@@ -3,8 +3,7 @@ import useQuery from '../../hooks/useQuery';
 import styles from './DataUrlViewPage.module.scss';
 import { Navigate } from 'react-router-dom';
 import { routes } from '../../constants/router/routes';
-import useRouteContextEffect from '../../hooks/useRouteContextEffect';
-import produceState from '../../utils/produceState';
+import useTitle from '../../hooks/useTitle';
 
 export interface DataUrlViewPageQueryParams {
     data?: string;
@@ -18,14 +17,7 @@ const DataUrlViewPage: FunctionComponent = () => {
         return <Navigate to={routes.dataUrl.path} />;
     }
 
-    useRouteContextEffect(
-        (setRouteContentState) => {
-            produceState(setRouteContentState, (context) => {
-                context.title = title ?? routes.dataUrlView.title;
-            });
-        },
-        [title]
-    );
+    useTitle(title ?? routes.dataUrlView.title);
 
     return (
         <div className={styles.container}>

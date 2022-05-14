@@ -1,7 +1,6 @@
 import React, { CSSProperties, FunctionComponent, useCallback } from 'react';
-import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import styles from './HtmlEditorPage.module.scss';
-import { Button, Col, Row, Tabs } from 'antd';
+import { Button, Col, Row, Select, Space, Tabs, Tooltip } from 'antd';
 import { useLocalstorageState } from 'rooks';
 import getLocalStorageKey from '../../utils/getLocalStorageKey';
 import useChangeStateHandler from '../../hooks/useChangeStateHandler';
@@ -15,15 +14,22 @@ import { OnMount } from '@monaco-editor/react';
 import { emmetCSS, emmetHTML, emmetJSX } from 'emmet-monaco-es';
 import { editor } from 'monaco-editor';
 import ButtonGroup from 'antd/lib/button/button-group';
-import { VerticalSplit, ViewHeadline } from '@mui/icons-material';
+import { Code, VerticalSplit, ViewHeadline, Visibility } from '@mui/icons-material';
 import useChangeValueStateHandler from '../../hooks/useChangeValueStateHandler';
 import Split from 'react-split';
 import './HtmlEditorPage.scss';
+import SingleConverterPageContainer from '../../layouts/pages/singleConverterPageContainer/SingleConverterPageContainer';
+import { EditOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
 
 enum EditorTab {
     HTML = 'html',
     CSS = 'css',
     JS = 'js'
+}
+
+enum ViewTab {
+    PREVIEW = 'PREVIEW',
+    SOURCE = 'SOURCE'
 }
 
 type EditorSources = Record<EditorTab, string>;
@@ -60,7 +66,13 @@ const tabBarStyle: CSSProperties = {
 };
 
 const editorOptions: editor.IStandaloneEditorConstructionOptions = {
-    minimap: { enabled: false }
+    minimap: { enabled: false },
+    automaticLayout: false
+};
+
+const resultEditorOptions: editor.IStandaloneEditorConstructionOptions = {
+    ...editorOptions,
+    readOnly: true
 };
 
 enum ViewMode {
@@ -91,6 +103,11 @@ const HtmlEditorPage: FunctionComponent = () => {
         EditorTab.HTML
     );
 
+    const [viewTab, setViewTab] = useLocalstorageState<ViewTab>(
+        getLocalStorageKey('html-editor', 'viewTab'),
+        ViewTab.PREVIEW
+    );
+
     const [viewMode, setViewMode] = useLocalstorageState<ViewMode>(
         getLocalStorageKey('html-editor', 'viewMode'),
         ViewMode.SPLIT
@@ -102,21 +119,19 @@ const HtmlEditorPage: FunctionComponent = () => {
         setEditorTab(tab as EditorTab);
     }, []);
 
+    const handleViewTabChange = useCallback((tab: string) => {
+        setViewTab(tab as ViewTab);
+    }, []);
+
     const handleViewModeChange = useChangeValueStateHandler(setViewMode);
 
     const resultSource = useDebouncedMemo(
         { sources },
         ({ sources }) => {
-            return `
-<style>
-${sources.css}
-</style>
+            const cssPart = sources.css.trim() ? `<style>\n${sources.css.trim()}\n</style>` : '';
+            const jsPart = sources.js.trim() ? `<script>\n${sources.js.trim()}\n</script>` : '';
 
-${sources.html}
-
-<script>
-${sources.js}
-</script>`.trim();
+            return [cssPart, sources.html, jsPart].filter(Boolean).join('\n\n');
         },
         [sources],
         50
@@ -126,6 +141,8 @@ ${sources.js}
         emmetHTML(monaco);
         emmetCSS(monaco);
         emmetJSX(monaco);
+
+        editor.layout();
     }, []);
 
     // const leftColSpan = {
@@ -148,22 +165,6 @@ ${sources.js}
                 tabBarStyle={tabBarStyle}
                 className={styles.editorTabs}
                 tabBarGutter={10}
-                tabBarExtraContent={
-                    <ButtonGroup>
-                        <Button
-                            type="text"
-                            icon={<ViewHeadline />}
-                            className={classNames({ 'antd-text-primary': viewMode === ViewMode.EDITOR })}
-                            onClick={handleViewModeChange(ViewMode.EDITOR)}
-                        />
-                        <Button
-                            type="text"
-                            icon={<VerticalSplit />}
-                            className={classNames({ 'antd-text-primary': viewMode === ViewMode.SPLIT })}
-                            onClick={handleViewModeChange(ViewMode.SPLIT)}
-                        />
-                    </ButtonGroup>
-                }
             >
                 <Tabs.TabPane
                     tab={
@@ -225,16 +226,83 @@ ${sources.js}
 
     const rightCol = (
         <Col
-            className={classNames('yui3-cssreset', styles.col, styles.rightCol, {
+            className={classNames(styles.col, styles.rightCol, {
                 'd-none': viewMode === ViewMode.EDITOR
             })}
         >
-            <iframe srcDoc={resultSource} className={styles.resultFrame} />
+            <Tabs
+                activeKey={viewTab}
+                onChange={handleViewTabChange}
+                tabBarStyle={tabBarStyle}
+                className={styles.editorTabs}
+                tabBarGutter={10}
+            >
+                <Tabs.TabPane
+                    key={ViewTab.PREVIEW}
+                    tab={
+                        <div className={styles.tabTitleWrapper}>
+                            <Visibility className={styles.tabTitle} />
+                        </div>
+                    }
+                    className={styles.editorTab}
+                >
+                    <iframe srcDoc={resultSource} className={styles.resultFrame} />
+                </Tabs.TabPane>
+                <Tabs.TabPane
+                    key={ViewTab.SOURCE}
+                    tab={
+                        <div className={styles.tabTitleWrapper}>
+                            <Code className={styles.tabTitle} />
+                        </div>
+                    }
+                    className={styles.editorTab}
+                >
+                    <AppEditor
+                        value={resultSource}
+                        className={styles.editor}
+                        language="html"
+                        options={resultEditorOptions}
+                    />
+                </Tabs.TabPane>
+            </Tabs>
         </Col>
     );
 
+    const titleExtra = (
+        <div className={styles.titleExtra}>
+            <Space>
+                <Select></Select>
+                <ButtonGroup>
+                    <Tooltip title="Edit" placement="bottom">
+                        <Button icon={<EditOutlined />} />
+                    </Tooltip>
+                    <Tooltip title="Delete" placement="bottom">
+                        <Button icon={<MinusOutlined />} />
+                    </Tooltip>
+                    <Tooltip title="Add" placement="bottom">
+                        <Button icon={<PlusOutlined />} />
+                    </Tooltip>
+                </ButtonGroup>
+            </Space>
+            <ButtonGroup>
+                <Button
+                    type="text"
+                    icon={<ViewHeadline />}
+                    className={classNames({ 'antd-text-primary': viewMode === ViewMode.EDITOR })}
+                    onClick={handleViewModeChange(ViewMode.EDITOR)}
+                />
+                <Button
+                    type="text"
+                    icon={<VerticalSplit />}
+                    className={classNames({ 'antd-text-primary': viewMode === ViewMode.SPLIT })}
+                    onClick={handleViewModeChange(ViewMode.SPLIT)}
+                />
+            </ButtonGroup>
+        </div>
+    );
+
     return (
-        <PageContainer noPadding className={styles.container}>
+        <SingleConverterPageContainer className={styles.container} title="HTML Editor" titleExtra={titleExtra}>
             {viewMode === ViewMode.SPLIT ? (
                 <Split className={styles.containerRow} direction="horizontal" minSize={0} snapOffset={25}>
                     {leftCol}
@@ -246,7 +314,7 @@ ${sources.js}
                     {viewMode === ViewMode.VIEW && rightCol}
                 </Row>
             )}
-        </PageContainer>
+        </SingleConverterPageContainer>
     );
 };
 
