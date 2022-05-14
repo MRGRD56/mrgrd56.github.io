@@ -36,6 +36,7 @@
         "react-dom": "^18.0.0",
         "react-konva": "^18.0.0-0",
         "react-redux": "^7.2.6",
+        "react-resize-detector": "^7.0.0",
         "react-router-dom": "^6.2.2",
         "react-scripts": "5.0.0",
         "react-split": "^2.0.14",
