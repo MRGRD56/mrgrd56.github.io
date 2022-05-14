@@ -4,6 +4,7 @@ import styles from './DataUrlViewPage.module.scss';
 import { Navigate } from 'react-router-dom';
 import { routes } from '../../constants/router/routes';
 import useRouteContextEffect from '../../hooks/useRouteContextEffect';
+import produceState from '../../utils/produceState';
 
 export interface DataUrlViewPageQueryParams {
     data?: string;
@@ -19,12 +20,9 @@ const DataUrlViewPage: FunctionComponent = () => {
 
     useRouteContextEffect(
         (setRouteContentState) => {
-            const newTitle = title ?? routes.dataUrlView.title;
-
-            setRouteContentState((context) => ({
-                ...context,
-                title: newTitle
-            }));
+            produceState(setRouteContentState, (context) => {
+                context.title = title ?? routes.dataUrlView.title;
+            });
         },
         [title]
     );
