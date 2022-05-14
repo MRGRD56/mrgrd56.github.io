@@ -8,17 +8,23 @@ import { HashRouter } from 'react-router-dom';
 import ErudaLayout from './layouts/ErudaLayout';
 import ThemeProvider from './layouts/ThemeProvider';
 import AppLoadingLayout from './layouts/appLoadingLayout/AppLoadingLayout';
+import RouteContextProvider from './layouts/RouteContextProvider';
+import RouteContextConsumer from './layouts/RouteContextConsumer';
 
 const App: FunctionComponent = () => (
     <ThemeProvider>
         <ErudaLayout>
             <AppLoadingLayout>
                 <Provider store={store}>
-                    <HashRouter>
-                        <AppLayout>
-                            <AppRouter />
-                        </AppLayout>
-                    </HashRouter>
+                    <RouteContextProvider>
+                        <RouteContextConsumer>
+                            <HashRouter>
+                                <AppLayout>
+                                    <AppRouter />
+                                </AppLayout>
+                            </HashRouter>
+                        </RouteContextConsumer>
+                    </RouteContextProvider>
                 </Provider>
             </AppLoadingLayout>
         </ErudaLayout>

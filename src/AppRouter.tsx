@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { routesList } from './constants/router/routes';
 import NotFoundPage from './pages/notFoundPage/NotFoundPage';
-import RouteWrapper from './layouts/RouteWrapper';
+import RouteContextInitializer from './layouts/RouteContextInitializer';
 
 const AppRouter = () => (
     <Routes>
@@ -13,9 +13,9 @@ const AppRouter = () => (
         <Route
             path="*"
             element={
-                <RouteWrapper title="Not Found">
+                <RouteContextInitializer title="Not Found" key="@NOT_FOUND">
                     <NotFoundPage />
-                </RouteWrapper>
+                </RouteContextInitializer>
             }
         />
     </Routes>

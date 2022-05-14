@@ -74,15 +74,11 @@ const QrScannerPage = () => {
 
         const blob = value.file.originFileObj;
 
-        console.log(value.file);
-
         if (blob) {
             const actualBlob =
                 blob.type === 'image/svg+xml' //ImgCrop converts svg to png but doesn't change the mime type
                     ? blob.slice(0, blob.size, 'image/png')
                     : blob;
-
-            console.log(actualBlob);
 
             setQrImage(await getQrImage(actualBlob));
         }

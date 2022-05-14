@@ -1,10 +1,9 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
 import useQuery from '../../hooks/useQuery';
 import styles from './DataUrlViewPage.module.scss';
 import { Navigate } from 'react-router-dom';
 import { routes } from '../../constants/router/routes';
-import useRouteContext from '../../hooks/useRouteContext';
-import useStateProducer from '../../hooks/useStateProducer';
+import useRouteContextEffect from '../../hooks/useRouteContextEffect';
 
 export interface DataUrlViewPageQueryParams {
     data?: string;
@@ -13,19 +12,22 @@ export interface DataUrlViewPageQueryParams {
 
 const DataUrlViewPage: FunctionComponent = () => {
     const { data, title } = useQuery<DataUrlViewPageQueryParams>();
-    const [, setRouteContext] = useRouteContext();
-
-    const produceRouteContext = useStateProducer(setRouteContext);
 
     if (!data) {
         return <Navigate to={routes.dataUrl.path} />;
     }
 
-    useEffect(() => {
-        produceRouteContext((routeContext) => {
-            routeContext.title = title ?? routes.dataUrlView.title;
-        });
-    }, [title]);
+    useRouteContextEffect(
+        (setRouteContentState) => {
+            const newTitle = title ?? routes.dataUrlView.title;
+
+            setRouteContentState((context) => ({
+                ...context,
+                title: newTitle
+            }));
+        },
+        [title]
+    );
 
     return (
         <div className={styles.container}>

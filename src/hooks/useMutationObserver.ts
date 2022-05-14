@@ -24,7 +24,6 @@ const useMutationObserver = (
         }
 
         observerRef.current = new MutationObserver((mutations, observer1) => {
-            console.log('OBSERVER');
             memoizedCallback(mutations, observer1);
         });
         observerRef.current.observe(current, options);

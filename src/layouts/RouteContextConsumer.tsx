@@ -1,8 +1,10 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import useRouteContext from '../hooks/useRouteContext';
+import { useRouteContextState } from '../hooks/useRouteContext';
 
 const RouteContextConsumer: FunctionComponent = ({ children }) => {
-    const [{ title }] = useRouteContext();
+    const [routeContext] = useRouteContextState();
+
+    const { title } = routeContext;
 
     useEffect(() => {
         if (title) {
