@@ -1,11 +1,7 @@
 import { ChangeEvent, Dispatch, SetStateAction, useCallback } from 'react';
 import call from '../utils/call';
-import { isObjectLike } from 'lodash';
 import useChangeState from './useChangeState';
-
-const isChangeEvent = (value: any): value is ChangeEvent<unknown> => {
-    return isObjectLike(value) && 'target' in value;
-};
+import { isChangeEvent } from './useChangeAnyStateHandler';
 
 const useChangeStateHandler = <S extends object>(setState: Dispatch<SetStateAction<S>>) => {
     const changeState = useChangeState(setState);

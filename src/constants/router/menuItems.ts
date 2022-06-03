@@ -68,15 +68,14 @@ const menuItems: MenuItem[] = [
                 route: routes.dataUrl
             },
             {
+                route: routes.dateUtils
+            },
+            {
                 route: routes.base64,
                 isHidden: true
             },
             {
                 route: routes.imageCompressor,
-                isHidden: true
-            },
-            {
-                route: routes.dateUtils,
                 isHidden: true
             },
             {
