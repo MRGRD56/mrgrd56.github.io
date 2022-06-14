@@ -4,6 +4,7 @@
     position: absolute;
     right: 0;
     opacity: 0.2;
+    z-index: 999;
 
     @include mediaSM {
         opacity: 1;
