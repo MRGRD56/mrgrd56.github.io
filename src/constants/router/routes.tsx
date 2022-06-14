@@ -29,6 +29,7 @@ import Base64Page from '../../pages/base64Page/Base64Page';
 import DataUrlPage from '../../pages/dataUrlPage/DataUrlPage';
 import DataUrlViewPage from '../../pages/dataUrlViewPage/DataUrlViewPage';
 import RouteContextInitializer from '../../layouts/RouteContextInitializer';
+import JsonToYamlPage from '../../pages/jsonToYamlPage/JsonToYamlPage';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
@@ -57,6 +58,7 @@ type AppRoutesMap = Readonly<{
     jsonToTypescript: AppRoute;
     notificationsTest: AppRoute;
     dateUtils: AppRoute;
+    jsonToYaml: AppRoute;
     imageCompressor: AppRoute;
     htmlEditor: AppRoute;
     base64: AppRoute;
@@ -161,6 +163,11 @@ export const routes: AppRoutesMap = {
         path: '/tools/date-utils',
         component: DateUtilsPage,
         title: 'Date Utils'
+    },
+    jsonToYaml: {
+        path: '/tools/json-to-yaml',
+        component: JsonToYamlPage,
+        title: 'JSON to YAML'
     },
     imageCompressor: {
         path: '/tools/image-compressor',
