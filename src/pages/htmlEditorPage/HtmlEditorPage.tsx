@@ -15,7 +15,7 @@ import { OnMount } from '@monaco-editor/react';
 import { emmetCSS, emmetHTML, emmetJSX } from 'emmet-monaco-es';
 import { editor } from 'monaco-editor';
 import ButtonGroup from 'antd/lib/button/button-group';
-import { Code, CodeOff, VerticalSplit, ViewHeadline } from '@mui/icons-material';
+import { Code, VerticalSplit, ViewHeadline } from '@mui/icons-material';
 import useChangeValueStateHandler from '../../hooks/useChangeValueStateHandler';
 import Split from 'react-split';
 import './HtmlEditorPage.scss';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { routesList } from './constants/router/routes';
 import NotFoundPage from './pages/notFoundPage/NotFoundPage';
 import RouteContextInitializer from './layouts/RouteContextInitializer';

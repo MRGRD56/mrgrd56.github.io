@@ -1,7 +1,6 @@
-import React, { ChangeEventHandler, FunctionComponent, useCallback, useEffect, useState } from 'react';
+import React, { ChangeEventHandler, FunctionComponent } from 'react';
 import { VariableValuesRaw } from '../../types/VariableValues';
-import { Col, Input, Row, Space } from 'antd';
-import TagsInput from '../../../../components/tagsInput/TagsInput';
+import { Col, Input, Row } from 'antd';
 import useInputState from '../../../../hooks/useInputState';
 
 interface Props {

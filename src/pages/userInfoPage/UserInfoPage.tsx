@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import Text from 'antd/lib/typography/Text';
-import { Button, Col, notification, Row, Skeleton, Space, Tag, Tooltip } from 'antd';
+import { Button, Col, notification, Skeleton, Space, Tag, Tooltip } from 'antd';
 import styles from './UserInfoPage.module.scss';
 import useAsync from '../../hooks/useAsync';
 import getUserInfo from '../../actions/ipapi.co/api/getUserInfo';
