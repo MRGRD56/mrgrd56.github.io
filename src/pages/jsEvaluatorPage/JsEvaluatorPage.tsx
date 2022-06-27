@@ -10,7 +10,6 @@ import _, { isObjectLike } from 'lodash';
 import axios from 'axios';
 import Text from 'antd/lib/typography/Text';
 import Paragraph from 'antd/lib/typography/Paragraph';
-import ExternalLink from '../../components/ExternalLink';
 import styles from './JsEvaluatorPage.module.scss';
 import OutputMode from './types/OutputMode';
 import CopyButton from '../../components/copyButton/CopyButton';
@@ -18,6 +17,9 @@ import { BeforeMount } from '@monaco-editor/react';
 import { editor } from 'monaco-editor';
 import classNames from 'classnames';
 import AppEditor from '../../components/appEditor/AppEditor';
+import monacoExtraLibs from '../../utils/monaco/monacoExtraLibs';
+import moment from 'moment';
+import NpmLink from '../../components/NpmLink';
 
 interface ShowCountProps {
     formatter: (args: { count: number; maxLength?: number }) => string;
@@ -34,10 +36,11 @@ const codeEditorOptions: editor.IStandaloneEditorConstructionOptions = {
 
 const handleCodeEditorBeforeMount: BeforeMount = (monaco) => {
     monaco.languages.typescript.javascriptDefaults.addExtraLib(`
-declare const $value: string;
-declare const _;
-declare const axios;
-declare const pluralize;`);
+declare const $value: string;`);
+    monacoExtraLibs.lodash(monaco);
+    monacoExtraLibs.axios(monaco);
+    monacoExtraLibs.pluralize(monaco);
+    monacoExtraLibs.moment(monaco);
 };
 
 const JsEvaluatorPage = () => {
@@ -63,6 +66,7 @@ const JsEvaluatorPage = () => {
                 _,
                 axios,
                 pluralize,
+                moment,
                 $easterEgg: '🥚'
             });
 
@@ -112,18 +116,8 @@ const JsEvaluatorPage = () => {
                                         <code>$value</code>
                                     </label>
                                 </Tooltip>
-                                ,{' '}
-                                <ExternalLink href="https://lodash.com/">
-                                    <code>_</code>
-                                </ExternalLink>
-                                ,{' '}
-                                <ExternalLink href="https://github.com/axios/axios">
-                                    <code>axios</code>
-                                </ExternalLink>
-                                ,{' '}
-                                <ExternalLink href="https://github.com/plurals/pluralize">
-                                    <code>pluralize</code>
-                                </ExternalLink>
+                                , <NpmLink packageName="lodash">_</NpmLink>, <NpmLink packageName="axios" />,{' '}
+                                <NpmLink packageName="pluralize" />, <NpmLink packageName="moment" />
                             </Paragraph>
                         </Text>
 
@@ -134,7 +128,7 @@ const JsEvaluatorPage = () => {
                             value={evalValue}
                             onChange={setEvalValue}
                             options={codeEditorOptions}
-                            height="250px"
+                            height="400px"
                             width="100%"
                             beforeMount={handleCodeEditorBeforeMount}
                         />
@@ -157,6 +151,7 @@ const JsEvaluatorPage = () => {
                                     className={classNames('font-monospace mb-2', styles.textarea)}
                                     readOnly
                                     value={evaluatedJs}
+                                    rows={6}
                                 />
                                 <CopyButton value={evaluatedJs} />
                             </Col>

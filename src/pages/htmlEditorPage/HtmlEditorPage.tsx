@@ -15,18 +15,26 @@ import { OnMount } from '@monaco-editor/react';
 import { emmetCSS, emmetHTML, emmetJSX } from 'emmet-monaco-es';
 import { editor } from 'monaco-editor';
 import ButtonGroup from 'antd/lib/button/button-group';
-import { VerticalSplit, ViewHeadline } from '@mui/icons-material';
+import { Code, CodeOff, VerticalSplit, ViewHeadline } from '@mui/icons-material';
 import useChangeValueStateHandler from '../../hooks/useChangeValueStateHandler';
 import Split from 'react-split';
 import './HtmlEditorPage.scss';
+import mergeEnums, { MergeEnums } from '../../utils/mergeEnums';
 
-enum EditorTab {
+enum EditorInTab {
     HTML = 'html',
     CSS = 'css',
     JS = 'js'
 }
 
-type EditorSources = Record<EditorTab, string>;
+enum EditorOutTab {
+    VIEW = 'VIEW'
+}
+
+const EditorTab = mergeEnums(EditorInTab, EditorOutTab);
+type EditorTab = MergeEnums<EditorInTab, EditorOutTab>;
+
+type EditorSources = Record<EditorInTab, string>;
 
 const sourcesInitial: EditorSources = {
     html: `
@@ -61,6 +69,11 @@ const tabBarStyle: CSSProperties = {
 
 const editorOptions: editor.IStandaloneEditorConstructionOptions = {
     minimap: { enabled: false }
+};
+
+const resultEditorOptions: editor.IStandaloneEditorConstructionOptions = {
+    ...editorOptions,
+    readOnly: true
 };
 
 enum ViewMode {
@@ -217,6 +230,22 @@ ${sources.js}
                         language="javascript"
                         onMount={handleEditorMount}
                         options={editorOptions}
+                    />
+                </Tabs.TabPane>
+                <Tabs.TabPane
+                    tab={
+                        <div className={styles.tabTitleWrapper}>
+                            <Code className={styles.resultTabTitle} />
+                        </div>
+                    }
+                    key={EditorTab.VIEW}
+                    className={styles.editorTab}
+                >
+                    <AppEditor
+                        value={resultSource}
+                        className={styles.editor}
+                        language="html"
+                        options={resultEditorOptions}
                     />
                 </Tabs.TabPane>
             </Tabs>

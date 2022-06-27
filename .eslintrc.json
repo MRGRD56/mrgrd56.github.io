@@ -15,6 +15,7 @@
         "linebreak-style": ["warn", "unix"],
         "quotes": ["warn", "single"],
         "semi": ["warn", "always"],
-        "no-debugger": "warn"
+        "no-debugger": "warn",
+        "@typescript-eslint/ban-ts-comment": "warn"
     }
 }

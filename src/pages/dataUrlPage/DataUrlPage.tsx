@@ -77,7 +77,11 @@ const DataUrlPage: FunctionComponent = () => {
     };
 
     const dataUrlViewUrl = useMemo(() => {
-        return getDataUrlViewUrl(getDataUrlQueryParams(state));
+        const data = getDataUrlQueryParams(state);
+        return {
+            data,
+            viewUrl: getDataUrlViewUrl(data)
+        };
     }, [state]);
 
     const transformContent = useCallback(
@@ -197,11 +201,13 @@ const DataUrlPage: FunctionComponent = () => {
                         </label>
                     </div>
                 </label>
-                <Link to={dataUrlViewUrl} target="_blank" className="mt-3" ref={dataUrlViewLinkRef}>
+                <TextArea readOnly value={dataUrlViewUrl.data.data} rows={4} showCount className="mt-3" />
+                <CopyButton value={dataUrlViewUrl.data.data} className={classNames(styles.copyButton, 'mb-1')} />
+                <Link to={dataUrlViewUrl.viewUrl} target="_blank" ref={dataUrlViewLinkRef}>
                     View the iframe
                 </Link>
                 <TextArea readOnly value={displayedDataUrlViewUrl} rows={4} showCount />
-                <CopyButton value={displayedDataUrlViewUrl} className={styles.copyButton} />
+                <CopyButton value={displayedDataUrlViewUrl} className={classNames(styles.copyButton, 'mb-1')} />
             </Col>
         </PageContainer>
     );

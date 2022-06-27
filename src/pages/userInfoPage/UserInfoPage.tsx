@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import Text from 'antd/lib/typography/Text';
-import { Col, notification, Skeleton, Space, Tag, Tooltip } from 'antd';
+import { Button, Col, notification, Row, Skeleton, Space, Tag, Tooltip } from 'antd';
 import styles from './UserInfoPage.module.scss';
 import useAsync from '../../hooks/useAsync';
 import getUserInfo from '../../actions/ipapi.co/api/getUserInfo';
@@ -9,12 +9,15 @@ import getErrorMessage from '../../utils/getErrorMessage';
 import ExternalLink from '../../components/ExternalLink';
 import getScreenSize from '../../utils/getScreenSize';
 import getScaledScreenSize from '../../utils/getScaledScreenSize';
+import { ReloadOutlined } from '@ant-design/icons';
+import Flex from '../../components/flex/Flex';
 
 const UserInfoPage: FunctionComponent = () => {
     const {
         result: userIpInfo,
         isLoading: isUserIpInfoLoading,
-        error: userIpInfoError
+        error: userIpInfoError,
+        invoke: fetchUserInfo
     } = useAsync(getUserInfo, {
         doInvokeOnMount: true,
         onError: (error) => {
@@ -34,7 +37,16 @@ const UserInfoPage: FunctionComponent = () => {
     const screenOrientation = window.screen.orientation.type;
 
     return (
-        <PageContainer title="User Info">
+        <PageContainer
+            title={
+                <Flex row gap={3}>
+                    <div>User Info</div>
+                    <Button size="small" type="link" onClick={fetchUserInfo}>
+                        <ReloadOutlined />
+                    </Button>
+                </Flex>
+            }
+        >
             <Col className={styles.container}>
                 {!userIpInfoError && (
                     <Space direction="vertical" className="mb-2">
