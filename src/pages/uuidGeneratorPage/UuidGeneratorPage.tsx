@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import { Button, Col, Row, Space } from 'antd';
 import { v4 } from 'uuid';
@@ -6,6 +6,9 @@ import Text from 'antd/lib/typography/Text';
 import ExternalLink from '../../components/ExternalLink';
 import CopyButton from '../../components/copyButton/CopyButton';
 import getNpmPackageLink from '../../utils/getNpmPackageLink';
+import useStateProducer from '../../hooks/useStateProducer';
+import TextArea from 'antd/lib/input/TextArea';
+import { useDidMount } from 'rooks';
 
 const titleExtra = (
     <Text type="secondary">
@@ -14,13 +17,26 @@ const titleExtra = (
 );
 
 const UuidGeneratorPage = () => {
-    const [uuid, setUuid] = useState<string>(v4());
+    const [uuid, setUuid] = useState<string>();
+    const [history, setHistory] = useState<string[]>([]);
+    const produceHistory = useStateProducer(setHistory);
 
-    const generate = () => {
+    const historyString = useMemo<string>(() => {
+        return history.join('\n');
+    }, [history]);
+
+    const generate = useCallback(() => {
         const newUuid = v4();
         setUuid(newUuid);
+        produceHistory((history) => {
+            history.unshift(newUuid);
+        });
         return newUuid;
-    };
+    }, []);
+
+    useDidMount(() => {
+        generate();
+    });
 
     return (
         <PageContainer title="UUID Generator" titleExtra={titleExtra}>
@@ -32,12 +48,13 @@ const UuidGeneratorPage = () => {
                         </Text>
                     </Space>
                 </Row>
-                <Space>
+                <Space className="mb-2">
                     <Button onClick={generate}>Generate</Button>
                     <CopyButton value={uuid} onClick={generate}>
                         Generate and copy
                     </CopyButton>
                 </Space>
+                <TextArea value={historyString} rows={6} />
             </Col>
         </PageContainer>
     );
