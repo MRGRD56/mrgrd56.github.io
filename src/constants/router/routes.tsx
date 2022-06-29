@@ -30,6 +30,7 @@ import DataUrlPage from '../../pages/dataUrlPage/DataUrlPage';
 import DataUrlViewPage from '../../pages/dataUrlViewPage/DataUrlViewPage';
 import RouteContextInitializer from '../../layouts/RouteContextInitializer';
 import JsonToYamlPage from '../../pages/jsonToYamlPage/JsonToYamlPage';
+import CounterPage from '../../pages/counterPage/CounterPage';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
@@ -64,6 +65,7 @@ type AppRoutesMap = Readonly<{
     base64: AppRoute;
     dataUrl: AppRoute;
     dataUrlView: AppRoute;
+    counter: AppRoute;
     settings: AppRoute;
     about: AppRoute;
 }>;
@@ -194,6 +196,11 @@ export const routes: AppRoutesMap = {
         component: DataUrlViewPage,
         title: 'Content View',
         isLayoutHidden: true
+    },
+    counter: {
+        path: '/tools/counter',
+        component: CounterPage,
+        title: 'Counter'
     },
     settings: {
         path: '/settings',

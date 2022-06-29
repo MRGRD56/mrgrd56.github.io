@@ -1,0 +1,26 @@
+@import '../../../../styles/main';
+
+.input {
+    border-end-end-radius: 0 !important;
+    border-start-end-radius: 0 !important;
+    margin-right: -1px;
+    z-index: 1;
+    flex: 1;
+}
+
+.firstButton {
+    border-start-start-radius: 0 !important;
+    border-end-start-radius: 0 !important;
+    z-index: 0;
+}
+
+.counter {
+    padding: 0 5px;
+    min-width: 40px;
+    //cursor: default !important;
+
+    color: black !important;
+    @include themeDark {
+        color: white !important;
+    }
+}

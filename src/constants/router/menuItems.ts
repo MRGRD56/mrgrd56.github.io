@@ -71,6 +71,9 @@ const menuItems: MenuItem[] = [
                 route: routes.dateUtils
             },
             {
+                route: routes.counter
+            },
+            {
                 route: routes.jsonToYaml,
                 title: 'JSON to YAML converter',
                 isHidden: true

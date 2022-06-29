@@ -44,7 +44,7 @@ const Flex: FunctionComponent<Props> = (props) => {
         return defaults(
             {
                 display: 'flex',
-                flexDirection: () => {
+                flexDirection: (() => {
                     switch (true) {
                         case row:
                             return 'row';
@@ -53,7 +53,7 @@ const Flex: FunctionComponent<Props> = (props) => {
                         default:
                             return direction;
                     }
-                },
+                })(),
                 justifyContent: justify,
                 alignItems: align,
                 alignContent,
