@@ -10,8 +10,8 @@ import Flex from '../../components/flex/Flex';
 import useWriteableLocalstorageState from '../../hooks/useWriteableLocalstorageState';
 
 const createCounter = (name = '', count = 0): Counter => ({
-    name: '',
-    count: 0
+    name,
+    count
 });
 
 const initialCounters: Counter[] = [createCounter('Count')];
