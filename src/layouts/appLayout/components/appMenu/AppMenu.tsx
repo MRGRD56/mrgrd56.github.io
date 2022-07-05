@@ -6,6 +6,7 @@ import menuItems from '../../../../constants/router/menuItems';
 import { useLocation } from 'react-router-dom';
 import useAppSettings from '../../../../hooks/useAppSettings';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
+import classNames from 'classnames';
 
 interface Props {
     onItemSelect?: () => void;
@@ -22,7 +23,7 @@ const AppMenu: FunctionComponent<Props> = ({ onItemSelect }) => {
     return (
         <Menu
             mode="inline"
-            className={styles.menu}
+            className={classNames(styles.menu, 'AppMenu')}
             activeKey={pathname}
             selectedKeys={[pathname]}
             onSelect={onItemSelect}

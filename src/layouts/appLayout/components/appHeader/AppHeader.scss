@@ -1,0 +1,11 @@
+.AppHeader__side-menu-drawer {
+    .ant-drawer-header {
+        &.ant-drawer-header-close-only {
+            padding-right: 4px;
+        }
+
+        .ant-drawer-header-title {
+            justify-content: flex-end;
+        }
+    }
+}

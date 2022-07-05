@@ -8,6 +8,8 @@ import { routes } from '../../../../constants/router/routes';
 import { Button, Col, Drawer, Space } from 'antd';
 import AppMenu from '../appMenu/AppMenu';
 import { MenuOutlined } from '@ant-design/icons';
+import './AppHeader.scss';
+import classNames from 'classnames';
 
 const drawerBodyStyle: CSSProperties = {
     padding: 1
@@ -18,6 +20,7 @@ const drawerHeaderStyle: CSSProperties = {
 };
 
 const drawerContentWrapperStyle: CSSProperties = {
+    width: '400px',
     maxWidth: '100vw'
 };
 
@@ -38,7 +41,7 @@ const AppHeader = () => {
                 placement="right"
                 visible={isDrawerVisible}
                 onClose={handleDrawerClose}
-                className={styles.sideMenuDrawer}
+                className={classNames(styles.sideMenuDrawer, 'AppHeader__side-menu-drawer')}
                 bodyStyle={drawerBodyStyle}
                 headerStyle={drawerHeaderStyle}
                 contentWrapperStyle={drawerContentWrapperStyle}
