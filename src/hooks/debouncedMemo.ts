@@ -9,7 +9,7 @@ interface NoResult {
 }
 
 const isNoResult = <T>(value: T | NoResult, noResult: NoResult): value is NoResult => {
-    return isObject(value) && '_noResult' in value && value._noResult === noResult._noResult;
+    return isObject(value) && '_noResult' in value && value._noResult === noResult._noResult; //TODO just value === noResult ?
 };
 
 type MemoFactory<R> = (noResult: NoResult) => R | NoResult;
