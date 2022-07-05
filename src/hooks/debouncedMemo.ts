@@ -5,11 +5,11 @@ import call from '../utils/call';
 import useAutoRef from './useAutoRef';
 
 interface NoResult {
-    _noResult: string;
+    readonly _noResult: string;
 }
 
 const isNoResult = <T>(value: T | NoResult, noResult: NoResult): value is NoResult => {
-    return isObject(value) && '_noResult' in value && value._noResult === noResult._noResult; //TODO just value === noResult ?
+    return isObject(value) && '_noResult' in value && value === noResult; //TODO just value === noResult ?
 };
 
 type MemoFactory<R> = (noResult: NoResult) => R | NoResult;
@@ -22,9 +22,9 @@ const createDebouncedMemoHook =
 
         const debounceFunction = useRef(
             call(() => {
-                const actualNoResult: NoResult = {
+                const actualNoResult: NoResult = Object.freeze({
                     _noResult: v4()
-                };
+                });
 
                 return debounceFn(() => {
                     const value = factoryRef.current(actualNoResult);
