@@ -118,8 +118,7 @@ const HtmlEditorPage: FunctionComponent = () => {
     const handleViewModeChange = useChangeValueStateHandler(setViewMode);
 
     const resultSource = useDebouncedMemo(
-        { sources },
-        ({ sources }) => {
+        () => {
             return `
 <style>
 ${sources.css}

@@ -13,8 +13,10 @@ const RooksHookHeading: FunctionComponent<Props> = ({ hooks }) => {
     return (
         <h3>
             <Flex row gap={8}>
-                {hooks.map((hook) => (
-                    <ExternalLink href={getLink(hook)}>{hook}</ExternalLink>
+                {hooks.map((hook, index) => (
+                    <ExternalLink key={index} href={getLink(hook)}>
+                        {hook}
+                    </ExternalLink>
                 ))}
             </Flex>
         </h3>

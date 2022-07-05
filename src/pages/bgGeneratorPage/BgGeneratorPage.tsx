@@ -36,8 +36,7 @@ const BgGeneratorPage = () => {
     const [size, setSize] = useState<Size>(getScaledScreenSize());
     const [color, setColor] = useState<string>('#42a5f5');
     const imgSource = useDebouncedMemo(
-        { size, color, imgCanvasRef },
-        ({ size, color, imgCanvasRef }) => {
+        () => {
             if (!imgCanvasRef.current) {
                 return;
             }

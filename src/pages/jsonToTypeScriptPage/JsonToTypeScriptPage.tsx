@@ -84,8 +84,7 @@ const JsonToTypeScriptPage = () => {
     }, [selectableConversionOptions]);
 
     const typeScript = useDebouncedMemo(
-        { json, conversionOptions },
-        ({ json, conversionOptions }, noResult) => {
+        (noResult) => {
             if (!json?.trim()) {
                 setError(undefined);
                 return '';

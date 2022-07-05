@@ -61,6 +61,10 @@ const RooksDemoPage: FunctionComponent = () => {
         getLocalStorageKey('rooks-demo', 'localStorageState'),
         initialStorageState
     );
+    const [localStorageState2, setLocalStorageState2] = useLocalstorageState<StorageState>(
+        getLocalStorageKey('rooks-demo', 'localStorageState'),
+        initialStorageState
+    );
     //! useSessionstorageState
     const [sessionStorageState, setSessionStorageState] = useSessionstorageState<StorageState>(
         getLocalStorageKey('rooks-demo', 'sessionStorageState'),
@@ -88,6 +92,13 @@ const RooksDemoPage: FunctionComponent = () => {
 
     const handleLocalStorageTextChange = useCallback<EventHandler<ChangeEvent<HTMLTextAreaElement>>>((event) => {
         setLocalStorageState({
+            ...localStorageState,
+            text: event.target.value
+        });
+    }, []);
+
+    const handleLocalStorage2TextChange = useCallback<EventHandler<ChangeEvent<HTMLTextAreaElement>>>((event) => {
+        setLocalStorageState2({
             ...localStorageState,
             text: event.target.value
         });
@@ -143,7 +154,10 @@ const RooksDemoPage: FunctionComponent = () => {
                 </Col>
                 <Col>
                     <RooksHookHeading hooks={['useLocalstorageState']} />
-                    <TextArea value={localStorageState.text} onChange={handleLocalStorageTextChange} />
+                    <Flex column gap={6} align="stretch">
+                        <TextArea value={localStorageState.text} onChange={handleLocalStorageTextChange} />
+                        <TextArea value={localStorageState2.text} onChange={handleLocalStorage2TextChange} />
+                    </Flex>
                 </Col>
                 <Col>
                     <RooksHookHeading hooks={['useSessionstorageState']} />
