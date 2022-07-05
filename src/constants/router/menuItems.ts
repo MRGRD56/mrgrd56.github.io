@@ -11,6 +11,7 @@ import {
     StarFilled,
     ToolFilled
 } from '@ant-design/icons';
+import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
 import { routes } from './routes';
 
 const menuItems: MenuItem[] = [
@@ -122,6 +123,10 @@ const menuItems: MenuItem[] = [
             {
                 route: routes.notFound,
                 icon: QuestionCircleFilled
+            },
+            {
+                route: routes.rooksDemo,
+                icon: ElectricBoltIcon
             }
         ]
     },

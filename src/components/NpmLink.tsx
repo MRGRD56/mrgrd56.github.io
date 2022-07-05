@@ -4,17 +4,16 @@ import getNpmPackageLink from '../utils/getNpmPackageLink';
 
 interface Props {
     packageName: string;
+    plain?: boolean;
     children?: ReactNode;
 }
 
-const NpmLink: FunctionComponent<Props> = ({ packageName, children }) => {
+const NpmLink: FunctionComponent<Props> = ({ packageName, plain, children }) => {
     const link = getNpmPackageLink(packageName);
 
-    return (
-        <ExternalLink href={link}>
-            <code>{children || packageName}</code>
-        </ExternalLink>
-    );
+    const text = children || packageName;
+
+    return <ExternalLink href={link}>{plain ? text : <code>{text}</code>}</ExternalLink>;
 };
 
 export default React.memo(NpmLink);

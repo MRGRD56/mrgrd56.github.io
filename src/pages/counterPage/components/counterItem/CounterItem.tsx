@@ -43,7 +43,7 @@ const CounterItem: FunctionComponent<Props> = ({ counter, onChange, onRemove }) 
         <Flex row>
             <Input value={counter.name} onChange={handleNameChange} className={styles.input} />
             <ButtonGroup>
-                <Popover
+                <Popover //TODO use Dropdown (https://ant.design/components/dropdown/) instead
                     placement="bottomRight"
                     content={
                         <Flex column gap={8}>

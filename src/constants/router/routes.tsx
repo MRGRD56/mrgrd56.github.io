@@ -31,6 +31,7 @@ import DataUrlViewPage from '../../pages/dataUrlViewPage/DataUrlViewPage';
 import RouteContextInitializer from '../../layouts/RouteContextInitializer';
 import JsonToYamlPage from '../../pages/jsonToYamlPage/JsonToYamlPage';
 import CounterPage from '../../pages/counterPage/CounterPage';
+import RooksDemoPage from '../../pages/rooksDemoPage/RooksDemoPage';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
@@ -66,6 +67,7 @@ type AppRoutesMap = Readonly<{
     dataUrl: AppRoute;
     dataUrlView: AppRoute;
     counter: AppRoute;
+    rooksDemo: AppRoute;
     settings: AppRoute;
     about: AppRoute;
 }>;
@@ -201,6 +203,11 @@ export const routes: AppRoutesMap = {
         path: '/tools/counter',
         component: CounterPage,
         title: 'Counter'
+    },
+    rooksDemo: {
+        path: '/other/rooks-demo',
+        component: RooksDemoPage,
+        title: 'Rooks Demo'
     },
     settings: {
         path: '/settings',
