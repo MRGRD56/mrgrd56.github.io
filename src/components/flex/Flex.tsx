@@ -9,6 +9,8 @@ interface BaseProps extends HTMLProps<HTMLDivElement> {
     alignContent?: CSS['alignContent'];
     flex?: CSS['flex'];
     gap?: CSS['gap'];
+    maxWidth?: CSS['maxWidth'];
+    maxHeight?: CSS['maxHeight'];
 }
 
 interface PropsWithDirection extends BaseProps {
@@ -38,7 +40,21 @@ type Props = PropsWithDirection | PropsWithRow | PropsWithColumn;
 //                 : BaseProps;
 
 const Flex: FunctionComponent<Props> = (props) => {
-    const { row, column, direction, justify, align, alignContent, flex, gap, style, children, ...restProps } = props;
+    const {
+        row,
+        column,
+        direction,
+        justify,
+        align,
+        alignContent,
+        flex,
+        gap,
+        style,
+        maxWidth,
+        maxHeight,
+        children,
+        ...restProps
+    } = props;
 
     const divStyle: CSS = useMemo(() => {
         return defaults(
@@ -58,11 +74,13 @@ const Flex: FunctionComponent<Props> = (props) => {
                 alignItems: align,
                 alignContent,
                 flex,
-                gap
+                gap,
+                maxWidth,
+                maxHeight
             },
             style
         );
-    }, [row, column, direction, justify, align, alignContent, flex, gap, style]);
+    }, [row, column, direction, justify, align, alignContent, flex, gap, style, maxWidth, maxHeight]);
 
     return (
         <div {...restProps} style={divStyle}>

@@ -32,6 +32,7 @@ import RouteContextInitializer from '../../layouts/RouteContextInitializer';
 import JsonToYamlPage from '../../pages/jsonToYamlPage/JsonToYamlPage';
 import CounterPage from '../../pages/counterPage/CounterPage';
 import RooksDemoPage from '../../pages/rooksDemoPage/RooksDemoPage';
+import MarkdownCheatSheetPage from '../../pages/markdownCheatSheetPage/MarkdownCheatSheetPage';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
@@ -68,6 +69,7 @@ type AppRoutesMap = Readonly<{
     dataUrlView: AppRoute;
     counter: AppRoute;
     rooksDemo: AppRoute;
+    markdownCheatSheet: AppRoute;
     settings: AppRoute;
     about: AppRoute;
 }>;
@@ -208,6 +210,11 @@ export const routes: AppRoutesMap = {
         path: '/other/rooks-demo',
         component: RooksDemoPage,
         title: 'Rooks Demo'
+    },
+    markdownCheatSheet: {
+        path: '/articles/markdown-cheat-sheet',
+        component: MarkdownCheatSheetPage,
+        title: 'Markdown Cheat Sheet'
     },
     settings: {
         path: '/settings',

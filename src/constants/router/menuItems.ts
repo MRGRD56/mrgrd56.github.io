@@ -110,7 +110,11 @@ const menuItems: MenuItem[] = [
     {
         title: 'Articles',
         icon: BookFilled,
-        routes: []
+        routes: [
+            {
+                route: routes.markdownCheatSheet
+            }
+        ]
     },
     {
         title: 'Other',

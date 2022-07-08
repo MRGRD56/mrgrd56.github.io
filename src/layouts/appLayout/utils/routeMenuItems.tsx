@@ -9,13 +9,14 @@ import AppSettings from '../../../types/AppSettings';
 
 export const renderRoute = ({ route, title, icon, isHidden }: MenuRouteItem): ItemType => {
     const { path } = route;
+    const routeTitle = title ?? route.title;
 
     return {
         key: path,
         icon: renderComponent(icon),
         label: (
-            <Link to={path ?? ''} className={classNames({ 'opacity-50': isHidden })}>
-                {title ?? route.title}
+            <Link to={path ?? ''} className={classNames({ 'opacity-50': isHidden })} title={routeTitle}>
+                {routeTitle}
             </Link>
         )
     };

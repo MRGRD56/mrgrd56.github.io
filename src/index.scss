@@ -13,7 +13,7 @@ body,
     font-family: var(--jetbrains-mono) !important;
 }
 
-.code {
+.code:not(.language-markdown .code) {
     font-family: var(--jetbrains-mono);
     padding: 2px 4px;
     margin: 0 2px;

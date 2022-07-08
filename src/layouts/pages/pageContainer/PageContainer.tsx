@@ -70,7 +70,7 @@ const PageContainer: FunctionComponent<PageContainerProps> = (props) => {
                     {titleExtra}
                 </Space>
             )}
-            {description && <Paragraph>{description}</Paragraph>}
+            {description && <Paragraph className="mb-2">{description}</Paragraph>}
 
             <div className={classNames(styles.contentContainer, contentClassName)}>{children}</div>
         </div>
