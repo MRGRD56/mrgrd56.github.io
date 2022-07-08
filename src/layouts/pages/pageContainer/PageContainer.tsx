@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode, useMemo } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import styles from './PageContainer.module.scss';
 import { Space, SpaceProps, Tag } from 'antd';
 import Paragraph from 'antd/lib/typography/Paragraph';
@@ -35,7 +35,7 @@ const getTagNodes = (key: number | string): Readonly<Record<PageTag, ReactNode>>
 
 const renderTag = (tag: PageTag, index: number) => getTagNodes(index)[tag];
 
-const PageContainer: FunctionComponent<PageContainerProps> = (props) => {
+const PageContainer = React.forwardRef<HTMLDivElement, PageContainerProps>((props, ref) => {
     const {
         title,
         description,
@@ -53,6 +53,7 @@ const PageContainer: FunctionComponent<PageContainerProps> = (props) => {
 
     return (
         <div
+            ref={ref}
             className={classNames(
                 styles.container,
                 {
@@ -75,6 +76,6 @@ const PageContainer: FunctionComponent<PageContainerProps> = (props) => {
             <div className={classNames(styles.contentContainer, contentClassName)}>{children}</div>
         </div>
     );
-};
+});
 
 export default PageContainer;
