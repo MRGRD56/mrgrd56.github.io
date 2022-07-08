@@ -96,7 +96,7 @@ const AppHeaderSearch: FunctionComponent<Props> = ({ className, inputClassName, 
 
     useKey(['Slash'], (event) => {
         const activeTag = document.activeElement?.tagName;
-        if (activeTag && ['input', 'textarea'].includes(activeTag)) {
+        if (activeTag && ['input', 'textarea'].includes(activeTag.toLowerCase())) {
             return;
         }
 
