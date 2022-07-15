@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Prism as SyntaxHighlighter, SyntaxHighlighterProps } from 'react-syntax-highlighter';
+import { Prism, SyntaxHighlighterProps } from 'react-syntax-highlighter';
 import useAppTheme from '../../hooks/useAppTheme';
 // @ts-ignore
 import oneDark from 'react-syntax-highlighter/dist/esm/styles/prism/one-dark';
@@ -16,9 +16,13 @@ const AppSyntaxHighlighter: FunctionComponent<AppSyntaxHighlighterProps> = ({ ch
     const { isDarkMode } = useAppTheme();
 
     return (
-        <SyntaxHighlighter {...props} style={isDarkMode ? oneDark : oneLight}>
+        <Prism
+            {...props}
+            style={isDarkMode ? oneDark : oneLight}
+            wrapLongLines // FIXME temporary solution
+        >
             {children}
-        </SyntaxHighlighter>
+        </Prism>
     );
 };
 

@@ -90,11 +90,13 @@ const UserInfoPage: FunctionComponent = () => {
                     <Text className="ms-2">
                         {browserLanguages.map((language, index) =>
                             index === 0 ? (
-                                <Tooltip title="Your primary language" placement="bottom">
+                                <Tooltip title="Your primary language" placement="bottom" key={index}>
                                     <Tag color="gold">{language}</Tag>
                                 </Tooltip>
                             ) : (
-                                <Tag color="default">{language}</Tag>
+                                <Tag color="default" key={index}>
+                                    {language}
+                                </Tag>
                             )
                         )}
                     </Text>
