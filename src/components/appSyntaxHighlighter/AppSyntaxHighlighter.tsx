@@ -1,17 +1,18 @@
 import React, { FunctionComponent } from 'react';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { SyntaxHighlighterProps } from 'react-syntax-highlighter';
+import { Prism as SyntaxHighlighter, SyntaxHighlighterProps } from 'react-syntax-highlighter';
 import useAppTheme from '../../hooks/useAppTheme';
 // @ts-ignore
-import { oneDark, oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import oneDark from 'react-syntax-highlighter/dist/esm/styles/prism/one-dark';
+// @ts-ignore
+import oneLight from 'react-syntax-highlighter/dist/esm/styles/prism/one-light';
 import PrismLanguage from './types/PrismLanguage';
 
-interface Props extends Omit<SyntaxHighlighterProps, 'style'> {
+export interface AppSyntaxHighlighterProps extends Omit<SyntaxHighlighterProps, 'style'> {
     language?: PrismLanguage;
     children: string | string[];
 }
 
-const AppSyntaxHighlighter: FunctionComponent<Props> = ({ children, ...props }) => {
+const AppSyntaxHighlighter: FunctionComponent<AppSyntaxHighlighterProps> = ({ children, ...props }) => {
     const { isDarkMode } = useAppTheme();
 
     return (

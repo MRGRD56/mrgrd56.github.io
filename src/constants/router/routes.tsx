@@ -1,40 +1,42 @@
 import { RouteProps } from 'react-router';
-import RootPage from '../../pages/rootPage/RootPage';
 import { values } from 'lodash';
-import GithubPagesListPage from '../../pages/githubPagesPage/GithubPagesListPage';
-import { ComponentType } from 'react';
-import renderComponent from '../../utils/renderComponent';
-import LongContentPage from '../../pages/longContentPage/LongContentPage';
-import JsonStringifierPage from '../../pages/jsonStringifierPage/JsonStringifierPage';
-import TemplateTextGeneratorPage from '../../pages/templateTextGenerator/TemplateTextGeneratorPage';
-import QrScannerPage from '../../pages/qrScannerPage/QrScannerPage';
-import BgGeneratorPage from '../../pages/bgGeneratorPage/BgGeneratorPage';
-import JsEvaluatorPage from '../../pages/jsEvaluatorPage/JsEvaluatorPage';
-import UserInfoPage from '../../pages/userInfoPage/UserInfoPage';
-import NotFoundPage from '../../pages/notFoundPage/NotFoundPage';
-import UnitConverterPage from '../../pages/unitConverterPage/UnitConverterPage';
-import SnakeGamePage from '../../pages/snakeGamePage/SnakeGamePage';
-import UuidGeneratorPage from '../../pages/uuidGeneratorPage/UuidGeneratorPage';
-import QrGeneratorPage from '../../pages/qrGeneratorPage/QrGeneratorPage';
-import SettingsPage from '../../pages/settingsPage/SettingsPage';
-import AboutPage from '../../pages/aboutPage/AboutPage';
-import CodeFormatterPage from '../../pages/codeFormatterPage/CodeFormatterPage';
-import DiffEditorPage from '../../pages/diffEditorPage/DiffEditorPage';
-import JsonToTypeScriptPage from '../../pages/jsonToTypeScriptPage/JsonToTypeScriptPage';
-import NotificationsTestPage from '../../pages/notificationsTestPage/NotificationsTestPage';
-import DateUtilsPage from '../../pages/dateUtilsPage/DateUtilsPage';
-import ImageCompressorPage from '../../pages/imageCompressorPage/ImageCompressorPage';
-import HtmlEditorPage from '../../pages/htmlEditorPage/HtmlEditorPage';
-import Base64Page from '../../pages/base64Page/Base64Page';
-import DataUrlPage from '../../pages/dataUrlPage/DataUrlPage';
-import DataUrlViewPage from '../../pages/dataUrlViewPage/DataUrlViewPage';
-import RouteContextInitializer from '../../layouts/RouteContextInitializer';
-import JsonToYamlPage from '../../pages/jsonToYamlPage/JsonToYamlPage';
-import CounterPage from '../../pages/counterPage/CounterPage';
-import RooksDemoPage from '../../pages/rooksDemoPage/RooksDemoPage';
-import MarkdownCheatSheetPage from '../../pages/markdownCheatSheetPage/MarkdownCheatSheetPage';
-import JsEventTesterPage from '../../pages/jsEventTesterPage/JsEventTesterPage';
-import DataUrlViewerPage from '../../pages/dataUrlViewerPage/DataUrlViewerPage';
+import React, { ComponentType } from 'react';
+
+const RootPage = React.lazy(() => import('../../pages/rootPage/RootPage'));
+const GithubPagesListPage = React.lazy(() => import('../../pages/githubPagesPage/GithubPagesListPage'));
+const LongContentPage = React.lazy(() => import('../../pages/longContentPage/LongContentPage'));
+const JsonStringifierPage = React.lazy(() => import('../../pages/jsonStringifierPage/JsonStringifierPage'));
+const TemplateTextGeneratorPage = React.lazy(
+    () => import('../../pages/templateTextGenerator/TemplateTextGeneratorPage')
+);
+const QrScannerPage = React.lazy(() => import('../../pages/qrScannerPage/QrScannerPage'));
+const BgGeneratorPage = React.lazy(() => import('../../pages/bgGeneratorPage/BgGeneratorPage'));
+const JsEvaluatorPage = React.lazy(() => import('../../pages/jsEvaluatorPage/JsEvaluatorPage'));
+const UserInfoPage = React.lazy(() => import('../../pages/userInfoPage/UserInfoPage'));
+const NotFoundPage = React.lazy(() => import('../../pages/notFoundPage/NotFoundPage'));
+const UnitConverterPage = React.lazy(() => import('../../pages/unitConverterPage/UnitConverterPage'));
+const SnakeGamePage = React.lazy(() => import('../../pages/snakeGamePage/SnakeGamePage'));
+const UuidGeneratorPage = React.lazy(() => import('../../pages/uuidGeneratorPage/UuidGeneratorPage'));
+const QrGeneratorPage = React.lazy(() => import('../../pages/qrGeneratorPage/QrGeneratorPage'));
+const SettingsPage = React.lazy(() => import('../../pages/settingsPage/SettingsPage'));
+const AboutPage = React.lazy(() => import('../../pages/aboutPage/AboutPage'));
+const CodeFormatterPage = React.lazy(() => import('../../pages/codeFormatterPage/CodeFormatterPage'));
+const DiffEditorPage = React.lazy(() => import('../../pages/diffEditorPage/DiffEditorPage'));
+const JsonToTypeScriptPage = React.lazy(() => import('../../pages/jsonToTypeScriptPage/JsonToTypeScriptPage'));
+const NotificationsTestPage = React.lazy(() => import('../../pages/notificationsTestPage/NotificationsTestPage'));
+const DateUtilsPage = React.lazy(() => import('../../pages/dateUtilsPage/DateUtilsPage'));
+const ImageCompressorPage = React.lazy(() => import('../../pages/imageCompressorPage/ImageCompressorPage'));
+const HtmlEditorPage = React.lazy(() => import('../../pages/htmlEditorPage/HtmlEditorPage'));
+const Base64Page = React.lazy(() => import('../../pages/base64Page/Base64Page'));
+const DataUrlPage = React.lazy(() => import('../../pages/dataUrlPage/DataUrlPage'));
+const DataUrlViewPage = React.lazy(() => import('../../pages/dataUrlViewPage/DataUrlViewPage'));
+const RouteContextInitializer = React.lazy(() => import('../../layouts/RouteContextInitializer'));
+const JsonToYamlPage = React.lazy(() => import('../../pages/jsonToYamlPage/JsonToYamlPage'));
+const CounterPage = React.lazy(() => import('../../pages/counterPage/CounterPage'));
+const RooksDemoPage = React.lazy(() => import('../../pages/rooksDemoPage/RooksDemoPage'));
+const MarkdownCheatSheetPage = React.lazy(() => import('../../pages/markdownCheatSheetPage/MarkdownCheatSheetPage'));
+const JsEventTesterPage = React.lazy(() => import('../../pages/jsEventTesterPage/JsEventTesterPage'));
+const DataUrlViewerPage = React.lazy(() => import('../../pages/dataUrlViewerPage/DataUrlViewerPage'));
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
@@ -242,11 +244,11 @@ export const routes: AppRoutesMap = {
     }
 };
 
-export const convertAppRoute = ({ component, title, ...route }: AppRoute): RouteProps => ({
+export const convertAppRoute = ({ component: Component, title, ...route }: AppRoute): RouteProps => ({
     ...route,
     element: (
         <RouteContextInitializer title={title} key={route.path}>
-            {renderComponent(component)}
+            <Component />
         </RouteContextInitializer>
     )
 });
