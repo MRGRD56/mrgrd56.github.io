@@ -34,6 +34,7 @@ import CounterPage from '../../pages/counterPage/CounterPage';
 import RooksDemoPage from '../../pages/rooksDemoPage/RooksDemoPage';
 import MarkdownCheatSheetPage from '../../pages/markdownCheatSheetPage/MarkdownCheatSheetPage';
 import JsEventTesterPage from '../../pages/jsEventTesterPage/JsEventTesterPage';
+import DataUrlViewerPage from '../../pages/dataUrlViewerPage/DataUrlViewerPage';
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
@@ -68,6 +69,7 @@ type AppRoutesMap = Readonly<{
     base64: AppRoute;
     dataUrl: AppRoute;
     dataUrlView: AppRoute;
+    dataUrlViewer: AppRoute;
     counter: AppRoute;
     rooksDemo: AppRoute;
     jsEventTester: AppRoute;
@@ -202,6 +204,11 @@ export const routes: AppRoutesMap = {
         component: DataUrlViewPage,
         title: 'Content View',
         isLayoutHidden: true
+    },
+    dataUrlViewer: {
+        path: '/tools/data-url-viewer',
+        component: DataUrlViewerPage,
+        title: 'Data URL Viewer'
     },
     counter: {
         path: '/tools/counter',

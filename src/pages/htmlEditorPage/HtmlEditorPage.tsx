@@ -257,7 +257,7 @@ ${sources.js}
                 'd-none': viewMode === ViewMode.EDITOR
             })}
         >
-            <iframe srcDoc={resultSource} className={styles.resultFrame} />
+            <iframe srcDoc={resultSource} className={classNames(styles.resultFrame, 'view-iframe')} />
         </Col>
     );
 

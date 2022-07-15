@@ -69,6 +69,9 @@ const menuItems: MenuItem[] = [
                 route: routes.dataUrl
             },
             {
+                route: routes.dataUrlViewer
+            },
+            {
                 route: routes.dateUtils
             },
             {

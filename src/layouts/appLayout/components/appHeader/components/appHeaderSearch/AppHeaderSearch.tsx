@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useRef, useState } from 'react';
+import React, { FunctionComponent, useCallback, useMemo, useRef, useState } from 'react';
 import Search from 'antd/lib/input/Search';
 import styles from './AppHeaderSearch.module.scss';
 import { AutoComplete, InputRef } from 'antd';
@@ -12,20 +12,11 @@ import { AutoCompleteProps } from 'antd/lib/auto-complete';
 import classNames from 'classnames';
 import { useKey } from 'rooks';
 import { isEmpty } from 'lodash';
+import useAppSettings from '../../../../../../hooks/useAppSettings';
 
 interface OptionType extends DefaultOptionType {
     data: MenuRouteItem;
 }
-
-const allSearchOptions: OptionType[] = menuRouteItems.map((item) => {
-    const title = item.title ?? item.route.title;
-
-    return {
-        label: title,
-        value: title,
-        data: item
-    };
-});
 
 const filterOption: FilterFunc<OptionType> = (inputValue, option) => {
     const query = inputValue.trim().toLocaleLowerCase();
@@ -49,10 +40,25 @@ interface Props extends Omit<AutoCompleteProps, 'options' | 'filterOption' | 'on
 
 const AppHeaderSearch: FunctionComponent<Props> = ({ className, inputClassName, ...props }) => {
     const navigate = useNavigate();
-
-    const searchInputRef = useRef<InputRef>(null);
+    const { doShowHiddenMenuItems } = useAppSettings();
 
     const [query, setQuery] = useState<string>('');
+
+    const allSearchOptions = useMemo<OptionType[]>(() => {
+        return menuRouteItems
+            .filter((item) => doShowHiddenMenuItems || !item.isHidden)
+            .map((item) => {
+                const title = item.title ?? item.route.title;
+
+                return {
+                    label: title,
+                    value: title,
+                    data: item
+                };
+            });
+    }, [doShowHiddenMenuItems]);
+
+    const searchInputRef = useRef<InputRef>(null);
 
     const autoCompleteRef = useRef<BaseSelectRef>(null);
 

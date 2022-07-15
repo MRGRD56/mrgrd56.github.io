@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
 
 const handleEventTargetValueChange =
     <S>(callback: (value: S) => void) =>
@@ -17,8 +17,9 @@ function useInputState<S = undefined>(): [
 ];
 function useInputState<S>(initialState?: S | (() => S)) {
     const [value, setValue] = useState<PossiblyUndefined<S, typeof initialState>>(initialState);
+    const setValueByEvent = useCallback(handleEventTargetValueChange(setValue), [setValue]);
 
-    return [value, setValue, handleEventTargetValueChange(setValue)];
+    return [value, setValue, setValueByEvent];
 }
 
 export default useInputState;

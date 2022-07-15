@@ -1,12 +1,13 @@
 import React, { FunctionComponent, useCallback, useMemo } from 'react';
 import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
-import { Button, Col, Modal, Select, Switch } from 'antd';
+import { Button, Modal, Select, Switch } from 'antd';
 import { useAppSettingsState } from '../../hooks/useAppSettings';
 import ExternalLink from '../../components/ExternalLink';
 import AppTheme, { SpecialAppTheme } from '../../types/AppTheme';
 import styles from './SettingsPage.module.scss';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import useChangeStateHandler from '../../hooks/useChangeStateHandler';
+import PageCol from '../../components/pageCol/PageCol';
 
 const SettingsPage: FunctionComponent = () => {
     const { appSettings, setAppSettings, resetAppSettings } = useAppSettingsState();
@@ -27,7 +28,7 @@ const SettingsPage: FunctionComponent = () => {
 
     return (
         <PageContainer title="Settings" titleExtra={titleExtra}>
-            <Col xs={24} md={18} lg={14} xl={10} xxl={8} className={styles.formContainer}>
+            <PageCol className={styles.formContainer}>
                 <label className={styles.formItem}>
                     <span className={styles.label}>App theme</span>
                     <Select
@@ -57,7 +58,7 @@ const SettingsPage: FunctionComponent = () => {
                     <Switch checked={appSettings.isFooterHidden} onChange={handleAppSettingChange('isFooterHidden')} />
                     <span className="ms-3">Hide the footer</span>
                 </label>
-            </Col>
+            </PageCol>
         </PageContainer>
     );
 };
