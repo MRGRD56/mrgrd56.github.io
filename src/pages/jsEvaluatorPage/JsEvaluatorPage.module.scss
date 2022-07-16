@@ -9,15 +9,38 @@
         @include monacoBackground;
     }
 
-    .codeEditor {
-        border-radius: 2px;
+    .valueContainer {
+        flex: 1;
+    }
 
-        border: 1px solid;
+    .codeContainer {
+        flex: 4;
 
-        @include borderColor;
+        .codeEditorContainer {
+            & > *:last-child {
+                flex: 1;
+            }
 
-        & * {
-            transition: none !important;
+            .codeEditor {
+                border-radius: 2px;
+                border: 1px solid;
+                flex: 1;
+
+                @include borderColor;
+
+                & * {
+                    transition: none !important;
+                }
+            }
+        }
+    }
+
+    .resultContainerWrapper {
+        flex: 1;
+        min-height: 16.5vh;
+
+        .resultContainer {
+            flex: 1;
         }
     }
 }

@@ -3,7 +3,7 @@ import { defaults } from 'lodash';
 
 type CSS = CSSProperties;
 
-interface BaseProps extends HTMLProps<HTMLDivElement> {
+interface BaseProps extends Omit<HTMLProps<HTMLDivElement>, 'height' | 'width'> {
     justify?: CSS['justifyContent'];
     align?: CSS['alignItems'];
     alignContent?: CSS['alignContent'];
@@ -11,6 +11,10 @@ interface BaseProps extends HTMLProps<HTMLDivElement> {
     gap?: CSS['gap'];
     maxWidth?: CSS['maxWidth'];
     maxHeight?: CSS['maxHeight'];
+    width?: CSS['width'];
+    height?: CSS['height'];
+    minWidth?: CSS['minWidth'];
+    minHeight?: CSS['minHeight'];
 }
 
 interface PropsWithDirection extends BaseProps {
@@ -52,6 +56,10 @@ const Flex: FunctionComponent<Props> = (props) => {
         style,
         maxWidth,
         maxHeight,
+        width,
+        height,
+        minWidth,
+        minHeight,
         children,
         ...restProps
     } = props;
@@ -76,11 +84,31 @@ const Flex: FunctionComponent<Props> = (props) => {
                 flex,
                 gap,
                 maxWidth,
-                maxHeight
+                maxHeight,
+                width,
+                height,
+                minWidth,
+                minHeight
             },
             style
         );
-    }, [row, column, direction, justify, align, alignContent, flex, gap, style, maxWidth, maxHeight]);
+    }, [
+        row,
+        column,
+        direction,
+        justify,
+        align,
+        alignContent,
+        flex,
+        gap,
+        style,
+        maxWidth,
+        maxHeight,
+        width,
+        height,
+        minWidth,
+        minHeight
+    ]);
 
     return (
         <div {...restProps} style={divStyle}>

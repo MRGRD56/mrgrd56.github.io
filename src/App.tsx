@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react';
+import 'luna-object-viewer/luna-object-viewer.css';
 import './App.scss';
 import AppRouter from './AppRouter';
 import { Provider } from 'react-redux';

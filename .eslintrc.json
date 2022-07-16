@@ -12,10 +12,11 @@
     "plugins": ["@typescript-eslint"],
     "rules": {
         "indent": ["warn", 4],
-        "linebreak-style": ["warn", "unix"],
+        "linebreak-style": ["off", "unix"],
         "quotes": ["warn", "single"],
         "semi": ["warn", "always"],
         "no-debugger": "warn",
-        "@typescript-eslint/ban-ts-comment": "warn"
+        "@typescript-eslint/ban-ts-comment": "warn",
+        "@typescript-eslint/no-empty-interface": "warn"
     }
 }

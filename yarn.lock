@@ -8672,6 +8672,11 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
+licia@^1.35.1:
+  version "1.36.0"
+  resolved "https://registry.yarnpkg.com/licia/-/licia-1.36.0.tgz#da11510fa7c6c32c1f7b212f65645d0b281af5c7"
+  integrity sha512-T1E+U8ObQmsVVTE4XN/OUUhwve8f9cDgKFFBOdJvuXIN1uZvKEQa0PP8Q+KSgSRCgUnp/gjvxGKskNt4K5pVkA==
+
 liftoff@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/liftoff/-/liftoff-3.1.0.tgz#c9ba6081f908670607ee79062d700df062c52ed3"
@@ -8922,6 +8927,13 @@ lru-cache@^6.0.0:
   integrity sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==
   dependencies:
     yallist "^4.0.0"
+
+luna-object-viewer@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/luna-object-viewer/-/luna-object-viewer-0.2.1.tgz#7cf142c4bb0a481af53db90fdcaea23dbd4bd103"
+  integrity sha512-9Er3kCnAeofZXZhSPwkyooQD7YzVMSomIdcHzhrIaYGzVgB54UfT1KBhwwTn8xwxUtsqHD+Juokkxond4xVSeA==
+  dependencies:
+    licia "^1.35.1"
 
 lz-string@^1.4.4:
   version "1.4.4"
