@@ -5,11 +5,16 @@ import Text from 'antd/lib/typography/Text';
 import AppHeaderSearch from './components/appHeaderSearch/AppHeaderSearch';
 import { Link } from 'react-router-dom';
 import { routes } from '../../../../constants/router/routes';
-import { Button, Col, Drawer, Space } from 'antd';
+import { Button, Col, Drawer, Space, Switch, Tooltip } from 'antd';
 import AppMenu from '../appMenu/AppMenu';
 import { MenuOutlined } from '@ant-design/icons';
 import './AppHeader.scss';
 import classNames from 'classnames';
+import Flex from '../../../../components/flex/Flex';
+import { DarkMode, LightMode } from '@mui/icons-material';
+import { useAppSettingsState } from '../../../../hooks/useAppSettings';
+import useAppTheme from '../../../../hooks/useAppTheme';
+import AppTheme from '../../../../types/AppTheme';
 
 const drawerBodyStyle: CSSProperties = {
     padding: 1
@@ -26,6 +31,8 @@ const drawerContentWrapperStyle: CSSProperties = {
 
 const AppHeader = () => {
     const [isDrawerVisible, setIsDrawerVisible] = useState<boolean>();
+    const { isDarkMode } = useAppTheme();
+    const { setAppSettings } = useAppSettingsState();
 
     const handleDrawerClose = useCallback(() => {
         setIsDrawerVisible(false);
@@ -34,6 +41,16 @@ const AppHeader = () => {
     const handleMenuButtonClick = useCallback(() => {
         setIsDrawerVisible((value) => !value);
     }, []);
+
+    const handleThemeSwitch = useCallback(
+        (isDark: boolean) => {
+            setAppSettings((settings) => ({
+                ...settings,
+                theme: isDark ? AppTheme.DARK : AppTheme.LIGHT
+            }));
+        },
+        [setAppSettings]
+    );
 
     return (
         <>
@@ -60,7 +77,20 @@ const AppHeader = () => {
                 {/*<Menu theme="dark"></Menu>*/}
                 <Space className={styles.rightPanel}>
                     <Col xs={0} sm={24}>
-                        <AppHeaderSearch inputClassName={styles.search} />
+                        <Flex row gap={20} align="center">
+                            <Tooltip overlay={`Switch theme to ${isDarkMode ? 'light' : 'dark'}`} placement="bottom">
+                                <Switch
+                                    checkedChildren={<DarkMode className={styles.themeSwitchIcon} fontSize="small" />}
+                                    unCheckedChildren={
+                                        <LightMode className={styles.themeSwitchIcon} fontSize="small" />
+                                    }
+                                    className={classNames(styles.themeSwitch, 'AppHeader__theme-switch')}
+                                    checked={isDarkMode}
+                                    onChange={handleThemeSwitch}
+                                />
+                            </Tooltip>
+                            <AppHeaderSearch inputClassName={styles.search} />
+                        </Flex>
                     </Col>
                     <Col xs={24} lg={0}>
                         <Button onClick={handleMenuButtonClick} type="text" className={styles.menuButton}>

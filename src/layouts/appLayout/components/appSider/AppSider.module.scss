@@ -6,4 +6,16 @@
     @include mediaLG {
         display: block !important;
     }
+
+    @include themeDark {
+        //background: rgb(20, 20, 20);
+    }
+
+    .containerScroll {
+        //max-height: calc(100vh - 64px);
+        overflow-y: auto;
+        overflow-x: hidden;
+        position: sticky;
+        top: 0;
+    }
 }

@@ -1,12 +1,18 @@
 import React, { FunctionComponent, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import Flex from '../../components/flex/Flex';
-import { Tabs } from 'antd';
+import { Switch, Tabs } from 'antd';
 import Text from 'antd/lib/typography/Text';
 import joinObjects from '../../utils/joinObjects';
+import { useLocalstorageState } from 'rooks';
+import getLocalStorageKey from '../../utils/getLocalStorageKey';
 
 const JsEventTesterPage: FunctionComponent = () => {
     const [lastKeyDownEvent, setLastKeyDownEvent] = useState<KeyboardEvent>();
+    const [doPreventDefault, setDoPreventDefault] = useLocalstorageState<boolean>(
+        getLocalStorageKey('js-event-tester/keydown', 'doPreventDefault'),
+        false
+    );
 
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -54,12 +60,18 @@ const JsEventTesterPage: FunctionComponent = () => {
         ].filter(Boolean);
     }, [pressedModifiers, lastKeyDownEvent]);
 
-    const handleKeyDown = useCallback((event: KeyboardEvent) => {
-        event.stopImmediatePropagation();
+    const handleKeyDown = useCallback(
+        (event: KeyboardEvent) => {
+            if (doPreventDefault) {
+                event.preventDefault();
+            }
+            event.stopImmediatePropagation();
 
-        console.log('keydown', event);
-        setLastKeyDownEvent(event);
-    }, []);
+            console.log('keydown', event);
+            setLastKeyDownEvent(event);
+        },
+        [doPreventDefault]
+    );
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
@@ -74,7 +86,7 @@ const JsEventTesterPage: FunctionComponent = () => {
             <Flex column maxWidth="800px">
                 <Tabs>
                     <Tabs.TabPane tab="keydown">
-                        <Flex column>
+                        <Flex column gap={16}>
                             {lastKeyDownEvent ? (
                                 <Text className="fs-6">
                                     <Flex column gap={5}>
@@ -101,6 +113,10 @@ const JsEventTesterPage: FunctionComponent = () => {
                                     <Text strong>Press any key</Text>
                                 </Flex>
                             )}
+                            <label className="d-flex flex-row align-items-center gap-2">
+                                <Switch checked={doPreventDefault} onChange={setDoPreventDefault} />
+                                preventDefault
+                            </label>
                         </Flex>
                     </Tabs.TabPane>
                 </Tabs>

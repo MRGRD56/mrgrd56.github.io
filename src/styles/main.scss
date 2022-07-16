@@ -49,6 +49,12 @@ $mediaXXL: 1600px;
     }
 }
 
+@mixin themeLight {
+    @at-root body:not([data-theme='dark']) & {
+        @content;
+    }
+}
+
 //---/--/---/--/---/--/---/--/---/--/---/--/---/--/---/--/---//
 
 $borderColorLight: #d9d9d9;

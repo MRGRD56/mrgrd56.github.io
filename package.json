@@ -44,6 +44,7 @@
         "redux": "^4.1.2",
         "redux-thunk": "^2.4.1",
         "rooks": "^5.11.0",
+        "simplebar": "^5.3.8",
         "typescript-fsa": "^3.0.0",
         "typescript-fsa-reducers": "^1.2.2",
         "uuid": "^8.3.2",
