@@ -52,7 +52,7 @@ const AppSider = () => {
         };
 
         setContainerScrollIndent(newContainerScrollIndent);
-        console.log('AppSider scroll', { newContainerScrollIndent, y, bottom, documentHeight });
+        // console.log('AppSider scroll', { newContainerScrollIndent, y, bottom, documentHeight });
     };
 
     useLayoutEffect(() => {
