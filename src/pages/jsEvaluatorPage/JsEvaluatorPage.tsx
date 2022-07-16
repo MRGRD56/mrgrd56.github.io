@@ -120,7 +120,7 @@ const JsEvaluatorPage = () => {
         try {
             await evaluateJsDangerous(evalValue, $value);
         } catch (error) {
-            if (!(error instanceof SyntaxError || error instanceof TypeError)) {
+            if (!(error instanceof ReferenceError || error instanceof SyntaxError || error instanceof TypeError)) {
                 handleJsError(error);
             }
 
