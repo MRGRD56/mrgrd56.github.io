@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import Sider from 'antd/lib/layout/Sider';
 import AppMenu from '../appMenu/AppMenu';
 import styles from './AppSider.module.scss';
@@ -10,6 +10,7 @@ import './AppSider.scss';
 import useResizeObserver from '../../../../hooks/useResizeObserver';
 import useAppFooter from '../../../../hooks/useAppFooter';
 import { FOOTER_HEIGHT, HEADER_HEIGHT } from '../../../../constants/layout';
+import useAppLocation from '../../../../hooks/useAppLocation';
 
 interface ContainerScrollIndent {
     top: number;
@@ -20,6 +21,7 @@ interface ContainerScrollIndent {
 
 const AppSider = () => {
     const { footerHeight, isFooterAnywayShown } = useAppFooter();
+    const appRoute = useAppLocation();
 
     const [containerScrollIndent, setContainerScrollIndent] = useState<ContainerScrollIndent>({
         top: HEADER_HEIGHT,
@@ -44,19 +46,20 @@ const AppSider = () => {
 
         const newContainerScrollIndent: ContainerScrollIndent = {
             top: Math.max(y, 0),
-            bottom: Math.max(documentHeight - bottom, 0),
+            bottom: bottom === 0 ? 0 : Math.max(documentHeight - bottom, 0),
             redundantHeight: footerHeight,
             totalHeight: document.body.getBoundingClientRect().height
         };
 
         setContainerScrollIndent(newContainerScrollIndent);
-        console.log('AppSider scroll', newContainerScrollIndent);
+        console.log('AppSider scroll', { newContainerScrollIndent, y, bottom, documentHeight });
     };
 
-    // useDidMount(() => {
-    //     updateContainerScrollIndent();
-    // });
+    useLayoutEffect(() => {
+        updateContainerScrollIndent();
+    }, [appRoute]);
 
+    useResizeObserver(document.body, updateContainerScrollIndent);
     useResizeObserver(siderRef.current, updateContainerScrollIndent);
     useWindowEventListener('scroll', updateContainerScrollIndent);
 

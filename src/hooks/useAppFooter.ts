@@ -7,17 +7,16 @@ const useAppFooter = () => {
     const { isFooterHidden } = useAppSettings();
     const appRoute = useAppLocation();
 
-    const isFooterAnywayShown = appRoute?.isFooterAlwaysShown === true;
-    const isFooterShown = !isFooterHidden || isFooterAnywayShown;
+    return useMemo(() => {
+        const isFooterAnywayShown = appRoute?.isFooterAlwaysShown === true;
+        const isFooterShown = !isFooterHidden || isFooterAnywayShown;
 
-    return useMemo(
-        () => ({
-            isFooterShown,
+        return {
             isFooterAnywayShown,
+            isFooterShown,
             footerHeight: isFooterShown ? FOOTER_HEIGHT : 0
-        }),
-        [isFooterShown, isFooterAnywayShown]
-    );
+        };
+    }, [appRoute, isFooterHidden]);
 };
 
 export default useAppFooter;
