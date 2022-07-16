@@ -2,6 +2,7 @@ import React, { HTMLProps, ReactElement, useEffect, useRef } from 'react';
 import { useDidMount } from 'rooks';
 import LunaObjectViewer from 'luna-object-viewer';
 import useAppTheme from '../../hooks/useAppTheme';
+import processRef from '../../utils/processRef';
 
 interface Props extends Omit<HTMLProps<HTMLDivElement>, 'value' | 'children'> {
     value: unknown;
@@ -27,22 +28,15 @@ const JsObjectViewer = ({ value, ...props }: Props): ReactElement => {
     });
 
     useEffect(() => {
-        const objectViewer = objectViewerRef.current;
-        if (!objectViewer) {
-            return;
-        }
-
-        objectViewer.set(value);
-        console.log({ objectViewer });
+        processRef(objectViewerRef, (objectViewer) => {
+            objectViewer.set(value);
+        });
     }, [value]);
 
     useEffect(() => {
-        const objectViewer = objectViewerRef.current;
-        if (!objectViewer) {
-            return;
-        }
-
-        objectViewer.setOption('theme', isDarkMode ? 'dark' : 'light');
+        processRef(objectViewerRef, (objectViewer) => {
+            objectViewer.setOption('theme', isDarkMode ? 'dark' : 'light');
+        });
     }, [isDarkMode]);
 
     return <div ref={containerRef} {...props} />;

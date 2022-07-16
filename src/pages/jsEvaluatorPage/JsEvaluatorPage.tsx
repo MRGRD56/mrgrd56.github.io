@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { MutableRefObject, useCallback, useEffect, useState } from 'react';
 import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import { Button, Col, notification, Row, Select, Spin, Tooltip } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
-import useInputState from '../../hooks/useInputState';
 import pluralize from 'pluralize';
 import scopedEval from '../../utils/scopedEval';
 import getErrorMessage from '../../utils/getErrorMessage';
@@ -25,6 +24,7 @@ import LabeledSwitch from '../../components/labeledSwitch/LabeledSwitch';
 import { useDebounce, useLocalstorageState } from 'rooks';
 import getLocalStorageKey from '../../utils/getLocalStorageKey';
 import JsObjectViewer from '../../components/jsObjectViewer/JsObjectViewer';
+import useStateChangeByEventHandler from '../../hooks/useStateChangeByEventHandler';
 
 interface ShowCountProps {
     formatter: (args: { count: number; maxLength?: number }) => string;
@@ -49,9 +49,10 @@ declare const $value: string;`);
 };
 
 const JsEvaluatorPage = () => {
-    const [$value, , set$ValueByEvent] = useInputState<string>('');
-    const [evalValue, setEvalValue] = useState<string>('');
-    const [evaluatedJs, setEvaluatedJs] = useState<unknown>(undefined);
+    const [$value, set$Value] = useLocalstorageState<string>(getLocalStorageKey('javascript-eval', '$value'), '');
+    const set$ValueByEvent = useStateChangeByEventHandler(set$Value);
+    const [jsSource, setJsSource] = useLocalstorageState<string>(getLocalStorageKey('javascript-eval', 'jsSource'), '');
+    const [evaluatedJs, setEvaluatedJs] = useState<MutableRefObject<unknown>>();
     const [evaluatedJsString, setEvaluatedJsString] = useState<string>('');
     const [isAutoEval, setIsAutoEval] = useLocalstorageState<boolean>(
         getLocalStorageKey('javascript-eval', 'isAutoEval'),
@@ -87,7 +88,7 @@ const JsEvaluatorPage = () => {
             console.log(evalResult);
         }
 
-        setEvaluatedJs(evalResult);
+        setEvaluatedJs({ current: evalResult });
 
         const evalResultString = isObjectLike(evalResult)
             ? JSON.stringify(evalResult, undefined, 2)
@@ -109,13 +110,13 @@ const JsEvaluatorPage = () => {
 
     const evaluateJs = useCallback(async () => {
         try {
-            await evaluateJsDangerous(evalValue, $value);
+            await evaluateJsDangerous(jsSource, $value);
         } catch (error) {
             handleJsError(error);
         } finally {
             setIsLoading(false);
         }
-    }, [evaluateJsDangerous, handleJsError, evalValue, $value]);
+    }, [evaluateJsDangerous, handleJsError, jsSource, $value]);
 
     const handleEveryEvalValueChange = useCallback(async (evalValue: string, $value: string) => {
         try {
@@ -138,8 +139,8 @@ const JsEvaluatorPage = () => {
             return;
         }
 
-        handleEvalValueChange(evalValue, $value);
-    }, [isAutoEval, evalValue, $value]);
+        handleEvalValueChange(jsSource, $value);
+    }, [isAutoEval, jsSource, $value]);
 
     return (
         <PageContainer title="JavaScript Evaluator" className={styles.container}>
@@ -178,12 +179,12 @@ const JsEvaluatorPage = () => {
                             </Paragraph>
                         </Text>
 
-                        {/*<TextArea className="font-monospace mt-1" $value={evalValue} onChange={setEvalValueByEvent} />*/}
+                        {/*<TextArea className="font-monospace mt-1" $value={jsSource} onChange={setEvalValueByEvent} />*/}
                         <AppEditor
                             defaultLanguage="javascript"
                             className={classNames('mt-1', styles.codeEditor)}
-                            value={evalValue}
-                            onChange={setEvalValue}
+                            value={jsSource}
+                            onChange={setJsSource}
                             options={codeEditorOptions}
                             beforeMount={handleCodeEditorBeforeMount}
                         />
@@ -208,7 +209,9 @@ const JsEvaluatorPage = () => {
                 </Flex>
                 <Flex column className={styles.resultContainerWrapper}>
                     <Spin spinning={isLoading} delay={10} className={styles.resultContainer}>
-                        {outputMode === OutputMode.VIEW && <JsObjectViewer value={evaluatedJs} />}
+                        {outputMode === OutputMode.VIEW && evaluatedJs !== undefined && (
+                            <JsObjectViewer value={evaluatedJs.current} />
+                        )}
                         {outputMode === OutputMode.TEXT && (
                             <Col>
                                 <TextArea

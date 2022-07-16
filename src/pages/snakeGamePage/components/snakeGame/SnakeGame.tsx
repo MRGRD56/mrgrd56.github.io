@@ -9,6 +9,7 @@ import SnakeDirection from './types/SnakeDirection';
 import classNames from 'classnames';
 import './SnakeGame.scss';
 import Focused from '../../../../components/focused/Focused';
+import processRef from '../../../../utils/processRef';
 
 const snakeSpeed = 150;
 const maxSnakeAreaSize = 500;
@@ -57,12 +58,10 @@ const SnakeGame = () => {
     }, []);
 
     useEffect(() => {
-        if (!containerRef.current) {
-            return;
-        }
-
-        setAreaWidth(Math.min(containerRef.current.clientWidth - 16, maxSnakeAreaSize));
-        containerRef.current.focus();
+        processRef(containerRef, (container) => {
+            setAreaWidth(Math.min(container.clientWidth - 16, maxSnakeAreaSize));
+            container.focus();
+        });
     }, []);
 
     useEffect(() => {

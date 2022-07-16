@@ -1,4 +1,4 @@
-import React, { CSSProperties, FunctionComponent, HTMLProps, ReactChild, ReactNode, useMemo } from 'react';
+import React, { CSSProperties, FunctionComponent, HTMLProps, useMemo } from 'react';
 import { Switch, SwitchProps } from 'antd';
 import { omit, pick } from 'lodash';
 import styles from './LabeledSwitch.module.scss';
