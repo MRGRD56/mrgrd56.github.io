@@ -43,6 +43,7 @@ export interface AppRoute extends Omit<RouteProps, 'element'> {
     component: ComponentType;
     title: string;
     isLayoutHidden?: boolean;
+    isFooterAlwaysShown?: boolean;
 }
 
 type AppRoutesMap = Readonly<{
@@ -84,7 +85,8 @@ export const routes: AppRoutesMap = {
     root: {
         path: '/',
         component: RootPage,
-        title: 'MRGRD56'
+        title: 'MRGRD56',
+        isFooterAlwaysShown: true
     },
     githubPagesList: {
         path: '/github-pages',

@@ -25,9 +25,9 @@ const AppLayout: FunctionComponent = ({ children }) => {
                 <AppSider />
                 <Content
                     className={styles.contentContainer}
-                    // style={{
-                    //     minHeight: isFooterShown ? 'calc(100vh - 64px)' : 'calc(100vh - 164px)'
-                    // }}
+                    style={{
+                        minHeight: `calc(100vh - 64px - )` //${isFooterAnywayShown ? footerHeight : 0}px)`
+                    }}
                 >
                     {children}
                 </Content>

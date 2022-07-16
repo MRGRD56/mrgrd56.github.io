@@ -1,11 +1,11 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Sider from 'antd/lib/layout/Sider';
 import AppMenu from '../appMenu/AppMenu';
 import styles from './AppSider.module.scss';
 import classNames from 'classnames';
 import 'simplebar';
 import 'simplebar/dist/simplebar.css';
-import { useWindowEventListener } from 'rooks';
+import { useDidMount, useWindowEventListener } from 'rooks';
 import './AppSider.scss';
 import useResizeObserver from '../../../../hooks/useResizeObserver';
 import useAppFooter from '../../../../hooks/useAppFooter';
@@ -18,7 +18,7 @@ interface ContainerScrollIndent {
 }
 
 const AppSider = () => {
-    const { footerHeight } = useAppFooter();
+    const { footerHeight, isFooterAnywayShown } = useAppFooter();
 
     const [containerScrollIndent, setContainerScrollIndent] = useState<ContainerScrollIndent>({
         top: 64,
@@ -52,6 +52,10 @@ const AppSider = () => {
         console.log('AppSider scroll', newContainerScrollIndent);
     };
 
+    // useDidMount(() => {
+    //     updateContainerScrollIndent();
+    // });
+
     useResizeObserver(siderRef.current, updateContainerScrollIndent);
     useWindowEventListener('scroll', updateContainerScrollIndent);
 
@@ -62,16 +66,15 @@ const AppSider = () => {
                 ref={containerScrollWrapperRef}
                 style={{
                     // position: containerScrollIndent.bottom ? 'fixed' : 'sticky'
-                    height: `calc(100vh - ${containerScrollIndent.redundantHeight}px)`
+                    height: 'calc(100vh - 76px)'
                 }}
             >
                 <div
                     data-simplebar=""
                     className={styles.containerScroll}
                     style={{
-                        // top: `${containerScrollIndent.bottom}px`,
                         maxHeight: `calc(100vh - ${containerScrollIndent.top}px - ${containerScrollIndent.bottom}px)`
-
+                        // top: `${containerScrollIndent.bottom}px`,
                         // width: containerScrollIndent.bottom ? '200px' : undefined
                     }}
                 >
