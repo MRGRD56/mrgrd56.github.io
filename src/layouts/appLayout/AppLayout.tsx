@@ -7,6 +7,7 @@ import AppSider from './components/appSider/AppSider';
 import AppFooter from './components/appFooter/AppFooter';
 import useAppLocation from '../../hooks/useAppLocation';
 import useAppFooter from '../../hooks/useAppFooter';
+import { HEADER_HEIGHT } from '../../constants/layout';
 
 const AppLayout: FunctionComponent = ({ children }) => {
     const appRoute = useAppLocation();
@@ -26,7 +27,7 @@ const AppLayout: FunctionComponent = ({ children }) => {
                 <Content
                     className={styles.contentContainer}
                     style={{
-                        minHeight: `calc(100vh - 64px - ${isFooterAnywayShown ? footerHeight : 0}px)`
+                        minHeight: `calc(100vh - ${HEADER_HEIGHT}px - ${isFooterAnywayShown ? footerHeight : 0}px)`
                     }}
                 >
                     {children}

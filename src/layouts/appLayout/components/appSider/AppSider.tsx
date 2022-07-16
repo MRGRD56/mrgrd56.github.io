@@ -5,10 +5,11 @@ import styles from './AppSider.module.scss';
 import classNames from 'classnames';
 import 'simplebar';
 import 'simplebar/dist/simplebar.css';
-import { useDidMount, useWindowEventListener } from 'rooks';
+import { useWindowEventListener } from 'rooks';
 import './AppSider.scss';
 import useResizeObserver from '../../../../hooks/useResizeObserver';
 import useAppFooter from '../../../../hooks/useAppFooter';
+import { FOOTER_HEIGHT, HEADER_HEIGHT } from '../../../../constants/layout';
 
 interface ContainerScrollIndent {
     top: number;
@@ -21,7 +22,7 @@ const AppSider = () => {
     const { footerHeight, isFooterAnywayShown } = useAppFooter();
 
     const [containerScrollIndent, setContainerScrollIndent] = useState<ContainerScrollIndent>({
-        top: 64,
+        top: HEADER_HEIGHT,
         bottom: 0,
         redundantHeight: footerHeight,
         totalHeight: document.body.getBoundingClientRect().height
@@ -66,7 +67,7 @@ const AppSider = () => {
                 ref={containerScrollWrapperRef}
                 style={{
                     // position: containerScrollIndent.bottom ? 'fixed' : 'sticky'
-                    height: `calc(100vh - 76px - ${isFooterAnywayShown ? 64 : 0}px)`
+                    height: `calc(100vh - ${FOOTER_HEIGHT}px - ${isFooterAnywayShown ? HEADER_HEIGHT : 0}px)`
                 }}
             >
                 <div
