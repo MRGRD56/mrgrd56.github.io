@@ -11,11 +11,18 @@
         //background: rgb(20, 20, 20);
     }
 
-    .containerScroll {
-        //max-height: calc(100vh - 64px);
-        overflow-y: auto;
-        overflow-x: hidden;
+    .containerScrollWrapper {
         position: sticky;
         top: 0;
+        height: 100vh;
+
+        .containerScroll {
+            //max-height: calc(100vh - 64px);
+            overflow-y: auto;
+            overflow-x: hidden;
+            will-change: top, max-height;
+            //position: sticky;
+            //top: 0;
+        }
     }
 }

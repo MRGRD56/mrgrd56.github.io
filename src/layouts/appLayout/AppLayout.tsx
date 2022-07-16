@@ -5,15 +5,12 @@ import styles from './AppLayout.module.scss';
 import AppHeader from './components/appHeader/AppHeader';
 import AppSider from './components/appSider/AppSider';
 import AppFooter from './components/appFooter/AppFooter';
-import useAppSettings from '../../hooks/useAppSettings';
 import useAppLocation from '../../hooks/useAppLocation';
-import { routes } from '../../constants/router/routes';
+import useAppFooter from '../../hooks/useAppFooter';
 
 const AppLayout: FunctionComponent = ({ children }) => {
-    const { isFooterHidden } = useAppSettings();
     const appRoute = useAppLocation();
-
-    const isFooterShown = !isFooterHidden || appRoute === routes.root;
+    const { isFooterShown } = useAppFooter();
 
     const isLayoutHidden = appRoute?.isLayoutHidden === true;
 
@@ -26,7 +23,14 @@ const AppLayout: FunctionComponent = ({ children }) => {
             <AppHeader />
             <Layout className={styles.mainLayout}>
                 <AppSider />
-                <Content className={styles.contentContainer}>{children}</Content>
+                <Content
+                    className={styles.contentContainer}
+                    // style={{
+                    //     minHeight: isFooterShown ? 'calc(100vh - 64px)' : 'calc(100vh - 164px)'
+                    // }}
+                >
+                    {children}
+                </Content>
             </Layout>
             {isFooterShown && <AppFooter />}
         </Layout>

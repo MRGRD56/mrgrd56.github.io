@@ -24,7 +24,6 @@ import Flex from '../../components/flex/Flex';
 import LabeledSwitch from '../../components/labeledSwitch/LabeledSwitch';
 import { useDebounce, useLocalstorageState } from 'rooks';
 import getLocalStorageKey from '../../utils/getLocalStorageKey';
-import ReactJson from 'react-json-view';
 import JsObjectViewer from '../../components/jsObjectViewer/JsObjectViewer';
 
 interface ShowCountProps {
@@ -59,7 +58,10 @@ const JsEvaluatorPage = () => {
         true
     );
 
-    const [outputMode, setOutputMode] = useState<OutputMode>(OutputMode.TEXT);
+    const [outputMode, setOutputMode] = useLocalstorageState<OutputMode>(
+        getLocalStorageKey('javascript-eval', 'outputMode'),
+        OutputMode.TEXT
+    );
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
