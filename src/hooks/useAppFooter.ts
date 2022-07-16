@@ -15,7 +15,7 @@ const useAppFooter = () => {
             isFooterAnywayShown,
             footerHeight: isFooterShown ? 76 : 0
         }),
-        [isFooterShown]
+        [isFooterShown, isFooterAnywayShown]
     );
 };
 

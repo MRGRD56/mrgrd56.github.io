@@ -66,7 +66,7 @@ const AppSider = () => {
                 ref={containerScrollWrapperRef}
                 style={{
                     // position: containerScrollIndent.bottom ? 'fixed' : 'sticky'
-                    height: 'calc(100vh - 76px)'
+                    height: `calc(100vh - 76px - ${isFooterAnywayShown ? 64 : 0}px)`
                 }}
             >
                 <div

@@ -10,7 +10,7 @@ import useAppFooter from '../../hooks/useAppFooter';
 
 const AppLayout: FunctionComponent = ({ children }) => {
     const appRoute = useAppLocation();
-    const { isFooterShown } = useAppFooter();
+    const { isFooterShown, isFooterAnywayShown, footerHeight } = useAppFooter();
 
     const isLayoutHidden = appRoute?.isLayoutHidden === true;
 
@@ -26,7 +26,7 @@ const AppLayout: FunctionComponent = ({ children }) => {
                 <Content
                     className={styles.contentContainer}
                     style={{
-                        minHeight: `calc(100vh - 64px - )` //${isFooterAnywayShown ? footerHeight : 0}px)`
+                        minHeight: `calc(100vh - 64px - ${isFooterAnywayShown ? footerHeight : 0}px)`
                     }}
                 >
                     {children}
