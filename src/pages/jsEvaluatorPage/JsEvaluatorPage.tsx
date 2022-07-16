@@ -96,9 +96,10 @@ const JsEvaluatorPage = () => {
         setEvaluatedJsString(evalResultString);
     }, []);
 
-    const handleJsError = useCallback((error: unknown) => {
+    const handleJsError = useCallback((error) => {
         notification.error({
-            message: getErrorMessage(error)
+            message: error?.constructor.name ?? 'Error',
+            description: getErrorMessage(error)
         });
 
         if (outputMode === OutputMode.CONSOLE) {
