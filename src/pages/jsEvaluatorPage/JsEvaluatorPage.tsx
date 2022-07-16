@@ -134,8 +134,12 @@ const JsEvaluatorPage = () => {
     const handleEvalValueChange = useDebounce(handleEveryEvalValueChange, 300);
 
     useEffect(() => {
+        if (!isAutoEval) {
+            return;
+        }
+
         handleEvalValueChange(evalValue, $value);
-    }, [evalValue, $value]);
+    }, [isAutoEval, evalValue, $value]);
 
     return (
         <PageContainer title="JavaScript Evaluator" className={styles.container}>
