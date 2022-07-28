@@ -1,17 +1,19 @@
-import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
+import React, { FunctionComponent, useCallback, useState } from 'react';
 import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
-import { Button, Checkbox, Col, Row, Slider, Space } from 'antd';
+import { Button, Checkbox, Col, notification, Row, Slider, Space } from 'antd';
 import Text from 'antd/lib/typography/Text';
 import CopyButton from '../../components/copyButton/CopyButton';
 import ExternalLink from '../../components/ExternalLink';
 import getNpmPackageLink from '../../utils/getNpmPackageLink';
-import { useLocalstorageState } from 'rooks';
+import { useDebounce, useDidMount, useLocalstorageState } from 'rooks';
 import getLocalStorageKey from '../../utils/getLocalStorageKey';
 import PasswordGenerator, { GenerateOptions } from 'generate-password-browser';
 import useChangeStateHandler from '../../hooks/useChangeStateHandler';
 import Flex from '../../components/flex/Flex';
 import pluralize from 'pluralize';
 import { SliderMarks } from 'antd/lib/slider';
+import getErrorMessage from '../../utils/getErrorMessage';
+import useDeepEffect from '../../hooks/useDeepEffect';
 
 const titleExtra = (
     <Text type="secondary">
@@ -35,7 +37,17 @@ const lengthSliderMarks: SliderMarks = {
     [64]: '64'
 };
 
-const generatePassword = PasswordGenerator.generate;
+const generatePassword = (options: GenerateOptions) => {
+    try {
+        return PasswordGenerator.generate(options);
+    } catch (e) {
+        const message = getErrorMessage(e);
+        notification.error({
+            message: 'An error occurred',
+            description: message
+        });
+    }
+};
 
 const PasswordGeneratorPage: FunctionComponent = () => {
     const [options, setOptions] = useLocalstorageState<GenerateOptions>(
@@ -47,15 +59,29 @@ const PasswordGeneratorPage: FunctionComponent = () => {
 
     const [password, setPassword] = useState(generatePassword(options));
 
-    const generate = useCallback(() => {
+    const generateManually = useCallback((options: GenerateOptions) => {
         const newPassword = generatePassword(options);
         setPassword(newPassword);
         return newPassword;
-    }, [options]);
+    }, []);
 
-    useEffect(() => {
+    const generate = useCallback(() => {
+        return generateManually(options);
+    }, [generateManually, options]);
+
+    const generateDebounced = useDebounce(generateManually, 25);
+
+    useDidMount(() => {
         generate();
-    }, [generate]);
+    });
+
+    useDeepEffect(
+        () => {
+            generateDebounced(options);
+        },
+        [options],
+        { skipFirstRender: true }
+    );
 
     return (
         <PageContainer title="Password Generator" titleExtra={titleExtra}>
