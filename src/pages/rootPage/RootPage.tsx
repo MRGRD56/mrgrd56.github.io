@@ -5,6 +5,8 @@ import { ReactComponent as ForkMeOnGitHub } from './assets/forkMeOnGitHub.svg';
 import styles from './RootPage.module.scss';
 import ExternalLink from '../../components/ExternalLink';
 import { Col } from 'antd';
+import { appRoutesList } from '../../constants/router/routes';
+import Text from 'antd/lib/typography/Text';
 
 const RootPage: FunctionComponent = () => {
     // const {isFooterHidden} = useAppSettings();
@@ -23,6 +25,12 @@ const RootPage: FunctionComponent = () => {
                         <span className="d-none d-lg-inline">left</span>
                         <span className="d-lg-none">right</span>!
                     </Paragraph>
+
+                    <Text className={styles.helperTags}>
+                        {appRoutesList.map((route) => route.title).join(', ')}
+                        {', '}
+                        Clock with seconds
+                    </Text>
                 </Col>
 
                 {/*{isFooterHidden && (*/}
