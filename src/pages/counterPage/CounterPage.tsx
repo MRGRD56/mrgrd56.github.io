@@ -43,15 +43,15 @@ const CounterPage: FunctionComponent = () => {
 
     return (
         <PageContainer title="Counters">
-            <Flex column gap={8}>
+            <Flex col gap={8}>
                 {counters.length > 0 && (
                     <>
-                        <Flex column>
+                        <Flex col>
                             <Button icon={<CloseOutlined />} size="large" onClick={handleClear}>
                                 Clear counters list
                             </Button>
                         </Flex>
-                        <Flex column gap={8}>
+                        <Flex col gap={8}>
                             {counters.map((counter, index) => (
                                 <CounterItem
                                     key={index}

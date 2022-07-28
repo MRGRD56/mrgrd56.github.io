@@ -1,3 +1,5 @@
+@import '../../styles/main';
+
 .container {
     min-height: 100% !important;
 
@@ -8,6 +10,13 @@
 
         .contentContainer {
             height: auto;
+
+            width: calc(100vw - 17px);
+            max-width: 100%;
+
+            @include mediaLG {
+                width: calc(100vw - 217px);
+            }
         }
     }
 }

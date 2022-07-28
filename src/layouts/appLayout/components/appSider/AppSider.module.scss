@@ -25,4 +25,9 @@
             //top: 0;
         }
     }
+
+    :global(.ant-layout-sider-children) {
+        padding-top: 0;
+        margin-top: 0;
+    }
 }

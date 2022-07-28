@@ -144,7 +144,7 @@ const JsEvaluatorPage = () => {
 
     return (
         <PageContainer title="JavaScript Evaluator" className={styles.container}>
-            <Flex column gap={8} minHeight="100%" maxHeight="100%">
+            <Flex col gap={8} minHeight="100%" maxHeight="100%">
                 <Col className={styles.valueContainer}>
                     <TextArea
                         rows={6}
@@ -157,8 +157,8 @@ const JsEvaluatorPage = () => {
                         id="$value-textarea"
                     />
                 </Col>
-                <Flex column className={styles.codeContainer}>
-                    <Flex column flex={1} className={styles.codeEditorContainer}>
+                <Flex col className={styles.codeContainer}>
+                    <Flex col flex={1} className={styles.codeEditorContainer}>
                         <Text>
                             <Paragraph className="mb-1">Evaluate JavaScript</Paragraph>
                             <Paragraph className="mb-2">
@@ -207,7 +207,7 @@ const JsEvaluatorPage = () => {
                         </Select>
                     </Row>
                 </Flex>
-                <Flex column className={styles.resultContainerWrapper}>
+                <Flex col className={styles.resultContainerWrapper}>
                     <Spin spinning={isLoading} delay={10} className={styles.resultContainer}>
                         {outputMode === OutputMode.VIEW && evaluatedJs !== undefined && (
                             <JsObjectViewer value={evaluatedJs.current} />

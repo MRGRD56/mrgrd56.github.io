@@ -3,7 +3,7 @@ import { defaults } from 'lodash';
 
 type CSS = CSSProperties;
 
-interface BaseProps extends Omit<HTMLProps<HTMLDivElement>, 'height' | 'width'> {
+interface BaseProps extends Omit<HTMLProps<HTMLDivElement>, 'height' | 'width' | 'wrap'> {
     justify?: CSS['justifyContent'];
     align?: CSS['alignItems'];
     alignContent?: CSS['alignContent'];
@@ -15,24 +15,26 @@ interface BaseProps extends Omit<HTMLProps<HTMLDivElement>, 'height' | 'width'> 
     height?: CSS['height'];
     minWidth?: CSS['minWidth'];
     minHeight?: CSS['minHeight'];
+    alignSelf?: CSS['alignSelf'];
+    wrap?: CSS['flexWrap'];
 }
 
 interface PropsWithDirection extends BaseProps {
     direction?: CSS['flexDirection'];
     row?: never;
-    column?: never;
+    col?: never;
 }
 
 interface PropsWithRow extends BaseProps {
     direction?: never;
     row: true;
-    column?: never;
+    col?: never;
 }
 
 interface PropsWithColumn extends BaseProps {
     direction?: never;
     row?: never;
-    column: true;
+    col: true;
 }
 
 type Props = PropsWithDirection | PropsWithRow | PropsWithColumn;
@@ -46,7 +48,7 @@ type Props = PropsWithDirection | PropsWithRow | PropsWithColumn;
 const Flex: FunctionComponent<Props> = (props) => {
     const {
         row,
-        column,
+        col,
         direction,
         justify,
         align,
@@ -60,6 +62,8 @@ const Flex: FunctionComponent<Props> = (props) => {
         height,
         minWidth,
         minHeight,
+        alignSelf,
+        wrap,
         children,
         ...restProps
     } = props;
@@ -72,7 +76,7 @@ const Flex: FunctionComponent<Props> = (props) => {
                     switch (true) {
                         case row:
                             return 'row';
-                        case column:
+                        case col:
                             return 'column';
                         default:
                             return direction;
@@ -88,13 +92,15 @@ const Flex: FunctionComponent<Props> = (props) => {
                 width,
                 height,
                 minWidth,
-                minHeight
+                minHeight,
+                alignSelf,
+                wrap
             },
             style
         );
     }, [
         row,
-        column,
+        col,
         direction,
         justify,
         align,
@@ -107,7 +113,9 @@ const Flex: FunctionComponent<Props> = (props) => {
         width,
         height,
         minWidth,
-        minHeight
+        minHeight,
+        alignSelf,
+        wrap
     ]);
 
     return (

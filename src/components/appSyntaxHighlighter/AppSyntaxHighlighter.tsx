@@ -16,11 +16,7 @@ const AppSyntaxHighlighter: FunctionComponent<AppSyntaxHighlighterProps> = ({ ch
     const { isDarkMode } = useAppTheme();
 
     return (
-        <Prism
-            {...props}
-            style={isDarkMode ? oneDark : oneLight}
-            wrapLongLines // FIXME temporary solution
-        >
+        <Prism {...props} style={isDarkMode ? oneDark : oneLight}>
             {children}
         </Prism>
     );

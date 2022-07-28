@@ -1,17 +1,27 @@
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
-import { isObjectLike } from 'lodash';
+import { Dispatch, SetStateAction } from 'react';
+import { isObject } from 'lodash';
 import call from '../utils/call';
+import ObjectKey from '../types/common/ObjectKey';
 
-export const isChangeEvent = (value: any): value is ChangeEvent<unknown> => {
-    return isObjectLike(value) && 'target' in value;
+export interface TypedChangeEvent<T, P extends ObjectKey> {
+    target: {
+        [key in P]: T;
+    };
+}
+
+export const isChangeEvent = (value: unknown): value is TypedChangeEvent<unknown, ObjectKey> => {
+    return isObject(value) && 'target' in value;
 };
 
-const useChangeAnyStateHandler = <S>(setState: Dispatch<SetStateAction<S>>) => {
-    return (value: ChangeEvent<{ value: S }> | S) => {
+const useChangeAnyStateHandler = <S, P extends ObjectKey>(
+    setState: Dispatch<SetStateAction<S>>,
+    property: P = 'value' as P
+) => {
+    return (value: TypedChangeEvent<S, P> | S) => {
         const actualValue = call(() => {
             if (isChangeEvent(value)) {
-                const event = value as ChangeEvent<{ value: S }>;
-                return event.target.value;
+                const event = value as TypedChangeEvent<S, P>;
+                return event.target[property];
             }
 
             return value;

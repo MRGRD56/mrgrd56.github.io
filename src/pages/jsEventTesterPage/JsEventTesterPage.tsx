@@ -83,13 +83,13 @@ const JsEventTesterPage: FunctionComponent = () => {
 
     return (
         <PageContainer ref={containerRef} title="JavaScript Event Tester" tabIndex={-1}>
-            <Flex column maxWidth="800px">
+            <Flex col maxWidth="800px">
                 <Tabs>
                     <Tabs.TabPane tab="keydown">
-                        <Flex column gap={16}>
+                        <Flex col gap={16}>
                             {lastKeyDownEvent ? (
                                 <Text className="fs-6">
-                                    <Flex column gap={5}>
+                                    <Flex col gap={5}>
                                         <Text strong className="fs-5">
                                             {joinObjects(pressedShortcut, <>+</>)}
                                         </Text>
@@ -109,7 +109,7 @@ const JsEventTesterPage: FunctionComponent = () => {
                                     </Flex>
                                 </Text>
                             ) : (
-                                <Flex column gap={8}>
+                                <Flex col gap={8}>
                                     <Text strong>Press any key</Text>
                                 </Flex>
                             )}

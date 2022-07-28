@@ -1,6 +1,8 @@
 import { RouteProps } from 'react-router';
 import { values } from 'lodash';
 import React, { ComponentType } from 'react';
+import ClockPage from '../../pages/clockPage/ClockPage';
+import PasswordGeneratorPage from '../../pages/passwordGeneratorPage/PasswordGeneratorPage';
 
 const RootPage = React.lazy(() => import('../../pages/rootPage/RootPage'));
 const GithubPagesListPage = React.lazy(() => import('../../pages/githubPagesPage/GithubPagesListPage'));
@@ -48,6 +50,8 @@ export interface AppRoute extends Omit<RouteProps, 'element'> {
 
 type AppRoutesMap = Readonly<{
     root: AppRoute;
+    settings: AppRoute;
+    about: AppRoute;
     githubPagesList: AppRoute;
     longContent: AppRoute;
     jsonStringifier: AppRoute;
@@ -77,8 +81,8 @@ type AppRoutesMap = Readonly<{
     rooksDemo: AppRoute;
     jsEventTester: AppRoute;
     markdownCheatSheet: AppRoute;
-    settings: AppRoute;
-    about: AppRoute;
+    clock: AppRoute;
+    passwordGenerator: AppRoute;
 }>;
 
 export const routes: AppRoutesMap = {
@@ -87,6 +91,16 @@ export const routes: AppRoutesMap = {
         component: RootPage,
         title: 'MRGRD56',
         isFooterAlwaysShown: true
+    },
+    settings: {
+        path: '/settings',
+        component: SettingsPage,
+        title: 'Settings'
+    },
+    about: {
+        path: '/about',
+        component: AboutPage,
+        title: 'About'
     },
     githubPagesList: {
         path: '/github-pages',
@@ -234,15 +248,15 @@ export const routes: AppRoutesMap = {
         component: MarkdownCheatSheetPage,
         title: 'Markdown Cheat Sheet'
     },
-    settings: {
-        path: '/settings',
-        component: SettingsPage,
-        title: 'Settings'
+    clock: {
+        path: '/tools/clock',
+        component: ClockPage,
+        title: 'Clock'
     },
-    about: {
-        path: '/about',
-        component: AboutPage,
-        title: 'About'
+    passwordGenerator: {
+        path: '/tools/password-generator',
+        component: PasswordGeneratorPage,
+        title: 'Password Generator'
     }
 };
 

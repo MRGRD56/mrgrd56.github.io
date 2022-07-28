@@ -44,6 +44,9 @@ const menuItems: MenuItem[] = [
                 route: routes.uuidGenerator
             },
             {
+                route: routes.passwordGenerator
+            },
+            {
                 route: routes.jsonStringifier
             },
             {
@@ -79,6 +82,9 @@ const menuItems: MenuItem[] = [
             },
             {
                 route: routes.jsEventTester
+            },
+            {
+                route: routes.clock
             },
             {
                 route: routes.jsonToYaml,

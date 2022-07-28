@@ -8,8 +8,6 @@ import { routes } from '../../../../constants/router/routes';
 import { Button, Col, Drawer, Space, Switch, Tooltip } from 'antd';
 import AppMenu from '../appMenu/AppMenu';
 import { MenuOutlined } from '@ant-design/icons';
-import './AppHeader.scss';
-import classNames from 'classnames';
 import Flex from '../../../../components/flex/Flex';
 import { DarkMode, LightMode } from '@mui/icons-material';
 import { useAppSettingsState } from '../../../../hooks/useAppSettings';
@@ -58,7 +56,7 @@ const AppHeader = () => {
                 placement="right"
                 visible={isDrawerVisible}
                 onClose={handleDrawerClose}
-                className={classNames(styles.sideMenuDrawer, 'AppHeader__side-menu-drawer')}
+                className={styles.sideMenuDrawer}
                 bodyStyle={drawerBodyStyle}
                 headerStyle={drawerHeaderStyle}
                 contentWrapperStyle={drawerContentWrapperStyle}
@@ -84,7 +82,7 @@ const AppHeader = () => {
                                     unCheckedChildren={
                                         <LightMode className={styles.themeSwitchIcon} fontSize="small" />
                                     }
-                                    className={classNames(styles.themeSwitch, 'AppHeader__theme-switch')}
+                                    className={styles.themeSwitch}
                                     checked={isDarkMode}
                                     onChange={handleThemeSwitch}
                                 />

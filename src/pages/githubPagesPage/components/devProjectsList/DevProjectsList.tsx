@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from '../../../../reducers';
 import getProjects from '../../../../actions/github/getProjects';
 import { Result } from 'antd';
 import useAsync from '../../../../hooks/useAsync';
-import Loading from '../../../../components/loading/Loading';
 import { GITHUB_USER } from '../../../../constants/env';
+import RouteLoading from '../../../../layouts/routeLoading/RouteLoading';
 
 const DevProjectsList = () => {
     const dispatch = useDispatch();
@@ -28,7 +28,7 @@ const DevProjectsList = () => {
     }
 
     if (isLoading) {
-        return <Loading spinning />;
+        return <RouteLoading />;
     }
 
     return <DevProjectsListPure projects={projects} />;

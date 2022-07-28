@@ -46,7 +46,7 @@ const CounterItem: FunctionComponent<Props> = ({ counter, onChange, onRemove }) 
                 <Popover //TODO use Dropdown (https://ant.design/components/dropdown/) instead
                     placement="bottomRight"
                     content={
-                        <Flex column gap={8}>
+                        <Flex col gap={8}>
                             <Button icon={<ReloadOutlined />} onClick={handlePopoverClick(handleCountChange(0))}>
                                 Reset
                             </Button>

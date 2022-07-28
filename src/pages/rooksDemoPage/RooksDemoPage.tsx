@@ -136,7 +136,7 @@ const RooksDemoPage: FunctionComponent = () => {
                 </Col>
                 <Col>
                     <RooksHookHeading hooks={['useIntervalWhen', 'useCounter', 'useToggle']} />
-                    <Flex column gap={6}>
+                    <Flex col gap={6}>
                         <Flex row gap={6}>
                             <Button onClick={toggleIntervalEnabled}>
                                 <Text type={isIntervalEnabled ? 'success' : 'danger'}>
@@ -154,7 +154,7 @@ const RooksDemoPage: FunctionComponent = () => {
                 </Col>
                 <Col>
                     <RooksHookHeading hooks={['useLocalstorageState']} />
-                    <Flex column gap={6} align="stretch">
+                    <Flex col gap={6} align="stretch">
                         <TextArea value={localStorageState.text} onChange={handleLocalStorageTextChange} />
                         <TextArea value={localStorageState2.text} onChange={handleLocalStorage2TextChange} />
                     </Flex>
@@ -165,7 +165,7 @@ const RooksDemoPage: FunctionComponent = () => {
                 </Col>
                 <Col>
                     <RooksHookHeading hooks={['useDebounce', 'useInput']} />
-                    <Flex column gap={6}>
+                    <Flex col gap={6}>
                         <Input {...debounceInput} placeholder="Search..." />
                         <TextArea
                             readOnly

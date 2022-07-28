@@ -10,7 +10,7 @@ const LongContentPage = () => {
 
     return (
         <PageContainer>
-            <Flex column maxWidth="100%">
+            <Flex col maxWidth="100%">
                 <label className="d-flex align-items-center mb-2">
                     <Switch className="me-1" checked={isOverflowTestShown} onChange={setIsOverflowTestShown} />
                     Show overflow test

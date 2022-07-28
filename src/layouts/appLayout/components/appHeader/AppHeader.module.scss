@@ -1,6 +1,17 @@
 @import '../../../../styles/main';
 
 .sideMenuDrawer {
+    :global {
+        .ant-drawer-header {
+            &.ant-drawer-header-close-only {
+                padding-right: 4px;
+            }
+
+            .ant-drawer-header-title {
+                justify-content: flex-end;
+            }
+        }
+    }
 }
 
 .container {
@@ -56,6 +67,10 @@
 
         @include themeDark {
             background: rgba(80, 80, 80, 0.8) !important;
+
+            :global(.ant-switch-handle:before) {
+                background-color: #f0f0f0;
+            }
         }
     }
 

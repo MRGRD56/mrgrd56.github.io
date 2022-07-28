@@ -8,7 +8,7 @@ import Text from 'antd/lib/typography/Text';
 const MarkdownCheatSheetPage: FunctionComponent = () => {
     return (
         <PageContainer title="Markdown Cheat Sheet" description={<>A cheat sheet on basic markdown syntax</>}>
-            <Flex column maxWidth="800px">
+            <Flex col maxWidth="800px">
                 <h3 className="mt-1" id="bold">
                     <b>Bold</b>
                 </h3>

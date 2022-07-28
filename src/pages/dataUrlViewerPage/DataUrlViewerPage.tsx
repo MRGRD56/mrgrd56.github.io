@@ -12,7 +12,7 @@ const DataUrlViewerPage: FunctionComponent = () => {
 
     return (
         <PageContainer title="Data URL Viewer">
-            <Flex column gap={6} className="h-100">
+            <Flex col gap={6} className="h-100">
                 <TextArea rows={8} placeholder="Data URL" value={dataUrl} onChange={setDataUrlByEvent} />
                 {dataUrl ? (
                     <iframe src={dataUrl} className={classNames(styles.iframe, 'view-iframe')} />
