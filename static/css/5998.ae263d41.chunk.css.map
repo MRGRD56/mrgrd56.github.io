@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/5998.ae263d41.chunk.css","mappings":"AAAA,uCACI","sources":["pages/templateTextGenerator/TemplateTextGeneratorPage.module.scss"],"sourcesContent":[".code {\n    font-family: var(--jetbrains-mono);\n}\n"],"names":[],"sourceRoot":""}
