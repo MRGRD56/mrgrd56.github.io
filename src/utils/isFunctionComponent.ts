@@ -5,6 +5,9 @@ import { FunctionComponent } from 'react';
 //         ? ComponentProps<T>
 //         : unknown;
 
+/**
+ * @deprecated unstable
+ */
 function isFunctionComponent<T extends FunctionComponent<any> = FunctionComponent<any>>(value: unknown): value is T {
     return (
         typeof value === 'function' &&

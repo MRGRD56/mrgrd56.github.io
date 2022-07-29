@@ -70,7 +70,7 @@ const JsonToTypeScriptPage = () => {
             defaultOptions={defaultSelectableConversionOptions}
             convert1to2={convert}
             optionsStorageKey={getLocalStorageKey('json-to-typescript', 'conversionOptions')}
-            renderOptionsPopover={JsonToTypeScriptSettings}
+            renderOptionsPopover={renderOptionsPopover}
         />
     );
 
