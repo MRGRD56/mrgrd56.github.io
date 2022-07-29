@@ -2,7 +2,7 @@
 
 .timeContainer {
     font-family: var(--readex-pro);
-    width: 12.4rem;
+    width: 12.8rem;
     align-self: center;
 
     @include mediaMD {
@@ -12,7 +12,7 @@
     .timeMain {
         font-size: 2.5rem;
         width: 10rem;
-        min-width: 9.8rem;
+        min-width: 10.2rem;
     }
 
     .timeMs {

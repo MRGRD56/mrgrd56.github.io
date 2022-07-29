@@ -1,15 +1,15 @@
 import React, { FunctionComponent } from 'react';
-import DoubleConverterPageContainer from '../../layouts/pages/doubleConverterPageContainer/DoubleConverterPageContainer';
+import BiConverterPageContainer from '../../layouts/pages/biConverterPageContainer/BiConverterPageContainer';
 import { Col } from 'antd';
 
 const ImageCompressorPage: FunctionComponent = () => {
     return (
-        <DoubleConverterPageContainer
+        <BiConverterPageContainer
             leftTitle="Original"
             rightTitle="Compressed"
             left={<Col>Org</Col>}
             right={<Col>Com</Col>}
-        ></DoubleConverterPageContainer>
+        ></BiConverterPageContainer>
     );
 };
 

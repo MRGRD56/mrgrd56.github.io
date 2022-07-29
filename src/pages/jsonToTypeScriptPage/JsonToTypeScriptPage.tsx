@@ -1,15 +1,6 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { Alert, Button, Popover, Tooltip } from 'antd';
-import styles from './JsonToTypeScriptPage.module.scss';
-import AppEditor from '../../components/appEditor/AppEditor';
-import { editor } from 'monaco-editor';
-import { useDebouncedMemo } from '../../hooks/debouncedMemo';
+import React from 'react';
 import ExportType from './types/ExportType';
 import convertJsonToTypeScript from './utils/convertJsonToTypeScript';
-import { SettingOutlined } from '@ant-design/icons';
-import getErrorMessage from '../../utils/getErrorMessage';
-import CopyButton from '../../components/copyButton/CopyButton';
-import { useLocalstorageState } from 'rooks';
 import getLocalStorageKey from '../../utils/getLocalStorageKey';
 import JsonToTypeScriptConversionSelectableOptions, {
     NameTransformer
@@ -23,16 +14,10 @@ import { camelCase, kebabCase, snakeCase } from 'lodash';
 import pascalCase from '../../utils/pascalCase';
 import JsonToTypeScriptSettings from './components/JsonToTypeScriptSettings';
 import screamingSnakeCase from '../../utils/screamingSnakeCase';
-import DoubleConverterPageContainer from '../../layouts/pages/doubleConverterPageContainer/DoubleConverterPageContainer';
-
-const jsonEditorOptions: editor.IStandaloneEditorConstructionOptions = {
-    minimap: { enabled: false }
-};
-
-const typescriptEditorOptions: editor.IStandaloneEditorConstructionOptions = {
-    readOnly: true,
-    minimap: { enabled: false }
-};
+import TextBiConverterPageContainer, {
+    RenderOptionsPopover,
+    TextBiConvert
+} from '../../layouts/pages/textBiConverterPageContainer/TextBiConverterPageContainer';
 
 const defaultSelectableConversionOptions: JsonToTypeScriptConversionSelectableOptions = {
     rootTypeName: 'Root',
@@ -67,117 +52,82 @@ const getConversionOptions = (
     };
 };
 
+const convert: TextBiConvert<JsonToTypeScriptConversionSelectableOptions> = (json, options) => {
+    return convertJsonToTypeScript(json, getConversionOptions(options));
+};
+
+const renderOptionsPopover: RenderOptionsPopover<JsonToTypeScriptConversionSelectableOptions> = (
+    options,
+    setOptions,
+    handleClose
+) => <JsonToTypeScriptSettings options={options} onOptionsChange={setOptions} onClose={handleClose} />;
+
 const JsonToTypeScriptPage = () => {
-    const [json, setJson] = useState<string>('');
-    const [error, setError] = useState<string>();
-    const [isSettingsTooltipVisible, setIsSettingsTooltipVisible] = useState<boolean>(false);
-    const [isSettingsVisible, setIsSettingsVisible] = useState<boolean>(false);
-
-    const [selectableConversionOptions, setSelectableConversionOptions] =
-        useLocalstorageState<JsonToTypeScriptConversionSelectableOptions>(
-            getLocalStorageKey('json-to-typescript', 'conversionOptions'),
-            defaultSelectableConversionOptions
-        );
-
-    const conversionOptions = useMemo(() => {
-        return getConversionOptions(selectableConversionOptions);
-    }, [selectableConversionOptions]);
-
-    const typeScript = useDebouncedMemo(
-        (noResult) => {
-            if (!json?.trim()) {
-                setError(undefined);
-                return '';
-            }
-
-            try {
-                const result = convertJsonToTypeScript(json, conversionOptions);
-
-                setError(undefined);
-
-                return result;
-            } catch (e) {
-                setError(getErrorMessage(e));
-
-                if (e instanceof SyntaxError) {
-                    return noResult;
-                } else {
-                    throw e;
-                }
-            }
-        },
-        [json, conversionOptions],
-        50
-    );
-
-    const handleSettingsClick = useCallback(() => {
-        setIsSettingsVisible((isVisible) => !isVisible);
-        setIsSettingsTooltipVisible(false);
-    }, []);
-
-    const handleSettingsTooltipVisibleChange = useCallback(
-        (value: boolean) => {
-            if (!isSettingsVisible) {
-                setIsSettingsTooltipVisible(value);
-            }
-        },
-        [isSettingsVisible]
-    );
-
     return (
-        <DoubleConverterPageContainer
-            className={styles.pageContainer}
-            leftTitle="JSON"
-            leftExtra={
-                <Popover
-                    trigger="click"
-                    visible={isSettingsVisible}
-                    onVisibleChange={setIsSettingsVisible}
-                    content={
-                        <JsonToTypeScriptSettings
-                            options={selectableConversionOptions}
-                            setOptions={setSelectableConversionOptions}
-                            onClose={handleSettingsClick}
-                        />
-                    }
-                    placement="bottomRight"
-                >
-                    <Tooltip
-                        title="Settings"
-                        placement="bottomRight"
-                        visible={isSettingsVisible ? false : isSettingsTooltipVisible}
-                        onVisibleChange={handleSettingsTooltipVisibleChange}
-                    >
-                        <Button type="text" icon={<SettingOutlined />} onClick={handleSettingsClick} />
-                    </Tooltip>
-                </Popover>
-            }
-            left={
-                <AppEditor
-                    className={styles.editor}
-                    language="json"
-                    options={jsonEditorOptions}
-                    value={json}
-                    onChange={setJson}
-                />
-            }
-            rightTitle="TypeScript"
-            rightExtra={
-                <Tooltip title="Copy" placement="bottomLeft">
-                    <CopyButton value={typeScript} type="text" children="" />
-                </Tooltip>
-            }
-            right={
-                <AppEditor
-                    className={styles.editor}
-                    language="typescript"
-                    options={typescriptEditorOptions}
-                    value={typeScript}
-                />
-            }
-            extra={error && <Alert className={styles.messageContainer} type="error" showIcon message={error} />}
+        <TextBiConverterPageContainer
+            source1={{ title: 'JSON', language: 'json' }}
+            source2={{ title: 'TypeScript', language: 'typescript' }}
+            defaultOptions={defaultSelectableConversionOptions}
+            convert1to2={convert}
+            optionsStorageKey={getLocalStorageKey('json-to-typescript', 'conversionOptions')}
+            renderOptionsPopover={JsonToTypeScriptSettings}
         />
     );
+
+    // return (
+    //     <BiConverterPageContainer
+    //         className={styles.pageContainer}
+    //         leftTitle="JSON"
+    //         leftExtra={
+    //             <Popover
+    //                 trigger="click"
+    //                 visible={isSettingsVisible}
+    //                 onVisibleChange={setIsSettingsVisible}
+    //                 content={
+    //                     <JsonToTypeScriptSettings
+    //                         options={selectableConversionOptions}
+    //                         setOptions={setSelectableConversionOptions}
+    //                         onClose={handleSettingsClick}
+    //                     />
+    //                 }
+    //                 placement="bottomRight"
+    //             >
+    //                 <Tooltip
+    //                     title="Settings"
+    //                     placement="bottomRight"
+    //                     visible={isSettingsVisible ? false : isSettingsTooltipVisible}
+    //                     onVisibleChange={handleSettingsTooltipVisibleChange}
+    //                 >
+    //                     <Button type="text" icon={<SettingOutlined />} onClick={handleSettingsClick} />
+    //                 </Tooltip>
+    //             </Popover>
+    //         }
+    //         left={
+    //             <AppEditor
+    //                 className={styles.editor}
+    //                 language="json"
+    //                 options={jsonEditorOptions}
+    //                 value={json}
+    //                 onChange={setJson}
+    //             />
+    //         }
+    //         rightTitle="TypeScript"
+    //         rightExtra={
+    //             <Tooltip title="Copy" placement="bottomLeft">
+    //                 <CopyButton value={typeScript} type="text" children="" />
+    //             </Tooltip>
+    //         }
+    //         right={
+    //             <AppEditor
+    //                 className={styles.editor}
+    //                 language="typescript"
+    //                 options={typescriptEditorOptions}
+    //                 value={typeScript}
+    //             />
+    //         }
+    //         extra={error && <Alert className={styles.messageContainer} type="error" showIcon message={error} />}
+    //     />
+    // );
 };
 
 export default JsonToTypeScriptPage;

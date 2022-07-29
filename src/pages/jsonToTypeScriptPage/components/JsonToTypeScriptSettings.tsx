@@ -1,4 +1,4 @@
-import React, { Dispatch, FunctionComponent, SetStateAction } from 'react';
+import React from 'react';
 import JsonToTypeScriptConversionSelectableOptions, {
     NameTransformer
 } from '../types/JsonToTypeScriptConversionSelectableOptions';
@@ -10,15 +10,14 @@ import Text from 'antd/lib/typography/Text';
 import classNames from 'classnames';
 import { CloseOutlined } from '@ant-design/icons';
 import { NullType, ObjectDeclaration, UnknownType } from '../types/JsonToTypeScriptConversionOptions';
+import { OptionsPopoverComponent } from '../../../layouts/pages/textBiConverterPageContainer/TextBiConverterPageContainer';
 
-interface Props {
-    options: JsonToTypeScriptConversionSelectableOptions;
-    setOptions: Dispatch<SetStateAction<JsonToTypeScriptConversionSelectableOptions>>;
-    onClose?: () => void;
-}
-
-const JsonToTypeScriptSettings: FunctionComponent<Props> = ({ options, setOptions, onClose }) => {
-    const handleOptionChange = useChangeStateHandler(setOptions);
+const JsonToTypeScriptSettings: OptionsPopoverComponent<JsonToTypeScriptConversionSelectableOptions> = ({
+    options,
+    onOptionsChange,
+    onClose
+}) => {
+    const handleOptionChange = useChangeStateHandler(onOptionsChange);
 
     return (
         <Col className={styles.formContainer}>

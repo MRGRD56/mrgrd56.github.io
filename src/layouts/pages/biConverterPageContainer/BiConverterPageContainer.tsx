@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import PageContainer, { PageContainerProps } from '../pageContainer/PageContainer';
-import styles from './DoubleConverterPageContainer.module.scss';
+import styles from './BiConverterPageContainer.module.scss';
 import { Col, Row } from 'antd';
 import classNames from 'classnames';
 
@@ -17,7 +17,7 @@ interface Props extends PageContainerProps {
     extra?: ReactNode;
 }
 
-const DoubleConverterPageContainer: FunctionComponent<Props> = (props) => {
+const BiConverterPageContainer: FunctionComponent<Props> = (props) => {
     const {
         leftTitle,
         rightTitle,
@@ -60,4 +60,4 @@ const DoubleConverterPageContainer: FunctionComponent<Props> = (props) => {
     );
 };
 
-export default DoubleConverterPageContainer;
+export default BiConverterPageContainer;

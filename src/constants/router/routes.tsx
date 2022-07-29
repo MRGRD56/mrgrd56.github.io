@@ -1,8 +1,7 @@
 import { RouteProps } from 'react-router';
 import { values } from 'lodash';
 import React, { ComponentType } from 'react';
-import ClockPage from '../../pages/clockPage/ClockPage';
-import PasswordGeneratorPage from '../../pages/passwordGeneratorPage/PasswordGeneratorPage';
+import LayoutSwitcherPage from '../../pages/layoutSwitcherPage/LayoutSwitcherPage';
 
 const RootPage = React.lazy(() => import('../../pages/rootPage/RootPage'));
 const GithubPagesListPage = React.lazy(() => import('../../pages/githubPagesPage/GithubPagesListPage'));
@@ -39,6 +38,14 @@ const RooksDemoPage = React.lazy(() => import('../../pages/rooksDemoPage/RooksDe
 const MarkdownCheatSheetPage = React.lazy(() => import('../../pages/markdownCheatSheetPage/MarkdownCheatSheetPage'));
 const JsEventTesterPage = React.lazy(() => import('../../pages/jsEventTesterPage/JsEventTesterPage'));
 const DataUrlViewerPage = React.lazy(() => import('../../pages/dataUrlViewerPage/DataUrlViewerPage'));
+const ClockPage = React.lazy(() => import('../../pages/clockPage/ClockPage'));
+const PasswordGeneratorPage = React.lazy(() => import('../../pages/passwordGeneratorPage/PasswordGeneratorPage'));
+const UrlEncoderPage = React.lazy(() => import('../../pages/urlEncoderPage/UrlEncoderPage'));
+
+/*
+ * import (.*) from ('.*');
+ * const $1 = React.lazy(() => import($2));
+ */
 
 export interface AppRoute extends Omit<RouteProps, 'element'> {
     path: string;
@@ -83,6 +90,8 @@ type AppRoutesMap = Readonly<{
     markdownCheatSheet: AppRoute;
     clock: AppRoute;
     passwordGenerator: AppRoute;
+    urlEncoder: AppRoute;
+    layoutSwitcher: AppRoute;
 }>;
 
 export const routes: AppRoutesMap = {
@@ -210,7 +219,7 @@ export const routes: AppRoutesMap = {
     base64: {
         path: '/tools/base64',
         component: Base64Page,
-        title: 'Base64 Tools'
+        title: 'Base64 encoder & decoder'
     },
     dataUrl: {
         path: '/tools/data-url',
@@ -257,6 +266,16 @@ export const routes: AppRoutesMap = {
         path: '/tools/password-generator',
         component: PasswordGeneratorPage,
         title: 'Password Generator'
+    },
+    urlEncoder: {
+        path: '/tools/url-encoder',
+        component: UrlEncoderPage,
+        title: 'URL Encoder'
+    },
+    layoutSwitcher: {
+        path: '/tools/layout-switcher',
+        component: LayoutSwitcherPage,
+        title: 'Keyboard Layout Switcher'
     }
 };
 

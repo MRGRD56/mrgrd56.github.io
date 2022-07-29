@@ -87,13 +87,16 @@ const menuItems: MenuItem[] = [
                 route: routes.clock
             },
             {
-                route: routes.jsonToYaml,
-                title: 'JSON to YAML converter',
-                isHidden: true
+                route: routes.jsonToYaml
             },
             {
-                route: routes.base64,
-                isHidden: true
+                route: routes.base64
+            },
+            {
+                route: routes.urlEncoder
+            },
+            {
+                route: routes.layoutSwitcher
             },
             {
                 route: routes.imageCompressor,
