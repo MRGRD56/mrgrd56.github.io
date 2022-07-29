@@ -1,7 +1,6 @@
 import { RouteProps } from 'react-router';
 import { values } from 'lodash';
 import React, { ComponentType } from 'react';
-import LayoutSwitcherPage from '../../pages/layoutSwitcherPage/LayoutSwitcherPage';
 
 const RootPage = React.lazy(() => import('../../pages/rootPage/RootPage'));
 const GithubPagesListPage = React.lazy(() => import('../../pages/githubPagesPage/GithubPagesListPage'));
@@ -41,6 +40,7 @@ const DataUrlViewerPage = React.lazy(() => import('../../pages/dataUrlViewerPage
 const ClockPage = React.lazy(() => import('../../pages/clockPage/ClockPage'));
 const PasswordGeneratorPage = React.lazy(() => import('../../pages/passwordGeneratorPage/PasswordGeneratorPage'));
 const UrlEncoderPage = React.lazy(() => import('../../pages/urlEncoderPage/UrlEncoderPage'));
+const LayoutSwitcherPage = React.lazy(() => import('../../pages/layoutSwitcherPage/LayoutSwitcherPage'));
 
 /*
  * import (.*) from ('.*');
