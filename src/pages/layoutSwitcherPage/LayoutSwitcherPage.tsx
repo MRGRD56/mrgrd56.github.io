@@ -35,8 +35,8 @@ const convertInternal = (source: string, sourceLayout: string, resultLayout: str
 const LayoutSwitcherPage: FunctionComponent = () => {
     return (
         <TextBiConverterPageContainer
-            source1={{ title: 'English' }}
-            source2={{ title: 'Russian' }}
+            source1={{ title: 'QWERTY' }}
+            source2={{ title: 'ЙЦУКЕН' }}
             convert1to2={convertEnToRu}
             convert2to1={convertRuToEn}
             swapStateStorageKey={getLocalStorageKey('layout-switcher', 'isSwapped')}
