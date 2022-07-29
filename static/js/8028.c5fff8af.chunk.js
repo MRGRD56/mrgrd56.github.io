@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmrgrd56_github_io=self.webpackChunkmrgrd56_github_io||[]).push([[8028],{18028:function(e,t,n){n.r(t);n(72791);var r=n(3311),o=n(65401),u=n(80184),i=function(e){return window.encodeURI(e)},c=function(e){return window.decodeURI(e)};t.default=function(){return(0,u.jsx)(r.Z,{source1:{title:"Text",language:"plaintext"},source2:{title:"Encoded URI",language:"plaintext"},convert1to2:i,convert2to1:c,swapStateStorageKey:(0,o.Z)("url-encoder","isSwapped")})}}}]);
+//# sourceMappingURL=8028.c5fff8af.chunk.js.map
