@@ -1,7 +1,0 @@
-//! useDidMount
-
-//! useInput
-
-//! useIntervalWhen
-
-//! useWillUnmount

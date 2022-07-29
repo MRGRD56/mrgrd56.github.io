@@ -1,1 +1,0 @@
-{"version":3,"file":"static/css/9044.7bf78ecf.chunk.css","mappings":"AAAA,wCAII,uBAFA,aACA,sBAEA,QAJA,UAIA","sources":["pages/notificationsTestPage/NotificationsTestPage.module.scss"],"sourcesContent":[".container {\n    width: 100%;\n    display: flex;\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 8px;\n}\n"],"names":[],"sourceRoot":""}

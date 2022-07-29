@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkmrgrd56_github_io=self.webpackChunkmrgrd56_github_io||[]).push([[536],{70536:function(r,e,i){i.r(e);i(72791);var t=i(74696),l=i(19603),n=i(80184);e.default=function(){return(0,n.jsx)(t.Z,{leftTitle:"Original",rightTitle:"Compressed",left:(0,n.jsx)(l.Z,{children:"Org"}),right:(0,n.jsx)(l.Z,{children:"Com"})})}}}]);
-//# sourceMappingURL=536.c0ecdd35.chunk.js.map
