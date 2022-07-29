@@ -270,7 +270,7 @@ export const routes: AppRoutesMap = {
     urlEncoder: {
         path: '/tools/url-encoder',
         component: UrlEncoderPage,
-        title: 'URL Encoder'
+        title: 'URL encoder & decoder'
     },
     layoutSwitcher: {
         path: '/tools/layout-switcher',
