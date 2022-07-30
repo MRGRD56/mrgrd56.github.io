@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import TextBiConverterPageContainer, {
+    EditorType,
     TextBiConvert
 } from '../../layouts/pages/textBiConverterPageContainer/TextBiConverterPageContainer';
 import getLocalStorageKey from '../../utils/getLocalStorageKey';
@@ -37,8 +38,8 @@ const switchRuToEn: TextBiConvert = (source) => switchLayout(source, RU_EN_MAP);
 const LayoutSwitcherPage: FunctionComponent = () => {
     return (
         <TextBiConverterPageContainer
-            source1={{ title: 'QWERTY' }}
-            source2={{ title: 'ЙЦУКЕН' }}
+            source1={{ title: 'QWERTY', editorType: EditorType.PLAIN }}
+            source2={{ title: 'ЙЦУКЕН', editorType: EditorType.PLAIN }}
             convert1to2={switchEnToRu}
             convert2to1={switchRuToEn}
             swapStateStorageKey={getLocalStorageKey('layout-switcher', 'isSwapped')}

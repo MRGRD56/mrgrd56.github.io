@@ -6,6 +6,16 @@
         height: 99%;
     }
 
+    .plainEditor {
+        border: none;
+        resize: none;
+        font-size: 15px;
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
     .messageContainer {
         position: absolute;
         right: 0;

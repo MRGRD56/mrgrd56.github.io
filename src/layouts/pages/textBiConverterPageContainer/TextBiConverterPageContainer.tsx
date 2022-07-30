@@ -13,6 +13,10 @@ import { isEqual } from 'lodash';
 import isFunctionComponent from '../../../utils/isFunctionComponent';
 import Flex from '../../../components/flex/Flex';
 import useOptionalLocalstorageState from '../../../hooks/useOptionalLocalstorageState';
+import Switch from '../../../utils/Switch';
+import TextArea from 'antd/lib/input/TextArea';
+import useStateChangeByEventHandler from '../../../hooks/useStateChangeByEventHandler';
+import classNames from 'classnames';
 
 const sourceEditorOptions: editor.IStandaloneEditorConstructionOptions = {
     minimap: { enabled: false }
@@ -23,9 +27,15 @@ const resultEditorOptions: editor.IStandaloneEditorConstructionOptions = {
     minimap: { enabled: false }
 };
 
+export enum EditorType {
+    MONACO,
+    PLAIN
+}
+
 interface SourceOptions {
     title: string;
     language?: MonacoLanguage;
+    editorType?: EditorType;
 }
 
 export type TextBiConvert<O = undefined> = (source: string, options: O) => string;
@@ -34,11 +44,13 @@ export type RenderOptionsPopover<O> = (
     setOptions: Dispatch<SetStateAction<O>>,
     handleClose: () => void
 ) => ReactNode;
+
 export interface OptionsPopoverComponentProps<O> {
     options: O;
     onOptionsChange: Dispatch<SetStateAction<O>>;
     onClose: () => void;
 }
+
 export type OptionsPopoverComponent<O> = FunctionComponent<OptionsPopoverComponentProps<O>>;
 
 interface BaseProps<O> {
@@ -80,6 +92,7 @@ const TextBiConverterPageContainer = <O,>(props: Props<O>) => {
     } = props;
 
     const [source, setSource] = useOptionalLocalstorageState<string>(sourceStorageKey, '');
+    const handleSourceChange = useStateChangeByEventHandler(setSource);
     const [error, setError] = useState<string>();
     const [isSettingsTooltipVisible, setIsSettingsTooltipVisible] = useState<boolean>(false);
     const [isSettingsVisible, setIsSettingsVisible] = useState<boolean>(false);
@@ -173,6 +186,12 @@ const TextBiConverterPageContainer = <O,>(props: Props<O>) => {
         setIsSwappedDirection((x) => !x);
     }, [setIsSwappedDirection, result]);
 
+    // const handlePlainEditorKeydown = useCallback<React.KeyboardEventHandler<HTMLTextAreaElement>>((event) => {
+    //     if (event.key === 'Tab') {
+    //         event.preventDefault();
+    //     }
+    // }, []);
+
     return (
         <BiConverterPageContainer
             className={styles.pageContainer}
@@ -204,29 +223,44 @@ const TextBiConverterPageContainer = <O,>(props: Props<O>) => {
                     )}
                 </Flex>
             }
-            left={
-                <AppEditor
-                    className={styles.editor}
-                    language={sourceLeft.language}
-                    options={sourceEditorOptions}
-                    value={source}
-                    onChange={setSource}
-                />
-            }
+            left={Switch.of(sourceLeft.editorType ?? EditorType.MONACO)
+                .onCase(EditorType.MONACO, () => (
+                    <AppEditor
+                        className={styles.editor}
+                        language={sourceLeft.language}
+                        options={sourceEditorOptions}
+                        value={source}
+                        onChange={setSource}
+                    />
+                ))
+                .onCase(EditorType.PLAIN, () => (
+                    <TextArea
+                        className={classNames(styles.editor, styles.plainEditor)}
+                        value={source}
+                        onChange={handleSourceChange}
+                        // onKeyDown={handlePlainEditorKeydown}
+                    />
+                ))
+                .value()}
             rightTitle={sourceRight.title}
             rightExtra={
                 <Tooltip title="Copy" placement="bottomLeft">
                     <CopyButton value={result} type="text" children="" />
                 </Tooltip>
             }
-            right={
-                <AppEditor
-                    className={styles.editor}
-                    language={sourceRight.language}
-                    options={resultEditorOptions}
-                    value={result}
-                />
-            }
+            right={Switch.of(sourceRight.editorType ?? EditorType.MONACO)
+                .onCase(EditorType.MONACO, () => (
+                    <AppEditor
+                        className={styles.editor}
+                        language={sourceRight.language}
+                        options={resultEditorOptions}
+                        value={result}
+                    />
+                ))
+                .onCase(EditorType.PLAIN, () => (
+                    <TextArea className={classNames(styles.editor, styles.plainEditor)} value={result} readOnly />
+                ))
+                .value()}
             extra={error && <Alert className={styles.messageContainer} type="error" showIcon message={error} />}
         />
     );

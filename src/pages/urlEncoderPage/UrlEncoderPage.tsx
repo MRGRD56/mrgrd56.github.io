@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import TextBiConverterPageContainer, {
+    EditorType,
     TextBiConvert
 } from '../../layouts/pages/textBiConverterPageContainer/TextBiConverterPageContainer';
 import getLocalStorageKey from '../../utils/getLocalStorageKey';
@@ -15,8 +16,8 @@ const convert2to1: TextBiConvert = (source) => {
 const UrlEncoderPage: FunctionComponent = () => {
     return (
         <TextBiConverterPageContainer
-            source1={{ title: 'Text', language: 'plaintext' }}
-            source2={{ title: 'Encoded URI', language: 'plaintext' }}
+            source1={{ title: 'Text', editorType: EditorType.PLAIN }}
+            source2={{ title: 'Encoded URI', editorType: EditorType.PLAIN }}
             convert1to2={convert1to2}
             convert2to1={convert2to1}
             swapStateStorageKey={getLocalStorageKey('url-encoder', 'isSwapped')}
