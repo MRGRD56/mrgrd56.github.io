@@ -156,7 +156,7 @@ const TextBiConverterPageContainer = <O,>(props: Props<O>) => {
             );
         }
 
-        renderOptionsPopover(selectableConversionOptions, setSelectableConversionOptions, handleSettingsClick);
+        return renderOptionsPopover(selectableConversionOptions, setSelectableConversionOptions, handleSettingsClick);
     }, [selectableConversionOptions, setSelectableConversionOptions, handleSettingsClick]);
 
     const handleSettingsTooltipVisibleChange = useCallback(
