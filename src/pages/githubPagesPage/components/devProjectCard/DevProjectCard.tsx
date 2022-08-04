@@ -1,20 +1,26 @@
 import React, { FunctionComponent } from 'react';
 import { DevProject } from '../../../../types';
 import styles from './DevProjectCard.module.scss';
-import githubLogo from '../../../../assets/img/github-logo-dark.svg';
+import githubLogoLight from '../../../../assets/img/github-logo.svg';
+import githubLogoDark from '../../../../assets/img/github-logo-dark.svg';
 import ExternalLink from '../../../../components/ExternalLink';
+import useAppTheme from '../../../../hooks/useAppTheme';
 
 interface Props {
     project: DevProject;
 }
 
 const DevProjectCard: FunctionComponent<Props> = ({ project }) => {
+    const { isDarkMode } = useAppTheme();
+
+    const githubLogo = isDarkMode ? githubLogoDark : githubLogoLight;
+
     return (
         <div className={styles.container}>
-            <h2>
+            <h2 className="text-center text-break">
                 <ExternalLink href={project.appUrl}>{project.name}</ExternalLink>
             </h2>
-            <div className="text-center">{project.description}</div>
+            <div className="text-center text-break">{project.description}</div>
             <ExternalLink href={project.repoUrl} className={styles.githubRepoLink}>
                 <img src={githubLogo} alt="GitHub" className={styles.githubLogo} />
                 <div>GitHub Repository</div>

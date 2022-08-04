@@ -18,7 +18,8 @@ const menuItems: MenuItem[] = [
     {
         route: routes.root,
         icon: HomeFilled,
-        title: 'Home page'
+        title: 'Home page',
+        searchText: 'home page, root page, homepage, index page'
     },
     {
         route: routes.githubPagesList,
@@ -29,19 +30,24 @@ const menuItems: MenuItem[] = [
         icon: ToolFilled,
         routes: [
             {
-                route: routes.jsonToTypescript
+                route: routes.jsonToTypescript,
+                searchText: 'typescript generator'
             },
             {
-                route: routes.jsEvaluator
+                route: routes.jsEvaluator,
+                searchText: 'js evaluator, execute js, execute javascript'
             },
             {
-                route: routes.diffEditor
+                route: routes.diffEditor,
+                searchText: 'git diff editor, compare files, compare texts, compare two texts, difference between texts'
             },
             {
-                route: routes.codeFormatter
+                route: routes.codeFormatter,
+                searchText: 'format code'
             },
             {
-                route: routes.uuidGenerator
+                route: routes.uuidGenerator,
+                searchText: 'guid generator'
             },
             {
                 route: routes.passwordGenerator
@@ -50,59 +56,77 @@ const menuItems: MenuItem[] = [
                 route: routes.jsonStringifier
             },
             {
-                route: routes.qrScanner
+                route: routes.qrScanner,
+                searchText: 'qr code scanner, scan qr code'
             },
             {
-                route: routes.qrGenerator
+                route: routes.qrGenerator,
+                searchText: 'qr code generator, generate qr code'
             },
             {
                 route: routes.bgGenerator,
-                title: 'BG Generator'
+                title: 'BG Generator',
+                searchText: 'simple background generator, simple bg generator, one color background generator'
             },
             {
-                route: routes.userInfo
+                route: routes.userInfo,
+                searchText: 'client info, user ip address, my ip address, my screen resolution, my screen size'
             },
             {
-                route: routes.notificationsTest
+                route: routes.notificationsTest,
+                searchText: 'browser notifications text, notifications api test'
             },
             {
-                route: routes.htmlEditor
+                route: routes.htmlEditor,
+                searchText: 'html css js javascript'
             },
             {
-                route: routes.dataUrl
+                route: routes.dataUrl,
+                searchText: 'generate data url'
             },
             {
-                route: routes.dataUrlViewer
+                route: routes.dataUrlViewer,
+                searchText: 'view data url online'
             },
             {
-                route: routes.dateUtils
+                route: routes.dateUtils,
+                searchText: 'difference between dates, two dates'
             },
             {
                 route: routes.counter
             },
             {
-                route: routes.jsEventTester
+                route: routes.jsEventTester,
+                searchText: 'test javascript event tester'
             },
             {
-                route: routes.clock
+                route: routes.clock,
+                searchText: 'clock with seconds online'
             },
             {
-                route: routes.jsonToYaml
+                route: routes.jsonToYaml,
+                searchText: 'convert json to yaml converter online, convert yaml to json converter online'
             },
             {
-                route: routes.base64
+                route: routes.base64,
+                searchText: 'encode base64, decode base64, base64 converter'
             },
             {
-                route: routes.urlEncoder
+                route: routes.urlEncoder,
+                searchText: 'encode url encode uri encoder'
             },
             {
-                route: routes.layoutSwitcher
+                route: routes.layoutSwitcher,
+                searchText:
+                    'switch keyboard layout russian to english qwerty йцукен сменить раскладку клавиатуры смена раскладки клавиатуры раскладка клавиатуры поменять'
             },
             {
-                route: routes.htmlEntities
+                route: routes.htmlEntities,
+                searchText: 'decode html text decode html entities decode xml entities decoder'
             },
             {
-                route: routes.prettyBytes
+                route: routes.prettyBytes,
+                searchText: 'pretty bytes to human readable format bytes'
             },
             {
                 route: routes.imageCompressor,
@@ -147,7 +171,8 @@ const menuItems: MenuItem[] = [
             },
             {
                 route: routes.notFound,
-                icon: QuestionCircleFilled
+                icon: QuestionCircleFilled,
+                searchText: '404 not found page'
             },
             {
                 route: routes.rooksDemo,
@@ -161,7 +186,8 @@ const menuItems: MenuItem[] = [
     },
     {
         route: routes.about,
-        icon: ExclamationCircleFilled
+        icon: ExclamationCircleFilled,
+        searchText: 'info'
     }
 ];
 

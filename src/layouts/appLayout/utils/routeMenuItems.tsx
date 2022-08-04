@@ -36,6 +36,7 @@ interface MenuItemBase {
 
 export interface MenuRouteItem extends MenuItemBase {
     title?: string;
+    searchText?: string;
     route: AppRoute;
     isHidden?: boolean;
 }
