@@ -99,6 +99,12 @@ const menuItems: MenuItem[] = [
                 route: routes.layoutSwitcher
             },
             {
+                route: routes.htmlEntities
+            },
+            {
+                route: routes.prettyBytes
+            },
+            {
                 route: routes.imageCompressor,
                 isHidden: true
             },

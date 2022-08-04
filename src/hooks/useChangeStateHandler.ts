@@ -30,3 +30,28 @@ const useChangeStateHandler = <S extends object, P extends ObjectKey = 'value'>(
 };
 
 export default useChangeStateHandler;
+
+// const useChangeStateHandler = <S extends object, P extends ObjectKey = 'value'>(
+//     setState: Dispatch<SetStateAction<S>>,
+//     defaultEventProperty: P = 'value' as P
+// ) => {
+//     const changeState = useChangeState(setState);
+//
+//     return useCallback(
+//         <K extends keyof S, T extends S[K], EP extends ObjectKey = P>(key: K, eventProperty: EP = defaultEventProperty as unknown as EP) => {
+//             return (value: TypedChangeEvent<T, EP> | T) => {
+//                 const actualValue = call(() => {
+//                     if (isChangeEvent(value)) {
+//                         const event = value as TypedChangeEvent<T, EP>;
+//                         return event.target[eventProperty];
+//                     }
+//
+//                     return value;
+//                 });
+//
+//                 changeState(key, actualValue);
+//             };
+//         },
+//         [changeState]
+//     );
+// };

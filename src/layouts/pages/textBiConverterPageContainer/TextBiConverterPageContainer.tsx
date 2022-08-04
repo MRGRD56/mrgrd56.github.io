@@ -10,7 +10,6 @@ import CopyButton from '../../../components/copyButton/CopyButton';
 import MonacoLanguage from '../../../types/MonacoLanguage';
 import { editor } from 'monaco-editor';
 import { isEqual } from 'lodash';
-import isFunctionComponent from '../../../utils/isFunctionComponent';
 import Flex from '../../../components/flex/Flex';
 import useOptionalLocalstorageState from '../../../hooks/useOptionalLocalstorageState';
 import Switch from '../../../utils/Switch';
@@ -65,7 +64,7 @@ interface BaseProps<O> {
 interface PropsWithOptions<O> extends BaseProps<O> {
     defaultOptions: O;
     optionsStorageKey: string;
-    renderOptionsPopover: RenderOptionsPopover<O> | OptionsPopoverComponent<O>;
+    renderOptionsPopover: OptionsPopoverComponent<O>;
 }
 
 interface PropsWithoutOptions extends BaseProps<undefined> {
@@ -154,22 +153,30 @@ const TextBiConverterPageContainer = <O,>(props: Props<O>) => {
             return;
         }
 
-        console.log('CHECK COMPONENT', {
-            renderOptionsPopover,
-            isFC: isFunctionComponent<OptionsPopoverComponent<O>>(renderOptionsPopover)
-        });
-        if (isFunctionComponent<OptionsPopoverComponent<O>>(renderOptionsPopover)) {
-            const OptionsPopoverContent = renderOptionsPopover;
-            return (
-                <OptionsPopoverContent
-                    options={selectableConversionOptions}
-                    onOptionsChange={setSelectableConversionOptions}
-                    onClose={handleSettingsClick}
-                />
-            );
-        }
+        // return renderOptionsPopover({
+        //     options: selectableConversionOptions,
+        //     onOptionsChange: setSelectableConversionOptions,
+        //     onClose: handleSettingsClick
+        // });
 
-        return renderOptionsPopover(selectableConversionOptions, setSelectableConversionOptions, handleSettingsClick);
+        const OptionsPopoverContent = renderOptionsPopover;
+        return (
+            <OptionsPopoverContent
+                options={selectableConversionOptions}
+                onOptionsChange={setSelectableConversionOptions}
+                onClose={handleSettingsClick}
+            />
+        );
+
+        // console.log('CHECK COMPONENT', {
+        //     renderOptionsPopover,
+        //     isFC: isFunctionComponent<OptionsPopoverComponent<O>>(renderOptionsPopover)
+        // });
+        // if (isFunctionComponent<OptionsPopoverComponent<O>>(renderOptionsPopover)) {
+        //
+        // }
+        //
+        // return renderOptionsPopover(selectableConversionOptions, setSelectableConversionOptions, handleSettingsClick);
     }, [selectableConversionOptions, setSelectableConversionOptions, handleSettingsClick]);
 
     const handleSettingsTooltipVisibleChange = useCallback(

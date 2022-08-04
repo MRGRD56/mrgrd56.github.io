@@ -41,6 +41,10 @@ const ClockPage = React.lazy(() => import('../../pages/clockPage/ClockPage'));
 const PasswordGeneratorPage = React.lazy(() => import('../../pages/passwordGeneratorPage/PasswordGeneratorPage'));
 const UrlEncoderPage = React.lazy(() => import('../../pages/urlEncoderPage/UrlEncoderPage'));
 const LayoutSwitcherPage = React.lazy(() => import('../../pages/layoutSwitcherPage/LayoutSwitcherPage'));
+const HtmlEntitiesConverterPage = React.lazy(
+    () => import('../../pages/htmlEntitiesConverterPage/HtmlEntitiesConverterPage')
+);
+const PrettyBytesPage = React.lazy(() => import('../../pages/prettyBytesPage/PrettyBytesPage'));
 
 /*
  * import (.*) from ('.*');
@@ -92,6 +96,8 @@ type AppRoutesMap = Readonly<{
     passwordGenerator: AppRoute;
     urlEncoder: AppRoute;
     layoutSwitcher: AppRoute;
+    htmlEntities: AppRoute;
+    prettyBytes: AppRoute;
 }>;
 
 export const routes: AppRoutesMap = {
@@ -276,6 +282,16 @@ export const routes: AppRoutesMap = {
         path: '/tools/layout-switcher',
         component: LayoutSwitcherPage,
         title: 'Keyboard Layout Switcher'
+    },
+    htmlEntities: {
+        path: '/tools/html-entities',
+        component: HtmlEntitiesConverterPage,
+        title: 'HTML Entities Converter'
+    },
+    prettyBytes: {
+        path: '/tools/pretty-bytes',
+        component: PrettyBytesPage,
+        title: 'Human Readable Bytes'
     }
 };
 

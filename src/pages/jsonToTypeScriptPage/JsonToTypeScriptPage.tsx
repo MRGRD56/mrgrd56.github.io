@@ -15,7 +15,6 @@ import pascalCase from '../../utils/pascalCase';
 import JsonToTypeScriptSettings from './components/JsonToTypeScriptSettings';
 import screamingSnakeCase from '../../utils/screamingSnakeCase';
 import TextBiConverterPageContainer, {
-    RenderOptionsPopover,
     TextBiConvert
 } from '../../layouts/pages/textBiConverterPageContainer/TextBiConverterPageContainer';
 
@@ -56,11 +55,11 @@ const convert: TextBiConvert<JsonToTypeScriptConversionSelectableOptions> = (jso
     return convertJsonToTypeScript(json, getConversionOptions(options));
 };
 
-const renderOptionsPopover: RenderOptionsPopover<JsonToTypeScriptConversionSelectableOptions> = (
-    options,
-    setOptions,
-    handleClose
-) => <JsonToTypeScriptSettings options={options} onOptionsChange={setOptions} onClose={handleClose} />;
+// const renderOptionsPopover: RenderOptionsPopover<JsonToTypeScriptConversionSelectableOptions> = (
+//     options,
+//     setOptions,
+//     handleClose
+// ) => <JsonToTypeScriptSettings options={options} onOptionsChange={setOptions} onClose={handleClose} />;
 
 const JsonToTypeScriptPage = () => {
     return (
@@ -70,7 +69,7 @@ const JsonToTypeScriptPage = () => {
             defaultOptions={defaultSelectableConversionOptions}
             convert1to2={convert}
             optionsStorageKey={getLocalStorageKey('json-to-typescript', 'conversionOptions')}
-            renderOptionsPopover={renderOptionsPopover}
+            renderOptionsPopover={JsonToTypeScriptSettings}
         />
     );
 

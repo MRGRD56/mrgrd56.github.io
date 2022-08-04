@@ -2,15 +2,15 @@ import React from 'react';
 import JsonToTypeScriptConversionSelectableOptions, {
     NameTransformer
 } from '../types/JsonToTypeScriptConversionSelectableOptions';
-import { Button, Col, Input, Select, Switch, Tag } from 'antd';
+import { Input, Select, Switch, Tag } from 'antd';
 import useChangeStateHandler from '../../../hooks/useChangeStateHandler';
-import styles from './JsonToTypeScriptSettings.module.scss';
+import styles from '../../../components/settingsPopover/SettingsPopover.module.scss';
 import ExportType from '../types/ExportType';
 import Text from 'antd/lib/typography/Text';
 import classNames from 'classnames';
-import { CloseOutlined } from '@ant-design/icons';
 import { NullType, ObjectDeclaration, UnknownType } from '../types/JsonToTypeScriptConversionOptions';
 import { OptionsPopoverComponent } from '../../../layouts/pages/textBiConverterPageContainer/TextBiConverterPageContainer';
+import SettingsPopover from '../../../components/settingsPopover/SettingsPopover';
 
 const JsonToTypeScriptSettings: OptionsPopoverComponent<JsonToTypeScriptConversionSelectableOptions> = ({
     options,
@@ -20,19 +20,7 @@ const JsonToTypeScriptSettings: OptionsPopoverComponent<JsonToTypeScriptConversi
     const handleOptionChange = useChangeStateHandler(onOptionsChange);
 
     return (
-        <Col className={styles.formContainer}>
-            <div className={styles.title}>
-                <h3 className="mb-0">Settings</h3>
-                <div className={styles.rightSide}>
-                    {/*<Button*/}
-                    {/*    size="small"*/}
-                    {/*    type="dashed"*/}
-                    {/*>*/}
-                    {/*    Reset*/}
-                    {/*</Button>*/}
-                    {onClose && <Button size="small" type="text" icon={<CloseOutlined />} onClick={onClose} />}
-                </div>
-            </div>
+        <SettingsPopover onClose={onClose}>
             <label className={styles.formItem}>
                 <span className={styles.label}>Root type name</span>
                 <Input
@@ -125,7 +113,7 @@ const JsonToTypeScriptSettings: OptionsPopoverComponent<JsonToTypeScriptConversi
                     </Tag>
                 </Text>
             </label>
-        </Col>
+        </SettingsPopover>
     );
 };
 
