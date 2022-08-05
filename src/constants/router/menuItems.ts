@@ -35,7 +35,8 @@ const menuItems: MenuItem[] = [
             },
             {
                 route: routes.jsEvaluator,
-                searchText: 'js evaluator, execute js, execute javascript'
+                searchText:
+                    'js evaluator, execute js, run js, run javascript, execute javascript, javascript executor, js executor'
             },
             {
                 route: routes.diffEditor,

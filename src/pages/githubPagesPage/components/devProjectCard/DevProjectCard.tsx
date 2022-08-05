@@ -5,6 +5,7 @@ import githubLogoLight from '../../../../assets/img/github-logo.svg';
 import githubLogoDark from '../../../../assets/img/github-logo-dark.svg';
 import ExternalLink from '../../../../components/ExternalLink';
 import useAppTheme from '../../../../hooks/useAppTheme';
+import classNames from 'classnames';
 
 interface Props {
     project: DevProject;
@@ -20,7 +21,7 @@ const DevProjectCard: FunctionComponent<Props> = ({ project }) => {
             <h2 className="text-center text-break">
                 <ExternalLink href={project.appUrl}>{project.name}</ExternalLink>
             </h2>
-            <div className="text-center text-break">{project.description}</div>
+            <div className={classNames('text-center text-break', styles.repoDescription)}>{project.description}</div>
             <ExternalLink href={project.repoUrl} className={styles.githubRepoLink}>
                 <img src={githubLogo} alt="GitHub" className={styles.githubLogo} />
                 <div>GitHub Repository</div>

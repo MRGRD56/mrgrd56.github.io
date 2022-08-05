@@ -31,7 +31,10 @@ const filterOption: FilterFunc<OptionType> = (inputValue, option) => {
         return true;
     }
 
-    return String(option.label).toLocaleLowerCase().includes(query);
+    const isMatchByLabel = () => String(option.label).toLocaleLowerCase().includes(query);
+    const isMatchBySearchText = () => String(option.data.searchText).toLocaleLowerCase().includes(query);
+
+    return isMatchByLabel() || isMatchBySearchText();
 };
 
 interface Props extends Omit<AutoCompleteProps, 'options' | 'filterOption' | 'onSelect' | 'children'> {
@@ -94,8 +97,8 @@ const AppHeaderSearch: FunctionComponent<Props> = ({ className, inputClassName, 
                 return;
             }
 
-            const option = matchingOptions[0];
-            selectOption(option.data);
+            const { data } = matchingOptions[0];
+            selectOption(data);
         },
         [selectOption, query]
     );
