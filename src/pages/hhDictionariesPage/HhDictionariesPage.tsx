@@ -276,7 +276,7 @@ const HhDictionariesPage: FunctionComponent = () => {
             };
         },
         [dictionaryData, viewMode, searchQuery],
-        10
+        100
     );
 
     const fetchDictionaryData = useCallback(async (dictionary: HHDictionary): Promise<HHDictionaryData> => {
