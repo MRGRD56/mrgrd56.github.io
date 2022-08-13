@@ -45,6 +45,7 @@ const HtmlEntitiesConverterPage = React.lazy(
     () => import('../../pages/htmlEntitiesConverterPage/HtmlEntitiesConverterPage')
 );
 const PrettyBytesPage = React.lazy(() => import('../../pages/prettyBytesPage/PrettyBytesPage'));
+const HhDictionariesPage = React.lazy(() => import('../../pages/hhDictionariesPage/HhDictionariesPage'));
 
 /*
  * import (.*) from ('.*');
@@ -98,6 +99,7 @@ type AppRoutesMap = Readonly<{
     layoutSwitcher: AppRoute;
     htmlEntities: AppRoute;
     prettyBytes: AppRoute;
+    hhDictionaries: AppRoute;
 }>;
 
 export const routes: AppRoutesMap = {
@@ -292,6 +294,11 @@ export const routes: AppRoutesMap = {
         path: '/tools/pretty-bytes',
         component: PrettyBytesPage,
         title: 'Human Readable Bytes'
+    },
+    hhDictionaries: {
+        path: '/tools/headhunter-dictionaries',
+        component: HhDictionariesPage,
+        title: 'HeadHunter Dictionaries Viewer'
     }
 };
 

@@ -130,6 +130,10 @@ const menuItems: MenuItem[] = [
                 searchText: 'pretty bytes to human readable format bytes'
             },
             {
+                route: routes.hhDictionaries,
+                searchText: 'hh dictionaries headhunter dictionaries explorer viewer browser'
+            },
+            {
                 route: routes.imageCompressor,
                 isHidden: true
             },
