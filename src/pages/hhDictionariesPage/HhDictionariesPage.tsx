@@ -118,7 +118,7 @@ const flatEntries = (tree: ParentEntry[]): Entry[] => {
         flat.push(...flatEntries(entry.items));
     });
 
-    return flat;
+    return flat.sort(numberIdSorter);
 };
 
 const invertEntries2LevelTree = (tree: ParentEntry[]): ParentEntry[] => {
@@ -137,17 +137,21 @@ const invertEntries2LevelTree = (tree: ParentEntry[]): ParentEntry[] => {
         }
     }
 
-    return Array.from(interimResult.entries()).map(([level2Id, level1Items]) => {
-        const level2 = interimResultKeys.get(level2Id);
+    return Array.from(interimResult.entries())
+        .map(([level2Id, level1Items]) => {
+            const level2 = interimResultKeys.get(level2Id);
 
-        return {
-            ...level2,
-            items: level1Items.map((level1) => ({
-                ...level1,
-                items: []
-            }))
-        } as ParentEntry;
-    });
+            return {
+                ...level2,
+                items: level1Items
+                    .map((level1) => ({
+                        ...level1,
+                        items: []
+                    }))
+                    .sort(numberIdSorter)
+            } as ParentEntry;
+        })
+        .sort(numberIdSorter);
 };
 
 const treeExpandable: ExpandableConfig<ParentEntry> = {
