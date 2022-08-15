@@ -464,7 +464,7 @@ const HhDictionariesPage: FunctionComponent = () => {
                             title={
                                 <div>
                                     <Text>
-                                        Use <Text code>#</Text> to search only by ID
+                                        Use <Text code>#</Text> or <Text code>№</Text> to search only by ID
                                     </Text>
                                     <br />
                                     <Text>
