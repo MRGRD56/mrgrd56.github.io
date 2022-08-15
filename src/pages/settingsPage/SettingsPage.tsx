@@ -56,7 +56,9 @@ const SettingsPage: FunctionComponent = () => {
                 </label>
                 <label>
                     <Switch checked={appSettings.isFooterHidden} onChange={handleAppSettingChange('isFooterHidden')} />
-                    <span className="ms-3">Hide the footer</span>
+                    <span className="ms-3 cursor-help" title="The footer will still be visible on some pages">
+                        Hide the footer
+                    </span>
                 </label>
             </PageCol>
         </PageContainer>

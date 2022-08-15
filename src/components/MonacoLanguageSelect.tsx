@@ -4,9 +4,13 @@ import { Select, SelectProps } from 'antd';
 
 type Props = SelectProps;
 
+const defaultProps: Partial<Props> = {
+    showSearch: true
+};
+
 const MonacoLanguageSelect: FunctionComponent<Props> = ({ children, ...props }) => {
     return (
-        <Select {...props}>
+        <Select {...defaultProps} {...props}>
             {monacoLanguages.map((language) => (
                 <Select.Option key={language}>{language}</Select.Option>
             ))}

@@ -117,7 +117,8 @@ export const routes: AppRoutesMap = {
     about: {
         path: '/about',
         component: AboutPage,
-        title: 'About'
+        title: 'About',
+        isFooterAlwaysShown: true
     },
     githubPagesList: {
         path: '/github-pages',

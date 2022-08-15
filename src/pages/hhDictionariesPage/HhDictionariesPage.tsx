@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import styles from './HhDictionariesPage.module.scss';
-import { Select, Table, Tabs } from 'antd';
+import { Checkbox, Select, Table, Tabs, Tooltip } from 'antd';
 import useWriteableLocalstorageState from '../../hooks/useWriteableLocalstorageState';
 import getLocalStorageKey from '../../utils/getLocalStorageKey';
 import Flex from '../../components/flex/Flex';
@@ -17,7 +17,10 @@ import ExternalLink from '../../components/ExternalLink';
 import { LinkOutlined } from '@ant-design/icons';
 import Search from 'antd/lib/input/Search';
 import useInputState from '../../hooks/useInputState';
-import { useDebouncedMemo } from '../../hooks/debouncedMemo';
+import { useDebounce } from 'rooks';
+import { Info } from '@mui/icons-material';
+import Text from 'antd/lib/typography/Text';
+import useChangeAnyStateHandler from '../../hooks/useChangeAnyStateHandler';
 
 enum HHDictionary {
     PROFESSIONAL_ROLES = 'professional_roles',
@@ -187,11 +190,25 @@ const isEntryMatchBySearchQuery = (entry: Entry, query: string): boolean => {
         return true;
     }
 
+    const idQuery = parseIdQuery(query);
+
+    if (idQuery !== undefined && entry.id === idQuery) {
+        return true;
+    }
+
+    const entryName = entry.name.toLowerCase();
+
+    const exactQuery = parseExactQuery(query);
+
+    if (exactQuery !== undefined && entryName === exactQuery) {
+        return true;
+    }
+
     if (entry.id === query) {
         return true;
     }
 
-    if (entry.name.toLowerCase().includes(query)) {
+    if (entryName.includes(query)) {
         return true;
     }
 
@@ -202,7 +219,11 @@ const isEntryMatchBySearchQuery = (entry: Entry, query: string): boolean => {
     return false;
 };
 
-const preFilterEntriesBySearchQuery = <E extends Entry>(entries: E[], query: string): Array<E | undefined> => {
+const preFilterEntriesBySearchQuery = <E extends Entry>(
+    entries: E[],
+    query: string,
+    isSearch1Level: boolean
+): Array<E | undefined> => {
     return entries.map((entry) => {
         const isMatchItself = isEntryMatchBySearchQuery(entry, query);
         if (isMatchItself) {
@@ -212,8 +233,8 @@ const preFilterEntriesBySearchQuery = <E extends Entry>(entries: E[], query: str
             };
         }
 
-        if (isParentEntry(entry)) {
-            const preFilteredItems = filterEntriesBySearchQuery(entry.items, query);
+        if (!isSearch1Level && isParentEntry(entry)) {
+            const preFilteredItems = filterEntriesBySearchQuery(entry.items, query, isSearch1Level);
             const hasMatchingItems = preFilteredItems.some(Boolean);
 
             if (!hasMatchingItems) {
@@ -243,8 +264,43 @@ const preFilterEntriesBySearchQuery = <E extends Entry>(entries: E[], query: str
     // });
 };
 
-const filterEntriesBySearchQuery = <E extends Entry>(entries: E[], query: string): Array<E | undefined> => {
-    return preFilterEntriesBySearchQuery(entries, query).filter(Boolean) as E[];
+const filterEntriesBySearchQuery = <E extends Entry>(
+    entries: E[],
+    query: string,
+    isSearch1Level: boolean
+): Array<E | undefined> => {
+    return preFilterEntriesBySearchQuery(entries, query, isSearch1Level).filter(Boolean) as E[];
+};
+
+const parseIdQuery = (query: string): string | undefined => {
+    return /^[#№](.+)$/.exec(query)?.[1];
+};
+
+const parseExactQuery = (query: string): string | undefined => {
+    return /^=(.+)$/.exec(query)?.[1];
+};
+
+const getDisplayedDictionaryData = (
+    dictionaryData: HHDictionaryData | undefined,
+    viewMode: DictionaryViewMode,
+    searchQuery: string,
+    isSearch1Level: boolean
+): HHDictionaryData | undefined => {
+    if (!dictionaryData) {
+        return dictionaryData;
+    }
+
+    return {
+        ...dictionaryData,
+        views: {
+            ...dictionaryData.views,
+            [viewMode]: filterEntriesBySearchQuery(
+                dictionaryData.views[viewMode],
+                searchQuery.trim().toLowerCase(),
+                isSearch1Level
+            )
+        }
+    };
 };
 
 const HhDictionariesPage: FunctionComponent = () => {
@@ -254,6 +310,8 @@ const HhDictionariesPage: FunctionComponent = () => {
     );
 
     const [searchQuery, , setSearchQueryByEvent] = useInputState<string>('');
+    const [isSearch1Level, setIsSearch1Level] = useState<boolean>(false);
+    const handleIsSearch1LevelChecked = useChangeAnyStateHandler(setIsSearch1Level, 'checked');
 
     const [viewMode, setViewMode] = useState<DictionaryViewMode>(DictionaryViewMode.TREE);
 
@@ -261,27 +319,44 @@ const HhDictionariesPage: FunctionComponent = () => {
 
     const [dictionariesData, setDictionariesData] = useState<Partial<Record<HHDictionary, HHDictionaryData>>>({});
     const [dictionaryData, setDictionaryData] = useState<HHDictionaryData>();
+    const [displayedDictionaryData, setDisplayedDictionaryData] = useState<HHDictionaryData>();
 
-    const displayedDictionaryData = useDebouncedMemo(
-        () => {
-            if (!dictionaryData) {
-                return dictionaryData;
-            }
+    // const displayedDictionaryData = useDebouncedMemo(
+    //     () => {
+    //         if (!dictionaryData) {
+    //             return dictionaryData;
+    //         }
+    //
+    //         return {
+    //             ...dictionaryData,
+    //             views: {
+    //                 ...dictionaryData.views,
+    //                 [viewMode]: filterEntriesBySearchQuery(
+    //                     dictionaryData.views[viewMode],
+    //                     searchQuery.trim().toLowerCase()
+    //                 )
+    //             }
+    //         };
+    //     },
+    //     [dictionaryData, viewMode, searchQuery],
+    //     100
+    // );
 
-            return {
-                ...dictionaryData,
-                views: {
-                    ...dictionaryData.views,
-                    [viewMode]: filterEntriesBySearchQuery(
-                        dictionaryData.views[viewMode],
-                        searchQuery.trim().toLowerCase()
-                    )
-                }
-            };
+    const updateDisplayedDictionaryData = useCallback(
+        (
+            dictionaryData: HHDictionaryData | undefined,
+            viewMode: DictionaryViewMode,
+            searchQuery: string,
+            isSearch1Level: boolean
+        ) => {
+            setDisplayedDictionaryData(
+                getDisplayedDictionaryData(dictionaryData, viewMode, searchQuery, isSearch1Level)
+            );
         },
-        [dictionaryData, viewMode, searchQuery],
-        100
+        []
     );
+
+    const updateDisplayedDictionaryDataDebounced = useDebounce(updateDisplayedDictionaryData, 100);
 
     const fetchDictionaryData = useCallback(async (dictionary: HHDictionary): Promise<HHDictionaryData> => {
         const { data: raw } = await appAxios.get<object>(`https://api.hh.ru/${dictionary}`);
@@ -333,6 +408,26 @@ const HhDictionariesPage: FunctionComponent = () => {
         });
     }, [dictionary, dictionariesData, fetchDictionaryData]);
 
+    const previousSearchQueryRef = useRef<string>(searchQuery);
+
+    useEffect(() => {
+        const previousSearchQuery = previousSearchQueryRef.current;
+        previousSearchQueryRef.current = searchQuery;
+
+        if (previousSearchQuery === searchQuery) {
+            updateDisplayedDictionaryData(dictionaryData, viewMode, searchQuery, isSearch1Level);
+        } else {
+            updateDisplayedDictionaryDataDebounced(dictionaryData, viewMode, searchQuery, isSearch1Level);
+        }
+    }, [
+        dictionaryData,
+        viewMode,
+        searchQuery,
+        isSearch1Level,
+        updateDisplayedDictionaryData,
+        updateDisplayedDictionaryDataDebounced
+    ]);
+
     return (
         <PageContainer title="HeadHunter Dictionaries">
             <Flex col gap={8}>
@@ -355,13 +450,38 @@ const HhDictionariesPage: FunctionComponent = () => {
                     </ExternalLink>
                 </Flex>
 
-                <Search
-                    value={searchQuery}
-                    onChange={setSearchQueryByEvent}
-                    placeholder="Search items by id or name"
-                    className={styles.search}
-                    allowClear
-                />
+                <Flex col gap={8}>
+                    <Flex row gap={12} align="center">
+                        <Search
+                            value={searchQuery}
+                            onChange={setSearchQueryByEvent}
+                            placeholder="Search items by id or name"
+                            className={styles.search}
+                            allowClear
+                        />
+                        <Tooltip
+                            placement="bottom"
+                            title={
+                                <div>
+                                    <Text>
+                                        Use <Text code>#</Text> to search only by ID
+                                    </Text>
+                                    <br />
+                                    <Text>
+                                        Use <Text code>=</Text> to search by exact name
+                                    </Text>
+                                </div>
+                            }
+                        >
+                            <a className={styles.searchInfoIconLink}>
+                                <Info className={styles.searchInfoIcon} />
+                            </a>
+                        </Tooltip>
+                    </Flex>
+                    <Checkbox checked={isSearch1Level} onChange={handleIsSearch1LevelChecked}>
+                        Search only first level
+                    </Checkbox>
+                </Flex>
 
                 {displayedDictionaryData ? (
                     <Flex col gap={8}>
