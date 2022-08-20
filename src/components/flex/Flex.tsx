@@ -37,7 +37,7 @@ interface PropsWithColumn extends BaseProps {
     col: true;
 }
 
-type Props = PropsWithDirection | PropsWithRow | PropsWithColumn;
+export type FlexProps = PropsWithDirection | PropsWithRow | PropsWithColumn;
 
 // type Props<T extends BaseProps> =
 //     T extends PropsWithDirection ? Exclude<PropsWithDirection, 'row' | 'column'> :
@@ -45,7 +45,7 @@ type Props = PropsWithDirection | PropsWithRow | PropsWithColumn;
 //             T extends PropsWithColumn ? PropsWithColumn
 //                 : BaseProps;
 
-const Flex: FunctionComponent<Props> = (props) => {
+const Flex: FunctionComponent<FlexProps> = (props) => {
     const {
         row,
         col,

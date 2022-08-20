@@ -1,4 +1,4 @@
-import { isSubMenuItem, MenuItem, MenuRouteItem } from '../../layouts/appLayout/utils/routeMenuItems';
+import { isSubMenuItem, MenuItem, RouteMenuItem } from '../../layouts/appLayout/utils/routeMenuItems';
 import {
     BookFilled,
     DeleteFilled,
@@ -198,7 +198,7 @@ const menuItems: MenuItem[] = [
 
 export default menuItems;
 
-const getMenuItemRouteItems = (menuItem: MenuItem): MenuRouteItem[] => {
+const getMenuItemRouteItems = (menuItem: MenuItem): RouteMenuItem[] => {
     if (isSubMenuItem(menuItem)) {
         return menuItem.routes.flatMap(getMenuItemRouteItems);
     }
@@ -206,4 +206,4 @@ const getMenuItemRouteItems = (menuItem: MenuItem): MenuRouteItem[] => {
     return [menuItem];
 };
 
-export const menuRouteItems: MenuRouteItem[] = menuItems.flatMap(getMenuItemRouteItems);
+export const menuRouteItems: RouteMenuItem[] = menuItems.flatMap(getMenuItemRouteItems);

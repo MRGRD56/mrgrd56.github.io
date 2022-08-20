@@ -1,0 +1,29 @@
+@import '../../../../styles/main';
+
+.list {
+    display: grid;
+    grid-gap: 8px;
+
+    grid-template-columns: repeat(1, 1fr);
+    grid-auto-rows: 1fr;
+
+    @include mediaSM {
+        padding: 8px;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include mediaMD {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    @include mediaXL {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    @include mediaXXL {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+.card {
+}

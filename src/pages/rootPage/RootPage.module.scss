@@ -3,11 +3,11 @@
 .forkMeOnGitHub {
     position: absolute;
     right: 0;
-    opacity: 0.2;
     z-index: 999;
+    display: none;
 
-    @include mediaSM {
-        opacity: 1;
+    @include mediaMD {
+        display: revert;
     }
 }
 
@@ -19,8 +19,6 @@
 
 .contentContainer {
     flex: 1;
-    display: flex;
-    flex-direction: column;
 }
 
 .footer {
@@ -34,4 +32,12 @@
     position: absolute;
     top: -9999px;
     left: -9999px;
+}
+
+.appInfoAlert {
+    align-self: flex-start;
+}
+
+.pageSearch {
+    max-width: 300px;
 }

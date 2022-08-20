@@ -1,5 +1,5 @@
 import { AppRoute } from '../../../constants/router/routes';
-import React, { ComponentType } from 'react';
+import React, { ComponentType, ReactNode } from 'react';
 import renderComponent from '../../../utils/renderComponent';
 import { Link } from 'react-router-dom';
 import { isArray } from 'lodash';
@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
 import AppSettings from '../../../types/AppSettings';
 
-export const renderRoute = ({ route, title, icon, isHidden }: MenuRouteItem): ItemType => {
+export const renderRoute = ({ route, title, icon, isHidden }: RouteMenuItem): ItemType => {
     const { path } = route;
     const routeTitle = title ?? route.title;
 
@@ -34,21 +34,23 @@ interface MenuItemBase {
     icon?: ComponentType;
 }
 
-export interface MenuRouteItem extends MenuItemBase {
+export interface RouteMenuItem extends MenuItemBase {
     title?: string;
     searchText?: string;
     route: AppRoute;
     isHidden?: boolean;
+    description?: string;
+    largeIcon?: ReactNode;
 }
 
-export interface SubMenuItem extends MenuItemBase {
+export interface ParentMenuItem extends MenuItemBase {
     title: string;
     routes: MenuItem[];
 }
 
-export type MenuItem = MenuRouteItem | SubMenuItem;
+export type MenuItem = RouteMenuItem | ParentMenuItem;
 
-export const isSubMenuItem = (menuItem: MenuItem): menuItem is SubMenuItem => {
+export const isSubMenuItem = (menuItem: MenuItem): menuItem is ParentMenuItem => {
     return 'routes' in menuItem && isArray(menuItem.routes);
 };
 

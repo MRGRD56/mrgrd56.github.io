@@ -6,6 +6,7 @@ import githubLogoDark from '../../../../assets/img/github-logo-dark.svg';
 import ExternalLink from '../../../../components/ExternalLink';
 import useAppTheme from '../../../../hooks/useAppTheme';
 import classNames from 'classnames';
+import Card from '../../../../components/card/Card';
 
 interface Props {
     project: DevProject;
@@ -17,7 +18,7 @@ const DevProjectCard: FunctionComponent<Props> = ({ project }) => {
     const githubLogo = isDarkMode ? githubLogoDark : githubLogoLight;
 
     return (
-        <div className={styles.container}>
+        <Card className={styles.container}>
             <h2 className="text-center text-break">
                 <ExternalLink href={project.appUrl}>{project.name}</ExternalLink>
             </h2>
@@ -26,7 +27,7 @@ const DevProjectCard: FunctionComponent<Props> = ({ project }) => {
                 <img src={githubLogo} alt="GitHub" className={styles.githubLogo} />
                 <div>GitHub Repository</div>
             </ExternalLink>
-        </div>
+        </Card>
     );
 };
 

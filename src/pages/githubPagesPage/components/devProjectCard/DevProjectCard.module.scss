@@ -1,23 +1,6 @@
 @import '../../../../styles/main';
 
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    border-radius: 5px;
-    padding: 10px 14px;
-
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-
-    @include themeDark {
-        border-color: rgba(127, 127, 127, 0.09);
-        background: rgba(100, 100, 100, 0.15);
-        //box-shadow: 1px 1.5px 3px rgba(0, 0, 0, 0.25);
-        color: white;
-    }
-
     .githubRepoLink {
         display: flex;
         flex-direction: row;

@@ -26,3 +26,11 @@
     max-width: 100%;
     overflow: auto;
 }
+
+.app-alert {
+    align-items: flex-start;
+
+    .ant-alert-close-icon {
+        margin-top: 6px;
+    }
+}

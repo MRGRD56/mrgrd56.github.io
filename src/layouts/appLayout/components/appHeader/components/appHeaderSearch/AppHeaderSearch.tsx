@@ -6,7 +6,7 @@ import Text from 'antd/lib/typography/Text';
 import { DefaultOptionType, FilterFunc, SelectHandler } from 'rc-select/lib/Select';
 import { BaseSelectRef } from 'rc-select/lib/BaseSelect';
 import { menuRouteItems } from '../../../../../../constants/router/menuItems';
-import { MenuRouteItem } from '../../../../utils/routeMenuItems';
+import { RouteMenuItem } from '../../../../utils/routeMenuItems';
 import { useNavigate } from 'react-router-dom';
 import { AutoCompleteProps } from 'antd/lib/auto-complete';
 import classNames from 'classnames';
@@ -15,7 +15,7 @@ import { isEmpty } from 'lodash';
 import useAppSettings from '../../../../../../hooks/useAppSettings';
 
 interface OptionType extends DefaultOptionType {
-    data: MenuRouteItem;
+    data: RouteMenuItem;
 }
 
 const filterOption: FilterFunc<OptionType> = (inputValue, option) => {
@@ -65,7 +65,7 @@ const AppHeaderSearch: FunctionComponent<Props> = ({ className, inputClassName, 
 
     const autoCompleteRef = useRef<BaseSelectRef>(null);
 
-    const selectOption = useCallback((option: MenuRouteItem) => {
+    const selectOption = useCallback((option: RouteMenuItem) => {
         const path = option.route.path;
 
         navigate(path);
