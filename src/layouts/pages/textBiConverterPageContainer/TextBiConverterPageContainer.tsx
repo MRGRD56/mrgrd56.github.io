@@ -5,7 +5,7 @@ import BiConverterPageContainer from '../biConverterPageContainer/BiConverterPag
 import styles from './TextBiConverterPageContainer.module.scss';
 import { Alert, Button, Popover, Tooltip } from 'antd';
 import { InfoCircleFilled, SettingOutlined, SwapOutlined } from '@ant-design/icons';
-import AppEditor from '../../../components/appEditor/AppEditor';
+import AppEditor, { AppEditorProps } from '../../../components/appEditor/AppEditor';
 import CopyButton from '../../../components/copyButton/CopyButton';
 import MonacoLanguage from '../../../types/MonacoLanguage';
 import { editor } from 'monaco-editor';
@@ -13,7 +13,7 @@ import { isEqual } from 'lodash';
 import Flex from '../../../components/flex/Flex';
 import useOptionalLocalstorageState from '../../../hooks/useOptionalLocalstorageState';
 import Switch from '../../../utils/Switch';
-import TextArea from 'antd/lib/input/TextArea';
+import TextArea, { TextAreaProps } from 'antd/lib/input/TextArea';
 import useStateChangeByEventHandler from '../../../hooks/useStateChangeByEventHandler';
 import classNames from 'classnames';
 
@@ -30,6 +30,13 @@ const resultEditorOptions: editor.IStandaloneEditorConstructionOptions = {
     readOnly: true
 };
 
+const codePlainEditorProps: TextAreaProps = {
+    autoComplete: 'off',
+    autoCorrect: 'off',
+    autoCapitalize: 'off',
+    spellCheck: 'false'
+};
+
 export enum EditorType {
     MONACO,
     PLAIN
@@ -41,12 +48,16 @@ interface BaseSourceOptions {
 
 interface MonacoSourceOptions extends BaseSourceOptions {
     editorType?: EditorType.MONACO;
+    editorProps?: Omit<Partial<AppEditorProps>, 'value' | 'onChange' | 'options'>;
     language?: MonacoLanguage;
     wrapLines?: boolean;
+    quickSuggestions?: boolean;
 }
 
 interface PlainSourceOptions extends BaseSourceOptions {
     editorType: EditorType.PLAIN;
+    editorProps?: Omit<Partial<TextAreaProps>, 'value' | 'onChange' | 'readOnly'>;
+    isCode?: boolean;
 }
 
 type SourceOptions = MonacoSourceOptions | PlainSourceOptions;
@@ -118,7 +129,7 @@ const TextBiConverterPageContainer = <O,>(props: Props<O>) => {
 
     const result = useDebouncedMemo(
         (noResult) => {
-            if (!source?.trim()) {
+            if (!source) {
                 setError(undefined);
                 return '';
             }
@@ -238,17 +249,25 @@ const TextBiConverterPageContainer = <O,>(props: Props<O>) => {
                         language={(sourceLeft as MonacoSourceOptions).language}
                         options={{
                             ...sourceEditorOptions,
-                            wordWrap: (sourceLeft as MonacoSourceOptions).wrapLines ? 'on' : 'off'
+                            wordWrap: (sourceLeft as MonacoSourceOptions).wrapLines ? 'on' : 'off',
+                            quickSuggestions: (sourceRight as MonacoSourceOptions).quickSuggestions
                         }}
                         value={source}
                         onChange={setSource}
+                        {...(sourceLeft as MonacoSourceOptions).editorProps}
                     />
                 ))
                 .onCase(EditorType.PLAIN, () => (
                     <TextArea
-                        className={classNames(styles.editor, styles.plainEditor)}
+                        className={classNames(
+                            styles.editor,
+                            styles.plainEditor,
+                            (sourceLeft as PlainSourceOptions).isCode && styles.plainEditorCode
+                        )}
                         value={source}
                         onChange={handleSourceChange}
+                        {...((sourceLeft as PlainSourceOptions).isCode ? codePlainEditorProps : {})}
+                        {...(sourceLeft as PlainSourceOptions).editorProps}
                     />
                 ))
                 .value()}
@@ -265,13 +284,25 @@ const TextBiConverterPageContainer = <O,>(props: Props<O>) => {
                         language={(sourceRight as MonacoSourceOptions).language}
                         options={{
                             ...resultEditorOptions,
-                            wordWrap: (sourceRight as MonacoSourceOptions).wrapLines ? 'on' : 'off'
+                            wordWrap: (sourceRight as MonacoSourceOptions).wrapLines ? 'on' : 'off',
+                            quickSuggestions: (sourceRight as MonacoSourceOptions).quickSuggestions
                         }}
                         value={result}
+                        {...(sourceRight as MonacoSourceOptions).editorProps}
                     />
                 ))
                 .onCase(EditorType.PLAIN, () => (
-                    <TextArea className={classNames(styles.editor, styles.plainEditor)} value={result} readOnly />
+                    <TextArea
+                        className={classNames(
+                            styles.editor,
+                            styles.plainEditor,
+                            (sourceRight as PlainSourceOptions).isCode && styles.plainEditorCode
+                        )}
+                        value={result}
+                        readOnly
+                        {...((sourceRight as PlainSourceOptions).isCode ? codePlainEditorProps : {})}
+                        {...(sourceRight as PlainSourceOptions).editorProps}
+                    />
                 ))
                 .value()}
             extra={error && <Alert className={styles.messageContainer} type="error" showIcon message={error} />}

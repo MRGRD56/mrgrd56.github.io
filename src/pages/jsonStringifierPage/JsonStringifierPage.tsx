@@ -2,84 +2,46 @@ import React from 'react';
 import TextBiConverterPageContainer, {
     EditorType
 } from '../../layouts/pages/textBiConverterPageContainer/TextBiConverterPageContainer';
+import { isString } from 'lodash';
+import ExternalLink from '../../components/ExternalLink';
 
-// const rows = 16;
-// const span = 12;
+const convert1to2 = (input: string) => {
+    return JSON.stringify(input.replaceAll('\r\n', '\n'));
+};
+const convert2to1 = (input: string) => {
+    const parsed = JSON.parse(input);
+    if (!isString(parsed)) {
+        throw new Error('The JSON must represent a string');
+    }
 
-const computeResult = (input: string | undefined) => JSON.stringify(input);
-// const computeResultAsync = async (input: string | undefined) => computeResult(input);
+    return parsed;
+};
 
 const JsonStringifierPage = () => {
-    // const [input, , setInputByEvent] = useInputState<string>();
-    // const [output, setOutput] = useState<string>();
-
-    // useEffect(() => {
-    //     computeResultAsync(input).then((output) => {
-    //         setOutput(output);
-    //     });
-    // }, [input]);
-
     return (
         <TextBiConverterPageContainer
-            source1={{ title: 'Text', editorType: EditorType.PLAIN }}
-            source2={{ title: 'JSON string', editorType: EditorType.MONACO, language: 'json', wrapLines: true }}
-            convert1to2={computeResult}
+            source1={{ title: 'Plain text', editorType: EditorType.MONACO, quickSuggestions: false }}
+            source2={{
+                title: 'JSON string',
+                editorType: EditorType.MONACO,
+                quickSuggestions: false,
+                language: 'json',
+                wrapLines: true
+            }}
+            convert1to2={convert1to2}
+            convert2to1={convert2to1}
             description={
                 <>
-                    Converts your input to a JSON string. May be useful if you want to put some text in a JSON as a
-                    value.
-                    <br />
-                    Just paste your text in the input field on the left.
+                    <h3 className="mb-1">JSON Stringifier</h3>
+                    <div className="mb-1">
+                        Converts your input to a JSON string. May be useful if you want to put some text in a JSON as a
+                        value
+                    </div>
+                    <ExternalLink href="https://mrgrd56.github.io/json-stringifier">Check out old version</ExternalLink>
                 </>
             }
         />
     );
-
-    // return (
-    //     <PageContainer
-    //         title="JSON Stringifier"
-    //         description={
-    //             <>
-    //                 Converts your input to a JSON string. May be useful if you want to put some text in a JSON as a
-    //                 value.
-    //                 <br />
-    //                 Just paste your text in the input field on the left.
-    //             </>
-    //         }
-    //         titleExtra={
-    //             <ExternalLink href="https://mrgrd56.github.io/json-stringifier">Check out old version</ExternalLink>
-    //         }
-    //     >
-    //         <Row gutter={8}>
-    //             <Col span={span}>
-    //                 <TextArea
-    //                     rows={rows}
-    //                     placeholder="Source text"
-    //                     className={styles.textarea}
-    //                     onChange={setInputByEvent}
-    //                     value={input}
-    //                     autoComplete="off"
-    //                     autoCorrect="off"
-    //                     autoCapitalize="off"
-    //                     spellCheck="false"
-    //                 />
-    //             </Col>
-    //             <Col span={span}>
-    //                 <TextArea
-    //                     rows={rows}
-    //                     readOnly
-    //                     placeholder="Result (JSON string)"
-    //                     className={styles.textarea}
-    //                     value={output}
-    //                     autoComplete="off"
-    //                     autoCorrect="off"
-    //                     autoCapitalize="off"
-    //                     spellCheck="false"
-    //                 />
-    //             </Col>
-    //         </Row>
-    //     </PageContainer>
-    // );
 };
 
 export default JsonStringifierPage;

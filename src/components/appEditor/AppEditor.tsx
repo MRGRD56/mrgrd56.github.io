@@ -10,12 +10,12 @@ const loadingNode = <Spin size="large" />;
 
 export type AppOnChange = (value: string, ev: monaco.editor.IModelContentChangedEvent) => void;
 
-interface Props extends Omit<EditorProps, 'onChange'> {
+export interface AppEditorProps extends Omit<EditorProps, 'onChange'> {
     onChange?: AppOnChange;
     language?: MonacoLanguage;
 }
 
-const AppEditor: FunctionComponent<Props> = ({ className, loading, theme, onChange, ...props }) => {
+const AppEditor: FunctionComponent<AppEditorProps> = ({ className, loading, theme, onChange, ...props }) => {
     const { isDarkMode } = useAppTheme();
 
     const handleChange = useCallback<OnChange>(

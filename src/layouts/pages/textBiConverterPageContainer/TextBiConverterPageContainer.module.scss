@@ -16,6 +16,13 @@
         }
     }
 
+    .plainEditorCode {
+        font-family: var(--jetbrains-mono);
+        font-size: 13px;
+        line-height: 19px;
+        letter-spacing: 0;
+    }
+
     .messageContainer {
         position: absolute;
         right: 0;
