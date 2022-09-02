@@ -170,7 +170,8 @@ const menuItems: MenuItem[] = [
             },
             {
                 route: routes.jsonToYaml,
-                searchText: 'convert json to yaml converter online, convert yaml to json converter online',
+                searchText:
+                    'convert json to yaml converter online, convert yaml to json converter online, convert json to yml to json converter',
                 largeIcon: <DataObject />,
                 description: 'Convert JSON to YAML and back'
             },
