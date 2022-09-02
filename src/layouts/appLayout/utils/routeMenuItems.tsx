@@ -1,23 +1,46 @@
 import { AppRoute } from '../../../constants/router/routes';
 import React, { ComponentType, ReactNode } from 'react';
 import renderComponent from '../../../utils/renderComponent';
-import { Link } from 'react-router-dom';
-import { isArray } from 'lodash';
+import { isArray, isObject, isString } from 'lodash';
 import classNames from 'classnames';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
 import AppSettings from '../../../types/AppSettings';
+import RouterLink, { RouterLinkType } from '../../../components/RouterLink';
 
-export const renderRoute = ({ route, title, icon, isHidden }: RouteMenuItem): ItemType => {
-    const { path } = route;
-    const routeTitle = title ?? route.title;
+/** @deprecated */
+export const getMenuItemLink = (item: SingleMenuItem): string => {
+    return isRouteMenuItem(item) ? item.route.path : item.url;
+};
+
+export const getMenuItemTitle = (item: SingleMenuItem): string => {
+    return isRouteMenuItem(item) ? item.title ?? item.route.title : item.title;
+};
+
+export const getMenuItemRouterLink = (item: SingleMenuItem): RouterLinkType => {
+    return isRouteMenuItem(item)
+        ? {
+              isExternal: false,
+              link: item.route.path
+          }
+        : {
+              isExternal: true,
+              link: item.url
+          };
+};
+
+export const renderRoute = (item: SingleMenuItem): ItemType => {
+    const { icon, isHidden } = item;
+
+    const routerLink = getMenuItemRouterLink(item);
+    const title = getMenuItemTitle(item);
 
     return {
-        key: path,
+        key: routerLink.link,
         icon: renderComponent(icon),
         label: (
-            <Link to={path ?? ''} className={classNames({ 'opacity-50': isHidden })} title={routeTitle}>
-                {routeTitle}
-            </Link>
+            <RouterLink to={routerLink} className={classNames({ 'opacity-50': isHidden })} title={title}>
+                {title}
+            </RouterLink>
         )
     };
 
@@ -34,24 +57,40 @@ interface MenuItemBase {
     icon?: ComponentType;
 }
 
-export interface RouteMenuItem extends MenuItemBase {
+interface SingleMenuItemBase extends MenuItemBase {
     title?: string;
     searchText?: string;
-    route: AppRoute;
     isHidden?: boolean;
     description?: string;
     largeIcon?: ReactNode;
 }
 
-export interface ParentMenuItem extends MenuItemBase {
-    title: string;
-    routes: MenuItem[];
+export interface RouteMenuItem extends SingleMenuItemBase {
+    route: AppRoute;
 }
 
-export type MenuItem = RouteMenuItem | ParentMenuItem;
+export interface LinkMenuItem extends SingleMenuItemBase {
+    url: string;
+    title: string;
+}
+
+export type SingleMenuItem = RouteMenuItem | LinkMenuItem;
+
+export interface ParentMenuItem extends MenuItemBase {
+    title: string;
+    items: MenuItem[];
+}
+
+export type MenuItem = RouteMenuItem | LinkMenuItem | ParentMenuItem;
+
+export const isRouteMenuItem = (item: MenuItem): item is RouteMenuItem => 'route' in item && isObject(item.route);
+export const isLinkMenuItem = (item: MenuItem): item is LinkMenuItem => 'url' in item && isString(item.url);
+export const isSingleMenuItem = (item: MenuItem): item is SingleMenuItem =>
+    isRouteMenuItem(item) || isLinkMenuItem(item);
+export const isParentMenuItem = (item: MenuItem): item is ParentMenuItem => 'items' in item && isArray(item.items);
 
 export const isSubMenuItem = (menuItem: MenuItem): menuItem is ParentMenuItem => {
-    return 'routes' in menuItem && isArray(menuItem.routes);
+    return 'items' in menuItem && isArray(menuItem.items);
 };
 
 export const renderMenuItem = (menuItem: MenuItem, index: number, settings: AppSettings): ItemType => {
@@ -60,8 +99,8 @@ export const renderMenuItem = (menuItem: MenuItem, index: number, settings: AppS
             key: index,
             icon: renderComponent(menuItem.icon),
             label: menuItem.title,
-            children: menuItem.routes.length
-                ? menuItem.routes
+            children: menuItem.items.length
+                ? menuItem.items
                       .filter((item) => {
                           if (settings.doShowHiddenMenuItems) {
                               return true;

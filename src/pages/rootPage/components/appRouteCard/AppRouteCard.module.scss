@@ -1,29 +1,118 @@
 @import '../../../../styles/main';
 
 .list {
+    margin-bottom: 8px;
     display: grid;
     grid-gap: 8px;
 
     grid-template-columns: repeat(1, 1fr);
-    grid-auto-rows: 1fr;
 
     @include mediaSM {
-        padding: 8px;
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    @include mediaMD {
+        grid-auto-rows: 1fr;
         grid-template-columns: repeat(3, 1fr);
     }
 
-    @include mediaXL {
+    @include mediaMD {
         grid-template-columns: repeat(4, 1fr);
     }
 
-    @include mediaXXL {
+    @include mediaLG {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    @include mediaXL {
         grid-template-columns: repeat(6, 1fr);
+    }
+
+    @include mediaXXL {
+        grid-template-columns: repeat(7, 1fr);
     }
 }
 
 .card {
+    //aspect-ratio: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.cardInner {
+    flex: 1;
+    display: flex;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start;
+    gap: 0.5rem;
+
+    @include mediaSM {
+        align-items: center !important;
+        gap: 0.1rem;
+    }
+
+    .cardMainContainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.6rem;
+
+        @include mediaSM {
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            flex: 1;
+            gap: 0.3rem;
+        }
+
+        .cardIconWrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+
+            .cardIcon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 24px;
+                height: 24px;
+                max-width: 24px;
+                max-height: 24px;
+
+                & > * {
+                    min-width: 24px;
+                    min-height: 24px;
+                }
+
+                @include mediaSM {
+                    flex: 1;
+                    padding-top: 2px;
+
+                    width: 30px;
+                    height: 30px;
+                    max-width: 30px;
+                    max-height: 30px;
+
+                    & > * {
+                        min-width: 30px;
+                        min-height: 30px;
+                    }
+                }
+            }
+        }
+
+        .cardTitle {
+            @include mediaSM {
+                text-align: center;
+            }
+        }
+    }
+
+    .cardDescription {
+        font-size: 0.75rem;
+        line-height: 1.05rem;
+
+        @include mediaSM {
+            text-align: center;
+        }
+    }
 }

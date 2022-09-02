@@ -5,7 +5,7 @@ import { useAppSettingsState } from '../../hooks/useAppSettings';
 import ExternalLink from '../../components/ExternalLink';
 import AppTheme, { SpecialAppTheme } from '../../types/AppTheme';
 import styles from './SettingsPage.module.scss';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined, EyeInvisibleFilled } from '@ant-design/icons';
 import useChangeStateHandler from '../../hooks/useChangeStateHandler';
 import PageCol from '../../components/pageCol/PageCol';
 
@@ -54,11 +54,32 @@ const SettingsPage: FunctionComponent = () => {
                     />
                     <span className="ms-3">Show hidden menu items</span>
                 </label>
+                <h4 className="mt-3 mb-0">Hide elements</h4>
                 <label>
-                    <Switch checked={appSettings.isFooterHidden} onChange={handleAppSettingChange('isFooterHidden')} />
+                    <Switch
+                        checked={appSettings.isFooterHidden}
+                        onChange={handleAppSettingChange('isFooterHidden')}
+                        checkedChildren={<EyeInvisibleFilled />}
+                    />
                     <span className="ms-3 cursor-help" title="The footer will still be visible on some pages">
-                        Hide the footer
+                        Site footer
                     </span>
+                </label>
+                <label>
+                    <Switch
+                        checked={appSettings.isRootPageInfoAlertHidden}
+                        onChange={handleAppSettingChange('isRootPageInfoAlertHidden')}
+                        checkedChildren={<EyeInvisibleFilled />}
+                    />
+                    <span className="ms-3">Info alert on the home page</span>
+                </label>
+                <label>
+                    <Switch
+                        checked={appSettings.isRootPageGithubLinkHidden}
+                        onChange={handleAppSettingChange('isRootPageGithubLinkHidden')}
+                        checkedChildren={<EyeInvisibleFilled />}
+                    />
+                    <span className="ms-3">GitHub repository link on the home page</span>
                 </label>
             </PageCol>
         </PageContainer>

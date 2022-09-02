@@ -1,6 +1,7 @@
 import { RouteProps } from 'react-router';
 import { values } from 'lodash';
 import React, { ComponentType } from 'react';
+import ExternalRedirect from '../../components/ExternalRedirect';
 
 const RootPage = React.lazy(() => import('../../pages/rootPage/RootPage'));
 const GithubPagesListPage = React.lazy(() => import('../../pages/githubPagesPage/GithubPagesListPage'));
@@ -100,6 +101,7 @@ type AppRoutesMap = Readonly<{
     htmlEntities: AppRoute;
     prettyBytes: AppRoute;
     hhDictionaries: AppRoute;
+    onlineColorPickerRedirect: AppRoute;
 }>;
 
 export const routes: AppRoutesMap = {
@@ -300,6 +302,11 @@ export const routes: AppRoutesMap = {
         path: '/tools/headhunter-dictionaries',
         component: HhDictionariesPage,
         title: 'HeadHunter Dictionaries Viewer'
+    },
+    onlineColorPickerRedirect: {
+        path: '/online-color-picker',
+        component: () => <ExternalRedirect url="https://mrgrd56.github.io/online-color-picker" />,
+        title: 'Color Picker'
     }
 };
 

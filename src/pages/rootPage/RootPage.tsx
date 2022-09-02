@@ -1,53 +1,88 @@
-import React, { FunctionComponent, useCallback, useMemo, useState } from 'react';
+import React, { FunctionComponent, useCallback, useMemo } from 'react';
 import Paragraph from 'antd/lib/typography/Paragraph';
 import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
-import { ReactComponent as ForkMeOnGitHub } from './assets/forkMeOnGitHub.svg';
 import styles from './RootPage.module.scss';
 import ExternalLink from '../../components/ExternalLink';
-import { Alert, Col } from 'antd';
-import { appRoutesList, routes } from '../../constants/router/routes';
+import { Alert, Empty, Tooltip } from 'antd';
+import { routes } from '../../constants/router/routes';
 import Text from 'antd/lib/typography/Text';
 import { Link } from 'react-router-dom';
-import PageCol from '../../components/pageCol/PageCol';
-import { useLocalstorageState } from 'rooks';
-import getLocalStorageKey from '../../utils/getLocalStorageKey';
 import classNames from 'classnames';
 import Flex from '../../components/flex/Flex';
 import Search from 'antd/lib/input/Search';
 import AppRoutesCards from './components/appRouteCard/AppRoutesCards';
 import menuItems from '../../constants/router/menuItems';
-import { ParentMenuItem, RouteMenuItem } from '../../layouts/appLayout/utils/routeMenuItems';
-import useAppSettings from '../../hooks/useAppSettings';
+import {
+    getMenuItemTitle,
+    isParentMenuItem,
+    isRouteMenuItem,
+    ParentMenuItem,
+    SingleMenuItem
+} from '../../layouts/appLayout/utils/routeMenuItems';
+import { useAppSettingsState } from '../../hooks/useAppSettings';
+import useInputState from '../../hooks/useInputState';
+import { isEmpty } from 'lodash';
+import GithubLogo from '../../assets/components/GithubLogo';
+import useChangeStateHandler from '../../hooks/useChangeStateHandler';
 
 const RootPage: FunctionComponent = () => {
-    const { doShowHiddenMenuItems } = useAppSettings();
-    const [isInfoAlertShown, setIsInfoAlertShown] = useLocalstorageState<boolean>(
-        getLocalStorageKey('root', 'isInfoAlertShown'),
-        true
-    );
+    const {
+        appSettings: { doShowHiddenMenuItems, isRootPageInfoAlertHidden, isRootPageGithubLinkHidden },
+        setAppSettings
+    } = useAppSettingsState();
 
-    const toolsCardItems = useMemo(() => {
-        const toolsParentItem = menuItems.find((item) => 'routes' in item && item.title === 'Tools') as ParentMenuItem;
-        const toolsItems = toolsParentItem.routes as RouteMenuItem[];
+    const handleAppSettingChange = useChangeStateHandler(setAppSettings);
+
+    const [searchQuery, , setSearchQueryByEvent] = useInputState<string>('');
+
+    const allToolsCardItems = useMemo<SingleMenuItem[]>(() => {
+        const toolsParentItem = menuItems.find(
+            (item) => isParentMenuItem(item) && item.title === 'Tools'
+        ) as ParentMenuItem;
+        const toolsItems = toolsParentItem.items as SingleMenuItem[];
 
         return toolsItems.filter((item) => doShowHiddenMenuItems || !item.isHidden);
     }, [doShowHiddenMenuItems]);
 
+    const visibleToolsCardItems = useMemo<SingleMenuItem[]>(() => {
+        return allToolsCardItems.filter((item) => {
+            const query = searchQuery.trim().toLocaleLowerCase();
+
+            if (isEmpty(query)) {
+                return true;
+            }
+
+            const isMatchByTitle = () => item.title && String(item.title).toLocaleLowerCase().includes(query);
+            const isMatchByRouteTitle = () =>
+                isRouteMenuItem(item) && String(item.route.title).toLocaleLowerCase().includes(query);
+            const isMatchByDescription = () =>
+                item.description && String(item.description).toLocaleLowerCase().includes(query);
+            const isMatchBySearchText = () =>
+                item.searchText && String(item.searchText).toLocaleLowerCase().includes(query);
+
+            return isMatchByTitle() || isMatchByRouteTitle() || isMatchByDescription() || isMatchBySearchText();
+        });
+    }, [allToolsCardItems, searchQuery]);
+
     const handleInfoAlertClose = useCallback(() => {
         setTimeout(() => {
-            setIsInfoAlertShown(false);
+            handleAppSettingChange('isRootPageInfoAlertHidden')(true);
         }, 1500);
     }, []);
 
     return (
         <>
-            <ExternalLink className={styles.forkMeOnGitHub} href="https://github.com/MRGRD56/mrgrd56.github.io">
-                <ForkMeOnGitHub />
-            </ExternalLink>
+            {!isRootPageGithubLinkHidden && (
+                <Tooltip title="Visit website repository" placement="bottomLeft">
+                    <ExternalLink className={styles.githubButton} href="https://github.com/MRGRD56/mrgrd56.github.io">
+                        <GithubLogo className={styles.githubButtonIcon} />
+                    </ExternalLink>
+                </Tooltip>
+            )}
 
             <PageContainer contentClassName={styles.container}>
                 <Flex col gap={8} className={styles.contentContainer}>
-                    {isInfoAlertShown && (
+                    {!isRootPageInfoAlertHidden && (
                         <Alert
                             className={classNames('app-alert', styles.appInfoAlert)}
                             type="info"
@@ -78,17 +113,46 @@ const RootPage: FunctionComponent = () => {
                     )}
 
                     <Flex col gap={8}>
-                        <Search className={styles.pageSearch} placeholder="Search tools"></Search>
+                        <h2 className="mt-0 mb-0">Tools</h2>
 
-                        <div>
-                            <AppRoutesCards heading="Tools" items={toolsCardItems} />
+                        <Search
+                            className={styles.pageSearch}
+                            placeholder="Search tools"
+                            value={searchQuery}
+                            onChange={setSearchQueryByEvent}
+                            allowClear
+                        />
+
+                        <div className="mt-1">
+                            {visibleToolsCardItems.length ? (
+                                <AppRoutesCards items={visibleToolsCardItems} />
+                            ) : (
+                                <Empty
+                                    className="mt-2"
+                                    description={
+                                        <Flex col>
+                                            <div>No tools found</div>
+                                            <Text type="secondary">
+                                                But you can{' '}
+                                                <ExternalLink href="https://github.com/MRGRD56/mrgrd56.github.io/issues/new">
+                                                    suggest
+                                                </ExternalLink>{' '}
+                                                one
+                                            </Text>
+                                        </Flex>
+                                    }
+                                />
+                            )}
                         </div>
                     </Flex>
 
                     <Text className={styles.helperTags}>
-                        {appRoutesList.map((route) => route.title).join(', ')}
-                        {', '}
-                        Clock with seconds
+                        {allToolsCardItems
+                            .map((item) =>
+                                [getMenuItemTitle(item), item.description, item.searchText].filter(Boolean).join('; ')
+                            )
+                            .filter(Boolean)
+                            .join(', ')}
                     </Text>
                 </Flex>
 

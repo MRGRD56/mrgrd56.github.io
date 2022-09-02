@@ -5,6 +5,8 @@ interface AppSettings {
     isErudaEnabled: boolean;
     doShowHiddenMenuItems: boolean;
     isFooterHidden: boolean;
+    isRootPageInfoAlertHidden: boolean;
+    isRootPageGithubLinkHidden: boolean;
 }
 
 export default AppSettings;

@@ -6,16 +6,16 @@ import Text from 'antd/lib/typography/Text';
 import { DefaultOptionType, FilterFunc, SelectHandler } from 'rc-select/lib/Select';
 import { BaseSelectRef } from 'rc-select/lib/BaseSelect';
 import { menuRouteItems } from '../../../../../../constants/router/menuItems';
-import { RouteMenuItem } from '../../../../utils/routeMenuItems';
-import { useNavigate } from 'react-router-dom';
+import { getMenuItemRouterLink, getMenuItemTitle, SingleMenuItem } from '../../../../utils/routeMenuItems';
 import { AutoCompleteProps } from 'antd/lib/auto-complete';
 import classNames from 'classnames';
 import { useKey } from 'rooks';
 import { isEmpty } from 'lodash';
 import useAppSettings from '../../../../../../hooks/useAppSettings';
+import useRouterNavigate from '../../../../../../hooks/useRouterNavigate';
 
 interface OptionType extends DefaultOptionType {
-    data: RouteMenuItem;
+    data: SingleMenuItem;
 }
 
 const filterOption: FilterFunc<OptionType> = (inputValue, option) => {
@@ -32,7 +32,8 @@ const filterOption: FilterFunc<OptionType> = (inputValue, option) => {
     }
 
     const isMatchByLabel = () => String(option.label).toLocaleLowerCase().includes(query);
-    const isMatchBySearchText = () => String(option.data.searchText).toLocaleLowerCase().includes(query);
+    const isMatchBySearchText = () =>
+        Boolean(option.data.searchText) && String(option.data.searchText).toLocaleLowerCase().includes(query);
 
     return isMatchByLabel() || isMatchBySearchText();
 };
@@ -42,7 +43,7 @@ interface Props extends Omit<AutoCompleteProps, 'options' | 'filterOption' | 'on
 }
 
 const AppHeaderSearch: FunctionComponent<Props> = ({ className, inputClassName, ...props }) => {
-    const navigate = useNavigate();
+    const navigate = useRouterNavigate();
     const { doShowHiddenMenuItems } = useAppSettings();
 
     const [query, setQuery] = useState<string>('');
@@ -51,7 +52,7 @@ const AppHeaderSearch: FunctionComponent<Props> = ({ className, inputClassName, 
         return menuRouteItems
             .filter((item) => doShowHiddenMenuItems || !item.isHidden)
             .map((item) => {
-                const title = item.title ?? item.route.title;
+                const title = getMenuItemTitle(item);
 
                 return {
                     label: title,
@@ -65,10 +66,10 @@ const AppHeaderSearch: FunctionComponent<Props> = ({ className, inputClassName, 
 
     const autoCompleteRef = useRef<BaseSelectRef>(null);
 
-    const selectOption = useCallback((option: RouteMenuItem) => {
-        const path = option.route.path;
+    const selectOption = useCallback((option: SingleMenuItem) => {
+        const routerLink = getMenuItemRouterLink(option);
 
-        navigate(path);
+        navigate(routerLink);
 
         setTimeout(() => {
             setQuery(' ');
