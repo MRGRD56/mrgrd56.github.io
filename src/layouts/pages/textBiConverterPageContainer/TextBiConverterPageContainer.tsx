@@ -4,7 +4,7 @@ import getErrorMessage from '../../../utils/getErrorMessage';
 import BiConverterPageContainer from '../biConverterPageContainer/BiConverterPageContainer';
 import styles from './TextBiConverterPageContainer.module.scss';
 import { Alert, Button, Popover, Tooltip } from 'antd';
-import { SettingOutlined, SwapOutlined } from '@ant-design/icons';
+import { InfoCircleFilled, SettingOutlined, SwapOutlined } from '@ant-design/icons';
 import AppEditor from '../../../components/appEditor/AppEditor';
 import CopyButton from '../../../components/copyButton/CopyButton';
 import MonacoLanguage from '../../../types/MonacoLanguage';
@@ -17,13 +17,17 @@ import TextArea from 'antd/lib/input/TextArea';
 import useStateChangeByEventHandler from '../../../hooks/useStateChangeByEventHandler';
 import classNames from 'classnames';
 
-const sourceEditorOptions: editor.IStandaloneEditorConstructionOptions = {
+const commonEditorOptions: editor.IStandaloneEditorConstructionOptions = {
     minimap: { enabled: false }
 };
 
+const sourceEditorOptions: editor.IStandaloneEditorConstructionOptions = {
+    ...commonEditorOptions
+};
+
 const resultEditorOptions: editor.IStandaloneEditorConstructionOptions = {
-    readOnly: true,
-    minimap: { enabled: false }
+    ...commonEditorOptions,
+    readOnly: true
 };
 
 export enum EditorType {
@@ -31,11 +35,21 @@ export enum EditorType {
     PLAIN
 }
 
-interface SourceOptions {
+interface BaseSourceOptions {
     title: string;
-    language?: MonacoLanguage;
-    editorType?: EditorType;
 }
+
+interface MonacoSourceOptions extends BaseSourceOptions {
+    editorType?: EditorType.MONACO;
+    language?: MonacoLanguage;
+    wrapLines?: boolean;
+}
+
+interface PlainSourceOptions extends BaseSourceOptions {
+    editorType: EditorType.PLAIN;
+}
+
+type SourceOptions = MonacoSourceOptions | PlainSourceOptions;
 
 export type TextBiConvert<O = undefined> = (source: string, options: O) => string;
 export type RenderOptionsPopover<O> = (
@@ -59,6 +73,7 @@ interface BaseProps<O> {
     convert2to1?: TextBiConvert<O>;
     swapStateStorageKey?: string;
     sourceStorageKey?: string;
+    description?: ReactNode;
 }
 
 interface PropsWithOptions<O> extends BaseProps<O> {
@@ -70,8 +85,6 @@ interface PropsWithOptions<O> extends BaseProps<O> {
 interface PropsWithoutOptions extends BaseProps<undefined> {
     defaultOptions?: never;
     optionsStorageKey?: never;
-    // convert: (source: string, options?: undefined) => string;
-    // convertBack?: (source: string) => string;
     renderOptionsPopover?: never;
 }
 
@@ -87,7 +100,8 @@ const TextBiConverterPageContainer = <O,>(props: Props<O>) => {
         source2,
         renderOptionsPopover,
         swapStateStorageKey,
-        sourceStorageKey
+        sourceStorageKey,
+        description
     } = props;
 
     const [source, setSource] = useOptionalLocalstorageState<string>(sourceStorageKey, '');
@@ -101,12 +115,6 @@ const TextBiConverterPageContainer = <O,>(props: Props<O>) => {
         optionsStorageKey,
         defaultOptions
     );
-
-    // const conversionOptions = useMemo(() => {
-    //     if (getConversionOptions && selectableOptions) {
-    //         return getConversionOptions(selectableOptions);
-    //     }
-    // }, [selectableConversionOptions]);
 
     const result = useDebouncedMemo(
         (noResult) => {
@@ -153,12 +161,6 @@ const TextBiConverterPageContainer = <O,>(props: Props<O>) => {
             return;
         }
 
-        // return renderOptionsPopover({
-        //     options: selectableConversionOptions,
-        //     onOptionsChange: setSelectableConversionOptions,
-        //     onClose: handleSettingsClick
-        // });
-
         const OptionsPopoverContent = renderOptionsPopover;
         return (
             <OptionsPopoverContent
@@ -167,16 +169,6 @@ const TextBiConverterPageContainer = <O,>(props: Props<O>) => {
                 onClose={handleSettingsClick}
             />
         );
-
-        // console.log('CHECK COMPONENT', {
-        //     renderOptionsPopover,
-        //     isFC: isFunctionComponent<OptionsPopoverComponent<O>>(renderOptionsPopover)
-        // });
-        // if (isFunctionComponent<OptionsPopoverComponent<O>>(renderOptionsPopover)) {
-        //
-        // }
-        //
-        // return renderOptionsPopover(selectableConversionOptions, setSelectableConversionOptions, handleSettingsClick);
     }, [selectableConversionOptions, setSelectableConversionOptions, handleSettingsClick]);
 
     const handleSettingsTooltipVisibleChange = useCallback(
@@ -205,6 +197,15 @@ const TextBiConverterPageContainer = <O,>(props: Props<O>) => {
             leftTitle={sourceLeft.title}
             leftExtra={
                 <Flex row gap={4}>
+                    {description && (
+                        <Popover
+                            content={description}
+                            placement="bottomRight"
+                            overlayInnerStyle={{ maxWidth: '380px' }}
+                        >
+                            <Button type="text" icon={<InfoCircleFilled />} />
+                        </Popover>
+                    )}
                     {convert2to1 && (
                         <Tooltip title="Swap conversion direction" placement="bottomRight">
                             <Button type="text" icon={<SwapOutlined />} onClick={handleSwapConversionDirectionClick} />
@@ -234,8 +235,11 @@ const TextBiConverterPageContainer = <O,>(props: Props<O>) => {
                 .onCase(EditorType.MONACO, () => (
                     <AppEditor
                         className={styles.editor}
-                        language={sourceLeft.language}
-                        options={sourceEditorOptions}
+                        language={(sourceLeft as MonacoSourceOptions).language}
+                        options={{
+                            ...sourceEditorOptions,
+                            wordWrap: (sourceLeft as MonacoSourceOptions).wrapLines ? 'on' : 'off'
+                        }}
                         value={source}
                         onChange={setSource}
                     />
@@ -245,7 +249,6 @@ const TextBiConverterPageContainer = <O,>(props: Props<O>) => {
                         className={classNames(styles.editor, styles.plainEditor)}
                         value={source}
                         onChange={handleSourceChange}
-                        // onKeyDown={handlePlainEditorKeydown}
                     />
                 ))
                 .value()}
@@ -259,8 +262,11 @@ const TextBiConverterPageContainer = <O,>(props: Props<O>) => {
                 .onCase(EditorType.MONACO, () => (
                     <AppEditor
                         className={styles.editor}
-                        language={sourceRight.language}
-                        options={resultEditorOptions}
+                        language={(sourceRight as MonacoSourceOptions).language}
+                        options={{
+                            ...resultEditorOptions,
+                            wordWrap: (sourceRight as MonacoSourceOptions).wrapLines ? 'on' : 'off'
+                        }}
                         value={result}
                     />
                 ))
