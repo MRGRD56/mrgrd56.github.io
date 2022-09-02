@@ -8,7 +8,9 @@ const initialState: AppSettings = {
     theme: SpecialAppTheme.AUTO,
     isErudaEnabled: false,
     doShowHiddenMenuItems: false,
-    isFooterHidden: true
+    isFooterHidden: true,
+    isRootPageInfoAlertHidden: false,
+    isRootPageGithubLinkHidden: false
 };
 
 export const useAppSettingsState = () => {

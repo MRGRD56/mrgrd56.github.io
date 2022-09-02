@@ -35,6 +35,7 @@ const UserInfoPage: FunctionComponent = () => {
     const screenSize = getScreenSize();
     const scale = window.devicePixelRatio;
     const screenOrientation = window.screen.orientation.type;
+    const { userAgent } = navigator;
 
     return (
         <PageContainer
@@ -71,7 +72,8 @@ const UserInfoPage: FunctionComponent = () => {
                                             alt={userIpInfo.country}
                                             height={12}
                                             width={18}
-                                        />
+                                        />{' '}
+                                        {/*TODO: Extract into separate component*/}
                                         <Text className="ms-1">
                                             {userIpInfo.countryName}, {userIpInfo.city}
                                         </Text>
@@ -119,6 +121,10 @@ const UserInfoPage: FunctionComponent = () => {
                 <Text>
                     <Text strong>Orientation:</Text>
                     <Text className="ms-2">{screenOrientation}</Text>
+                </Text>
+                <Text>
+                    <Text strong>User Agent:</Text>
+                    <Text className="ms-2">{userAgent}</Text>
                 </Text>
             </Col>
         </PageContainer>
