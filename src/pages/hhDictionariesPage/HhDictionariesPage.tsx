@@ -462,7 +462,7 @@ const HhDictionariesPage: FunctionComponent = () => {
                         <Tooltip
                             placement="bottom"
                             title={
-                                <div>
+                                <div className={styles.whiteText}>
                                     <Text>
                                         Use <Text code>#</Text> or <Text code>№</Text> to search only by ID
                                     </Text>
