@@ -18,7 +18,6 @@ import ButtonGroup from 'antd/lib/button/button-group';
 import { Code, VerticalSplit, ViewHeadline } from '@mui/icons-material';
 import useChangeValueStateHandler from '../../hooks/useChangeValueStateHandler';
 import Split from 'react-split';
-import './HtmlEditorPage.scss';
 import mergeEnums, { MergeEnums } from '../../utils/mergeEnums';
 
 enum EditorInTab {
@@ -264,7 +263,12 @@ ${sources.js}
     return (
         <PageContainer noPadding className={styles.container}>
             {viewMode === ViewMode.SPLIT ? (
-                <Split className={styles.containerRow} direction="horizontal" minSize={0} snapOffset={25}>
+                <Split
+                    className={classNames('app-split', styles.containerRow)}
+                    direction="horizontal"
+                    minSize={0}
+                    snapOffset={25}
+                >
                     {leftCol}
                     {rightCol}
                 </Split>

@@ -16,6 +16,11 @@ class Switch<T, V = never> {
         return this;
     }
 
+    onCases<R>(possibleValues: T[], result: () => R): Switch<T, V | R> {
+        possibleValues.forEach((value) => this.onCase(value, result));
+        return this;
+    }
+
     onDefault<R>(result: () => R): V | R {
         if (this.defaultValue === undefined) {
             this.defaultValue = { current: result };

@@ -21,6 +21,7 @@ import {
     Difference,
     ElectricBolt,
     FormatAlignLeft,
+    Http,
     InsertDriveFile,
     Javascript,
     Keyboard,
@@ -209,6 +210,13 @@ const menuItems: MenuItem[] = [
                 route: routes.hhDictionaries,
                 searchText: 'hh dictionaries headhunter dictionaries explorer viewer browser',
                 description: 'View the dictionaries on hh.ru API'
+            },
+            {
+                route: routes.httpClient,
+                searchText: 'http client postman online send http request axios fetch',
+                largeIcon: <Http />,
+                description: 'Send HTTP request in your browser (no backend)',
+                isHidden: true
             },
             {
                 route: routes.imageCompressor,

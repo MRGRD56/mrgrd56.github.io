@@ -47,6 +47,7 @@ const HtmlEntitiesConverterPage = React.lazy(
 );
 const PrettyBytesPage = React.lazy(() => import('../../pages/prettyBytesPage/PrettyBytesPage'));
 const HhDictionariesPage = React.lazy(() => import('../../pages/hhDictionariesPage/HhDictionariesPage'));
+const HttpClientPage = React.lazy(() => import('../../pages/httpClientPage/HttpClientPage'));
 
 /*
  * import (.*) from ('.*');
@@ -102,6 +103,7 @@ type AppRoutesMap = Readonly<{
     prettyBytes: AppRoute;
     hhDictionaries: AppRoute;
     onlineColorPickerRedirect: AppRoute;
+    httpClient: AppRoute;
 }>;
 
 export const routes: AppRoutesMap = {
@@ -307,6 +309,11 @@ export const routes: AppRoutesMap = {
         path: '/online-color-picker',
         component: () => <ExternalRedirect url="https://mrgrd56.github.io/online-color-picker" />,
         title: 'Color Picker'
+    },
+    httpClient: {
+        path: '/tools/http-client',
+        component: HttpClientPage,
+        title: 'HTTP Client'
     }
 };
 

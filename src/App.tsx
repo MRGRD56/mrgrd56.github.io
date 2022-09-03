@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import 'luna-object-viewer/luna-object-viewer.css';
 import './App.scss';
+import './styles/split.scss';
 import AppRouter from './AppRouter';
 import { Provider } from 'react-redux';
 import { store } from './reducers';
