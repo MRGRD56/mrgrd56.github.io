@@ -20,6 +20,7 @@ import {
     DateRange,
     Difference,
     ElectricBolt,
+    Filter3,
     FormatAlignLeft,
     Http,
     InsertDriveFile,
@@ -205,6 +206,12 @@ const menuItems: MenuItem[] = [
                 searchText: 'pretty bytes to human readable format bytes',
                 largeIcon: <InsertDriveFile />,
                 description: 'Convert bytes to human readable unit like kbytes or mbytes'
+            },
+            {
+                route: routes.numberGuesser,
+                searchText: 'guess the number in range limits less greater',
+                largeIcon: <Filter3 />,
+                description: "Guess the number in the specified range, telling if it's higher or lower"
             },
             {
                 route: routes.hhDictionaries,

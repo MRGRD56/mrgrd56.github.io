@@ -48,6 +48,7 @@ const HtmlEntitiesConverterPage = React.lazy(
 const PrettyBytesPage = React.lazy(() => import('../../pages/prettyBytesPage/PrettyBytesPage'));
 const HhDictionariesPage = React.lazy(() => import('../../pages/hhDictionariesPage/HhDictionariesPage'));
 const HttpClientPage = React.lazy(() => import('../../pages/httpClientPage/HttpClientPage'));
+const NumberGuesser = React.lazy(() => import('../../pages/numberGuesser/NumberGuesser'));
 
 /*
  * import (.*) from ('.*');
@@ -104,6 +105,7 @@ type AppRoutesMap = Readonly<{
     hhDictionaries: AppRoute;
     onlineColorPickerRedirect: AppRoute;
     httpClient: AppRoute;
+    numberGuesser: AppRoute;
 }>;
 
 export const routes: AppRoutesMap = {
@@ -314,6 +316,11 @@ export const routes: AppRoutesMap = {
         path: '/tools/http-client',
         component: HttpClientPage,
         title: 'HTTP Client'
+    },
+    numberGuesser: {
+        path: '/tools/number-guesser',
+        component: NumberGuesser,
+        title: 'Number Guesser'
     }
 };
 
