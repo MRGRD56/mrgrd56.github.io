@@ -22,8 +22,8 @@ const convert2to1: TextBiConvert<HtmlEntitiesConversionOptions> = encode;
 const HtmlEntitiesConverterPage: FunctionComponent = () => {
     return (
         <TextBiConverterPageContainer
-            source1={{ title: 'HTML Entities', editorType: EditorType.PLAIN }}
-            source2={{ title: 'Text', editorType: EditorType.PLAIN }}
+            source1={{ title: 'HTML Entities', editorType: EditorType.MONACO, language: 'xml' }}
+            source2={{ title: 'Text', editorType: EditorType.MONACO, language: 'xml', quickSuggestions: false }}
             convert1to2={convert1to2}
             convert2to1={convert2to1}
             swapStateStorageKey={getLocalStorageKey('html-entities', 'isSwapped')}
