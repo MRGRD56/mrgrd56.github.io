@@ -1,12 +1,12 @@
-import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { FunctionComponent, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import styles from './HhDictionariesPage.module.scss';
-import { Checkbox, Select, Table, Tabs, Tooltip } from 'antd';
+import { Checkbox, Popover, Select, Table, Tabs, Tooltip } from 'antd';
 import useWriteableLocalstorageState from '../../hooks/useWriteableLocalstorageState';
 import getLocalStorageKey from '../../utils/getLocalStorageKey';
 import Flex from '../../components/flex/Flex';
 import appAxios from '../../actions/api/appAxios';
-import { get, omit } from 'lodash';
+import { get, omit, values } from 'lodash';
 import Column from 'antd/lib/table/Column';
 import call from '../../utils/call';
 import { compareFields, compareNumbers, compareNumericStrings, Comparer, compareStrings } from '../../utils/sorting';
@@ -92,8 +92,14 @@ const dictionariesOptions: Record<HHDictionary, HHDictionaryOptions> = {
     }
 };
 
+const allViewModes = values(DictionaryViewMode);
+
 const isViewModeSupported = (options: HHDictionaryOptions, mode: DictionaryViewMode) => {
     return !options.viewModes || options.viewModes.includes(mode);
+};
+
+const getViewModes = (options: HHDictionaryOptions): DictionaryViewMode[] => {
+    return options.viewModes ?? allViewModes;
 };
 
 const parseEntriesTree = (root: any[], options: HHDictionaryOptions): ParentEntry[] => {
@@ -198,9 +204,15 @@ const isEntryMatchBySearchQuery = (entry: Entry, query: string): boolean => {
 
     const entryName = entry.name.toLowerCase();
 
-    const exactQuery = parseExactQuery(query);
+    const exactNameQuery = parseExactNameQuery(query);
 
-    if (exactQuery !== undefined && entryName === exactQuery) {
+    if (exactNameQuery !== undefined && entryName === exactNameQuery) {
+        return true;
+    }
+
+    const nameQuery = parseNameQuery(query);
+
+    if (nameQuery !== undefined && (!nameQuery?.trim() || entryName.includes(nameQuery))) {
         return true;
     }
 
@@ -273,11 +285,15 @@ const filterEntriesBySearchQuery = <E extends Entry>(
 };
 
 const parseIdQuery = (query: string): string | undefined => {
-    return /^[#№](.+)$/.exec(query)?.[1];
+    return /^[#№](.*)$/.exec(query)?.[1];
 };
 
-const parseExactQuery = (query: string): string | undefined => {
-    return /^=(.+)$/.exec(query)?.[1];
+const parseNameQuery = (query: string): string | undefined => {
+    return /^@(.*)$/.exec(query)?.[1]?.trim().toLowerCase();
+};
+
+const parseExactNameQuery = (query: string): string | undefined => {
+    return /^=(.*)$/.exec(query)?.[1]?.trim().toLowerCase();
 };
 
 const getDisplayedDictionaryData = (
@@ -356,6 +372,22 @@ const HhDictionariesPage: FunctionComponent = () => {
         []
     );
 
+    const handleDictionaryChange = useCallback(
+        (newDictionary: HHDictionary) => {
+            const newDictionaryOptions = dictionariesOptions[newDictionary];
+
+            if (!isViewModeSupported(newDictionaryOptions, viewMode)) {
+                const newViewMode = getViewModes(newDictionaryOptions)[0];
+                if (newViewMode) {
+                    setViewMode(newViewMode);
+                }
+            }
+
+            setDictionary(newDictionary);
+        },
+        [viewMode, dictionary]
+    );
+
     const updateDisplayedDictionaryDataDebounced = useDebounce(updateDisplayedDictionaryData, 100);
 
     const fetchDictionaryData = useCallback(async (dictionary: HHDictionary): Promise<HHDictionaryData> => {
@@ -410,7 +442,7 @@ const HhDictionariesPage: FunctionComponent = () => {
 
     const previousSearchQueryRef = useRef<string>(searchQuery);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const previousSearchQuery = previousSearchQueryRef.current;
         previousSearchQueryRef.current = searchQuery;
 
@@ -429,12 +461,16 @@ const HhDictionariesPage: FunctionComponent = () => {
     ]);
 
     return (
-        <PageContainer title="HeadHunter Dictionaries">
+        <PageContainer title="HeadHunter Dictionaries" className={styles.page}>
             <Flex col gap={8}>
                 <Flex row gap={12} align="center">
                     <label className="d-flex align-items-center gap-2">
                         Dictionary
-                        <Select className={styles.dictionarySelect} value={dictionary} onSelect={setDictionary}>
+                        <Select
+                            className={styles.dictionarySelect}
+                            value={dictionary}
+                            onSelect={handleDictionaryChange}
+                        >
                             <Select.Option value={HHDictionary.PROFESSIONAL_ROLES}>
                                 {HHDictionary.PROFESSIONAL_ROLES}
                             </Select.Option>
@@ -459,16 +495,38 @@ const HhDictionariesPage: FunctionComponent = () => {
                             className={styles.search}
                             allowClear
                         />
-                        <Tooltip
+                        <Popover
                             placement="bottom"
-                            title={
-                                <div className={styles.whiteText}>
+                            content={
+                                <div className={styles.searchTipContainer}>
                                     <Text>
                                         Use <Text code>#</Text> or <Text code>№</Text> to search only by ID
                                     </Text>
                                     <br />
                                     <Text>
+                                        Use <Text code>@</Text> to search only by name
+                                    </Text>
+                                    <br />
+                                    <Text>
                                         Use <Text code>=</Text> to search by exact name
+                                    </Text>
+                                    <br />
+                                    <Text type="secondary">Combining the special characters is not allowed!</Text>
+                                    <Text className="mt-1 d-block">Examples: </Text>
+                                    <Text code className="d-block">
+                                        розни
+                                    </Text>
+                                    <Text code className="d-block">
+                                        @розничн
+                                    </Text>
+                                    <Text code className="d-block">
+                                        =розничная торговля
+                                    </Text>
+                                    <Text code className="d-block">
+                                        #2
+                                    </Text>
+                                    <Text code className="d-block">
+                                        №2
                                     </Text>
                                 </div>
                             }
@@ -476,15 +534,19 @@ const HhDictionariesPage: FunctionComponent = () => {
                             <a className={styles.searchInfoIconLink}>
                                 <Info className={styles.searchInfoIcon} />
                             </a>
-                        </Tooltip>
+                        </Popover>
                     </Flex>
-                    <Checkbox checked={isSearch1Level} onChange={handleIsSearch1LevelChecked}>
+                    <Checkbox
+                        checked={isSearch1Level}
+                        onChange={handleIsSearch1LevelChecked}
+                        className="align-self-start"
+                    >
                         Search only first level
                     </Checkbox>
                 </Flex>
 
                 {displayedDictionaryData ? (
-                    <Flex col gap={8}>
+                    <Flex col gap={8} className={styles.dataContainer}>
                         <Tabs activeKey={viewMode} onChange={setViewMode as (activeKey: string) => void}>
                             {isViewModeSupported(dictionaryOptions, DictionaryViewMode.TREE) && (
                                 <Tabs.TabPane tab="Tree" key={DictionaryViewMode.TREE}>

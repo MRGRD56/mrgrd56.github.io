@@ -1,3 +1,8 @@
+.page {
+    //min-width: 400px;
+    //overflow-x: auto;
+}
+
 .dictionarySelect {
     width: 170px;
 }
@@ -25,6 +30,22 @@
     align-self: flex-start;
 }
 
+.searchTipContainer {
+    min-width: 240px;
+}
+
+.dataContainer {
+    :global(.ant-table) {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+}
+
 .whiteText * {
     color: white !important;
+
+    &:global(.ant-typography-secondary) {
+        opacity: 0.8;
+        font-size: 0.75rem;
+    }
 }
