@@ -23,7 +23,7 @@ const HtmlEntitiesConverterPage: FunctionComponent = () => {
     return (
         <TextBiConverterPageContainer
             source1={{ title: 'HTML Entities', editorType: EditorType.MONACO, language: 'xml' }}
-            source2={{ title: 'Text', editorType: EditorType.MONACO, language: 'xml', quickSuggestions: false }}
+            source2={{ title: 'Text', editorType: EditorType.MONACO, language: 'xml' }}
             convert1to2={convert1to2}
             convert2to1={convert2to1}
             swapStateStorageKey={getLocalStorageKey('html-entities', 'isSwapped')}
