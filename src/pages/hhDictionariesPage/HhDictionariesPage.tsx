@@ -512,7 +512,7 @@ const HhDictionariesPage: FunctionComponent = () => {
                                     </Text>
                                     <br />
                                     <Text type="secondary">Combining the special characters is not allowed!</Text>
-                                    <Text className="mt-1 d-block">Examples: </Text>
+                                    <Text className="d-block mt-1 mb-1">Examples: </Text>
                                     <Text code className="d-block">
                                         розни
                                     </Text>
