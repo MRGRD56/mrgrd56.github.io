@@ -198,7 +198,7 @@ const menuItems: MenuItem[] = [
             },
             {
                 route: routes.htmlEntities,
-                searchText: 'decode html text decode html entities decode xml entities decoder',
+                searchText: 'decode html text decode html entities decode xml entities decoder online',
                 description: 'Encode / decode HTML/XML entities like &#x41c;'
             },
             {
