@@ -6,7 +6,7 @@ import useWriteableLocalstorageState from '../../hooks/useWriteableLocalstorageS
 import getLocalStorageKey from '../../utils/getLocalStorageKey';
 import Flex from '../../components/flex/Flex';
 import appAxios from '../../actions/api/appAxios';
-import { get, omit, values } from 'lodash';
+import { get, isString, omit, values } from 'lodash';
 import Column from 'antd/lib/table/Column';
 import call from '../../utils/call';
 import { compareFields, compareNumbers, compareNumericStrings, Comparer, compareStrings } from '../../utils/sorting';
@@ -196,23 +196,21 @@ const isEntryMatchBySearchQuery = (entry: Entry, query: string): boolean => {
         return true;
     }
 
-    const idQuery = parseIdQuery(query);
+    const idQuery = parseQuery(parseIdQuery(query), true);
 
-    if (idQuery !== undefined && entry.id === idQuery) {
+    if (idQuery !== undefined && isMatchByQuery(entry.id, idQuery)) {
         return true;
     }
 
-    const entryName = entry.name.toLowerCase();
+    const exactNameQuery = parseQuery(parseExactNameQuery(query), true);
 
-    const exactNameQuery = parseExactNameQuery(query);
-
-    if (exactNameQuery !== undefined && entryName === exactNameQuery) {
+    if (exactNameQuery !== undefined && isMatchByQuery(entry.name, exactNameQuery)) {
         return true;
     }
 
-    const nameQuery = parseNameQuery(query);
+    const nameQuery = parseQuery(parseNameQuery(query), false);
 
-    if (nameQuery !== undefined && (!nameQuery?.trim() || entryName.includes(nameQuery))) {
+    if (nameQuery !== undefined && isMatchByQuery(entry.name, nameQuery)) {
         return true;
     }
 
@@ -220,7 +218,9 @@ const isEntryMatchBySearchQuery = (entry: Entry, query: string): boolean => {
         return true;
     }
 
-    if (entryName.includes(query)) {
+    const hhQuery = parseQuery(query, false);
+
+    if (hhQuery !== undefined && isMatchByQuery(entry.name, hhQuery)) {
         return true;
     }
 
@@ -289,11 +289,53 @@ const parseIdQuery = (query: string): string | undefined => {
 };
 
 const parseNameQuery = (query: string): string | undefined => {
-    return /^@(.*)$/.exec(query)?.[1]?.trim().toLowerCase();
+    return /^@(.*)$/.exec(query)?.[1];
 };
 
 const parseExactNameQuery = (query: string): string | undefined => {
-    return /^=(.*)$/.exec(query)?.[1]?.trim().toLowerCase();
+    return /^=(.*)$/.exec(query)?.[1];
+};
+
+const parseRegexQuery = (query: string): RegExp | undefined => {
+    const match = /^\/(.+)\/([a-z]*)$/.exec(query);
+    if (!match) {
+        return undefined;
+    }
+
+    return new RegExp(match[1], match[2]);
+};
+
+interface HHQuery {
+    isExact?: boolean;
+    query: RegExp | string;
+}
+
+const parseQuery = (query: string | undefined, isExact: boolean, isNoRegex?: boolean): HHQuery | undefined => {
+    const hhQuery = (query && !isNoRegex && parseRegexQuery(query)) || query;
+
+    if (hhQuery === undefined) {
+        return undefined;
+    }
+
+    return {
+        isExact: Boolean(isExact),
+        query: hhQuery
+    };
+};
+
+const isMatchByQuery = (value: string, hhQuery: HHQuery): boolean => {
+    const { query, isExact } = hhQuery;
+
+    if (!query) {
+        return true;
+    }
+
+    if (isString(query)) {
+        const normalizedQuery = query.trim().toLowerCase();
+        return isExact ? value.toLowerCase() === normalizedQuery : value.toLowerCase().includes(normalizedQuery);
+    }
+
+    return query.test(value);
 };
 
 const getDisplayedDictionaryData = (
@@ -328,6 +370,7 @@ const HhDictionariesPage: FunctionComponent = () => {
     const [searchQuery, , setSearchQueryByEvent] = useInputState<string>('');
     const [isSearch1Level, setIsSearch1Level] = useState<boolean>(false);
     const handleIsSearch1LevelChecked = useChangeAnyStateHandler(setIsSearch1Level, 'checked');
+    const [isSearchError, setIsSearchError] = useState<boolean>(false);
 
     const [viewMode, setViewMode] = useState<DictionaryViewMode>(DictionaryViewMode.TREE);
 
@@ -365,9 +408,15 @@ const HhDictionariesPage: FunctionComponent = () => {
             searchQuery: string,
             isSearch1Level: boolean
         ) => {
-            setDisplayedDictionaryData(
-                getDisplayedDictionaryData(dictionaryData, viewMode, searchQuery, isSearch1Level)
-            );
+            try {
+                setDisplayedDictionaryData(
+                    getDisplayedDictionaryData(dictionaryData, viewMode, searchQuery, isSearch1Level)
+                );
+
+                setIsSearchError(false);
+            } catch (error) {
+                setIsSearchError(true);
+            }
         },
         []
     );
@@ -494,6 +543,7 @@ const HhDictionariesPage: FunctionComponent = () => {
                             placeholder="Search items by id or name"
                             className={styles.search}
                             allowClear
+                            status={isSearchError ? 'error' : undefined}
                         />
                         <Popover
                             placement="bottom"
@@ -511,6 +561,11 @@ const HhDictionariesPage: FunctionComponent = () => {
                                         Use <Text code>=</Text> to search by exact name
                                     </Text>
                                     <br />
+                                    <Text className="d-block mb-1">
+                                        Regexes are supported as well
+                                        <br />
+                                        <Text code>[spec_char]/&lt;pattern&gt;/[flags]</Text>
+                                    </Text>
                                     <Text type="secondary">Combining the special characters is not allowed!</Text>
                                     <Text className="d-block mt-1 mb-1">Examples: </Text>
                                     <Text code className="d-block">
@@ -527,6 +582,15 @@ const HhDictionariesPage: FunctionComponent = () => {
                                     </Text>
                                     <Text code className="d-block">
                                         №2
+                                    </Text>
+                                    <Text code className="d-block">
+                                        #/^.+\.203$/
+                                    </Text>
+                                    <Text code className="d-block">
+                                        @/^рознич/i
+                                    </Text>
+                                    <Text code className="d-block">
+                                        /ная торговля$/
                                     </Text>
                                 </div>
                             }
