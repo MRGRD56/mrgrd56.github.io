@@ -352,11 +352,7 @@ const getDisplayedDictionaryData = (
         ...dictionaryData,
         views: {
             ...dictionaryData.views,
-            [viewMode]: filterEntriesBySearchQuery(
-                dictionaryData.views[viewMode],
-                searchQuery.trim().toLowerCase(),
-                isSearch1Level
-            )
+            [viewMode]: filterEntriesBySearchQuery(dictionaryData.views[viewMode], searchQuery, isSearch1Level)
         }
     };
 };
