@@ -5,6 +5,7 @@ import {
     ExclamationCircleFilled,
     GithubFilled,
     HomeFilled,
+    PictureFilled,
     PlayCircleFilled,
     QuestionCircleFilled,
     SettingFilled,
@@ -274,6 +275,10 @@ const menuItems: MenuItem[] = [
             {
                 route: routes.rooksDemo,
                 icon: ElectricBolt
+            },
+            {
+                route: routes.jetBrainsUI,
+                icon: PictureFilled
             }
         ]
     },

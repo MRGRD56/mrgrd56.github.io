@@ -1,0 +1,11 @@
+@import '../../../../styles/main';
+
+.container {
+    padding: 11px;
+
+    background-color: #f2f2f2;
+
+    @include themeDark {
+        background-color: #3c3f41;
+    }
+}

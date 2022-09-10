@@ -1,0 +1,53 @@
+@import '../../../../styles/main';
+
+.button {
+    font-family: 'Segoe UI', Arial, sans-serif;
+
+    border-radius: 3px;
+    padding: 1px 6px 1px 6px;
+    min-width: 80px;
+
+    background: #ffffff;
+    color: #000000;
+    border: 1.5px solid #c4c4c4;
+
+    &.primary {
+        background: #4e8ac8;
+        color: #ffffff;
+        border-color: #3a72b0;
+        font-weight: 500;
+    }
+
+    &:focus {
+        outline: 3.5px solid rgba(#87b9ef, 0.7);
+        outline-offset: -1px;
+        border-color: #8bb4e0;
+
+        &.primary {
+            border-color: #a5c8f5;
+        }
+    }
+
+    @include themeDark {
+        background: #4c5052;
+        border-color: #5e6060;
+        color: #bbbbbb;
+
+        box-shadow: 0 2px 4px 0 rgba(34, 60, 80, 0.1);
+
+        &.primary {
+            background: #365880;
+            border-color: #476985;
+        }
+
+        &:focus {
+            border-color: #436a90;
+            outline-color: rgba(#426a91, 0.7);
+
+            &.primary {
+                border-color: #4f7296;
+                outline-color: rgba(#4f7296, 0.7);
+            }
+        }
+    }
+}

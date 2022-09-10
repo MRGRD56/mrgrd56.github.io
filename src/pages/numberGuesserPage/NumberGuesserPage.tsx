@@ -8,11 +8,11 @@ import Text from 'antd/lib/typography/Text';
 import { Button, InputNumber, Slider } from 'antd';
 import useWriteableLocalstorageState from '../../hooks/useWriteableLocalstorageState';
 import useChangeStateHandler from '../../hooks/useChangeStateHandler';
-import styles from './NumberGuesser.module.scss';
+import styles from './NumberGuesserPage.module.scss';
 import { MinusOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons';
 import produceState from '../../utils/produceState';
 
-const NumberGuesser: FunctionComponent = () => {
+const NumberGuesserPage: FunctionComponent = () => {
     const [absoluteLimits, setAbsoluteLimits] = useWriteableLocalstorageState<ValueRange<number>>(
         getLocalStorageKey('number-guesser', 'absoluteLimits'),
         valueRange(0, 1000)
@@ -131,4 +131,4 @@ const NumberGuesser: FunctionComponent = () => {
     );
 };
 
-export default NumberGuesser;
+export default NumberGuesserPage;
