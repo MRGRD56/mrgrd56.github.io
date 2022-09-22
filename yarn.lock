@@ -1436,6 +1436,13 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
+"@img-comparison-slider/react@^7.7.0":
+  version "7.7.0"
+  resolved "https://registry.yarnpkg.com/@img-comparison-slider/react/-/react-7.7.0.tgz#76e37b80d1ec40c0a528be495168b0823d3a5c24"
+  integrity sha512-17MpmPUAssxH+ojNrTsmTwYEo6gug9fjalJnQvrBrE5HwHMB3R2E8wQx+LggSKLZF2B92PsulCCPwzRcbTBWMA==
+  dependencies:
+    img-comparison-slider "~7.7.0"
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz#fd3db1d59ecf7cf121e80650bb86712f9b55eced"
@@ -7049,6 +7056,11 @@ ignore@^5.1.4, ignore@^5.1.8, ignore@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.0.tgz#6d3bac8fa7fe0d45d9f9be7bac2fc279577e345a"
   integrity sha512-CmxgYGiEPCLhfLnpPp1MoRmifwEIOgjcHXxOBjv7mY96c+eWScsOP9c112ZyLdWHi0FxHjI+4uVhKYp/gcdRmQ==
+
+img-comparison-slider@~7.7.0:
+  version "7.7.2"
+  resolved "https://registry.yarnpkg.com/img-comparison-slider/-/img-comparison-slider-7.7.2.tgz#8d3c06405307ee382defb68e6807ff69b0e82967"
+  integrity sha512-xL01b6bd2rAXfYTT44Lq0nYmrwB9RESfkJVdcgbRB/PUsYfkqEr2J4oGYWFm5BYZ1FoSiH+uW2+3500qCF0dbA==
 
 immer@^9.0.12, immer@^9.0.7:
   version "9.0.12"

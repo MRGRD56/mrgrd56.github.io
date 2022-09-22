@@ -1,0 +1,6 @@
+.container {
+    &:focus,
+    &:focus-visible {
+        outline: none;
+    }
+}

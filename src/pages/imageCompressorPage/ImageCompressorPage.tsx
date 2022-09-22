@@ -1,16 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import BiConverterPageContainer from '../../layouts/pages/biConverterPageContainer/BiConverterPageContainer';
-import { Col } from 'antd';
+import ImageConverterPageContainer from '../../layouts/pages/imageConverterPageContainer/ImageConverterPageContainer';
+import { identity } from 'lodash';
 
 const ImageCompressorPage: FunctionComponent = () => {
-    return (
-        <BiConverterPageContainer
-            leftTitle="Original"
-            rightTitle="Compressed"
-            left={<Col>Org</Col>}
-            right={<Col>Com</Col>}
-        ></BiConverterPageContainer>
-    );
+    return <ImageConverterPageContainer sourceTitle="Original" resultTitle="Compressed" convert={identity} />;
 };
 
 export default ImageCompressorPage;

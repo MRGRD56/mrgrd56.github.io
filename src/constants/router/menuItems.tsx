@@ -24,12 +24,14 @@ import {
     Filter3,
     FormatAlignLeft,
     Http,
+    ImageNotSupported,
     InsertDriveFile,
     Javascript,
     Keyboard,
     NotificationsActive,
     Palette,
     Password,
+    Photo,
     PlusOne,
     QrCode,
     QrCodeScanner,
@@ -228,6 +230,9 @@ const menuItems: MenuItem[] = [
             },
             {
                 route: routes.imageCompressor,
+                searchText: 'compress image compressor',
+                largeIcon: <ImageNotSupported />,
+                description: 'Compress an image online',
                 isHidden: true
             },
             {
