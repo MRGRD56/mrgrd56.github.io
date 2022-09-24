@@ -1,6 +1,4 @@
-import { RcFile } from 'antd/lib/upload';
-
-const isImageFile = (file: RcFile) => {
+const isImageFile = (file: Blob) => {
     return /^image\/.+$/.test(file.type);
 };
 

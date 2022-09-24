@@ -1,4 +1,14 @@
-import React, { Dispatch, FunctionComponent, ReactNode, SetStateAction, useCallback, useMemo, useState } from 'react';
+import React, {
+    Dispatch,
+    FunctionComponent,
+    ReactNode,
+    SetStateAction,
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import { Button, Image, Tabs, Upload } from 'antd';
 import BiConverterPageContainer from '../biConverterPageContainer/BiConverterPageContainer';
 import AppImgComparisonSlider from '../../../components/appImgComparisonSlider/AppImgComparisonSlider';
@@ -17,6 +27,7 @@ import dataUrlToBlob from '../../../utils/dataUrlToBlob';
 import { isNil } from 'lodash';
 import ImageInfo from './components/ImageInfo';
 import styles from './ImageConverterPageContainer.module.scss';
+import DragAndDropLayout, { DragAndDropLayoutRef } from '../../../components/dragAndDropLayout/DragAndDropLayout';
 
 enum ViewTab {
     COMPARE = 'COMPARE',
@@ -68,6 +79,12 @@ const ImageConverterPageContainer = <O,>(props: Props<O>) => {
         renderOptionsContainer,
         className
     } = props;
+
+    const dndLayoutRef = useRef<DragAndDropLayoutRef>(null);
+
+    useEffect(() => {
+        dndLayoutRef.current?.fileUpload$.subscribe(console.log);
+    }, []);
 
     const [options, setOptions] = useOptionalLocalstorageState<O>(optionsStorageKey, defaultOptions);
     const [viewTab, setViewTab] = useState<ViewTab>(ViewTab.COMPARE);
@@ -121,6 +138,22 @@ const ImageConverterPageContainer = <O,>(props: Props<O>) => {
         setIsUploading(false);
     }, []);
 
+    const handleDndFilesUpload = useCallback(async (files: FileList) => {
+        const filesIterator = files[Symbol.iterator]();
+
+        let fileResult = filesIterator.next();
+        while (!fileResult.done) {
+            const isImage = isImageFile(fileResult.value);
+            if (isImage) {
+                setSourceImageSrc(await readFileAsDataUrl(fileResult.value));
+
+                break;
+            }
+
+            fileResult = filesIterator.next();
+        }
+    }, []);
+
     const setResultAsSource = () => {
         if (resultImageSrc) {
             setSourceImageSrc(resultImageSrc);
@@ -128,92 +161,94 @@ const ImageConverterPageContainer = <O,>(props: Props<O>) => {
     };
 
     return (
-        <BiConverterPageContainer
-            className={className}
-            leftTitle={sourceTitle}
-            rightTitle={resultTitle}
-            rightTitleExtra={
-                <Flex row gap={6}>
-                    <Button type="text" icon={<SwapLeftOutlined />} onClick={setResultAsSource}>
-                        <span className="d-none d-sm-inline">Set as source</span>
-                    </Button>
-                    <a download href={resultImageSrc}>
-                        <Button type="text" icon={<DownloadOutlined />}>
-                            <span className="d-none d-sm-inline">Download</span>
+        <DragAndDropLayout onFilesUpload={handleDndFilesUpload}>
+            <BiConverterPageContainer
+                className={className}
+                leftTitle={sourceTitle}
+                rightTitle={resultTitle}
+                rightTitleExtra={
+                    <Flex row gap={6}>
+                        <Button type="text" icon={<SwapLeftOutlined />} onClick={setResultAsSource}>
+                            <span className="d-none d-sm-inline">Set as source</span>
                         </Button>
-                    </a>
-                </Flex>
-            }
-            leftColSize={9}
-            left={
-                <Flex col gap={10} className="p-2">
-                    <Upload
-                        multiple={false}
-                        className="QrScannerPage_image-upload"
-                        listType="text"
-                        showUploadList={false}
-                        beforeUpload={isImageFile}
-                        onChange={handleUploadedImageChange}
-                        accept="image/*, *"
-                        customRequest={dummyAntdUploadRequest}
-                    >
-                        <Button type="primary" icon={<UploadOutlined />} loading={isUploading && { delay: 50 }}>
-                            Upload image...
-                        </Button>
-                    </Upload>
+                        <a download href={resultImageSrc}>
+                            <Button type="text" icon={<DownloadOutlined />}>
+                                <span className="d-none d-sm-inline">Download</span>
+                            </Button>
+                        </a>
+                    </Flex>
+                }
+                leftColSize={9}
+                left={
+                    <Flex col gap={10} className="p-2">
+                        <Upload
+                            multiple={false}
+                            className="QrScannerPage_image-upload"
+                            listType="text"
+                            showUploadList={false}
+                            beforeUpload={isImageFile}
+                            onChange={handleUploadedImageChange}
+                            accept="image/*, *"
+                            customRequest={dummyAntdUploadRequest}
+                        >
+                            <Button type="primary" icon={<UploadOutlined />} loading={isUploading && { delay: 50 }}>
+                                Upload image...
+                            </Button>
+                        </Upload>
 
-                    {optionsContainer}
-                </Flex>
-            }
-            noRight={!sourceImageSrc}
-            right={
-                sourceImageSrc ? (
-                    <Tabs
-                        activeKey={viewTab}
-                        onChange={setViewTab as TabChangeHandler}
-                        tabBarExtraContent={null}
-                        className="ant-tabs-first-tab-indent ant-tabs-no-w100-but-max"
-                    >
-                        <Tabs.TabPane key={ViewTab.COMPARE} tab="Compare">
-                            <Flex col className="w-100">
-                                <div className={styles.imageWrapper}>
-                                    <AppImgComparisonSlider
-                                        fit
-                                        src1={sourceImageSrc}
-                                        src2={resultImageSrc}
-                                        // src1="https://img-comparison-slider.sneas.io/demo/images/before.webp"
-                                        // src2="https://img-comparison-slider.sneas.io/demo/images/after.webp"
-                                    />
-                                </div>
-                                {!noImageInfo && sourceImageBlob && resultImageBlob && (
-                                    <ImageInfo blob={sourceImageBlob} blob2={resultImageBlob} />
-                                )}
-                            </Flex>
-                        </Tabs.TabPane>
-                        <Tabs.TabPane key={ViewTab.ORIGINAL} tab="Original">
-                            <Flex col>
-                                <div className={styles.imageWrapper}>
-                                    <Image src={sourceImageSrc} />
-                                </div>
-                                {!noImageInfo && sourceImageBlob && <ImageInfo blob={sourceImageBlob} />}
-                            </Flex>
-                        </Tabs.TabPane>
-                        <Tabs.TabPane key={ViewTab.RESULT} tab="Result">
-                            <Flex col>
-                                <div className={styles.imageWrapper}>
-                                    <Image src={resultImageSrc} />
-                                </div>
-                                {!noImageInfo && resultImageBlob && <ImageInfo blob={resultImageBlob} />}
-                            </Flex>
-                        </Tabs.TabPane>
-                    </Tabs>
-                ) : (
-                    <Text className="p-2">
-                        <h4>Upload your image first</h4>
-                    </Text>
-                )
-            }
-        ></BiConverterPageContainer>
+                        {optionsContainer}
+                    </Flex>
+                }
+                noRight={!sourceImageSrc}
+                right={
+                    sourceImageSrc ? (
+                        <Tabs
+                            activeKey={viewTab}
+                            onChange={setViewTab as TabChangeHandler}
+                            tabBarExtraContent={null}
+                            className="ant-tabs-first-tab-indent ant-tabs-no-w100-but-max"
+                        >
+                            <Tabs.TabPane key={ViewTab.COMPARE} tab="Compare">
+                                <Flex col className="w-100">
+                                    <div className={styles.imageWrapper}>
+                                        <AppImgComparisonSlider
+                                            fit
+                                            src1={sourceImageSrc}
+                                            src2={resultImageSrc}
+                                            // src1="https://img-comparison-slider.sneas.io/demo/images/before.webp"
+                                            // src2="https://img-comparison-slider.sneas.io/demo/images/after.webp"
+                                        />
+                                    </div>
+                                    {!noImageInfo && sourceImageBlob && resultImageBlob && (
+                                        <ImageInfo blob={sourceImageBlob} blob2={resultImageBlob} />
+                                    )}
+                                </Flex>
+                            </Tabs.TabPane>
+                            <Tabs.TabPane key={ViewTab.ORIGINAL} tab="Original">
+                                <Flex col>
+                                    <div className={styles.imageWrapper}>
+                                        <Image src={sourceImageSrc} />
+                                    </div>
+                                    {!noImageInfo && sourceImageBlob && <ImageInfo blob={sourceImageBlob} />}
+                                </Flex>
+                            </Tabs.TabPane>
+                            <Tabs.TabPane key={ViewTab.RESULT} tab="Result">
+                                <Flex col>
+                                    <div className={styles.imageWrapper}>
+                                        <Image src={resultImageSrc} />
+                                    </div>
+                                    {!noImageInfo && resultImageBlob && <ImageInfo blob={resultImageBlob} />}
+                                </Flex>
+                            </Tabs.TabPane>
+                        </Tabs>
+                    ) : (
+                        <Text className="p-2">
+                            <h4>Upload your image first</h4>
+                        </Text>
+                    )
+                }
+            />
+        </DragAndDropLayout>
     );
 };
 
