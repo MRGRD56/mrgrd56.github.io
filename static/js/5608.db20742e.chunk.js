@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkmrgrd56_github_io=self.webpackChunkmrgrd56_github_io||[]).push([[5608],{28189:function(t,r,e){e.r(r);e(72791);var n=e(77095),a=e(86594),u=e(65401),i=e(80184),o=function(t){var r=JSON.parse(t);return a.ZP.stringify(r)},s=function(t){var r=a.ZP.parse(t);return JSON.stringify(r,void 0,4)};r.default=function(){return(0,i.jsx)(n.Z,{source1:{title:"JSON",language:"json"},source2:{title:"YAML",language:"yaml"},convert1to2:o,convert2to1:s,swapStateStorageKey:(0,u.Z)("json-to-yaml","isSwapped")})}}}]);
-//# sourceMappingURL=5608.db20742e.chunk.js.map
