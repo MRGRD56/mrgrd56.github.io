@@ -108,7 +108,7 @@ type AppRoutesMap = Readonly<{
     httpClient: AppRoute;
     numberGuesser: AppRoute;
     jetBrainsUI: AppRoute;
-}>;
+}>; //TODO Use TypeScript 4.9 satisfies instead
 
 export const routes: AppRoutesMap = {
     root: {
@@ -329,7 +329,7 @@ export const routes: AppRoutesMap = {
         component: JetBrainsUiPage,
         title: 'JetBrains UI'
     }
-};
+}; //satisfies Record<string, AppRoute>;
 
 export const convertAppRoute = ({ component: Component, title, ...route }: AppRoute): RouteProps => ({
     ...route,

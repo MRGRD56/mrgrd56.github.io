@@ -12,7 +12,7 @@ const isNoResult = <T>(value: T | NoResult, noResult: NoResult): value is NoResu
     return isObject(value) && '_noResult' in value && value === noResult; //TODO just value === noResult ?
 };
 
-type MemoFactory<R> = (noResult: NoResult) => R | NoResult;
+type MemoFactory<R> = (noResult: NoResult) => R | Promise<R> | NoResult;
 
 const createDebouncedMemoHook =
     (debounceFn: typeof debounce) =>
@@ -26,11 +26,11 @@ const createDebouncedMemoHook =
                     _noResult: v4()
                 });
 
-                return debounceFn(() => {
+                return debounceFn(async () => {
                     const value = factoryRef.current(actualNoResult);
 
                     if (!isNoResult(value, actualNoResult)) {
-                        setValue(value);
+                        setValue(await value);
                     }
                 }, wait);
             })

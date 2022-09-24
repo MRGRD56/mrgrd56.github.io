@@ -1,0 +1,11 @@
+.comparisonArrow {
+    height: 10px;
+    overflow-y: hidden;
+    display: flex;
+    align-items: center;
+
+    & > svg {
+        position: relative;
+        top: 1px;
+    }
+}

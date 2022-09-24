@@ -206,7 +206,7 @@ const TextBiConverterPageContainer = <O,>(props: Props<O>) => {
         <BiConverterPageContainer
             className={styles.pageContainer}
             leftTitle={sourceLeft.title}
-            leftExtra={
+            leftTitleExtra={
                 <Flex row gap={4}>
                     {description && (
                         <Popover
@@ -272,7 +272,7 @@ const TextBiConverterPageContainer = <O,>(props: Props<O>) => {
                 ))
                 .value()}
             rightTitle={sourceRight.title}
-            rightExtra={
+            rightTitleExtra={
                 <Tooltip title="Copy" placement="bottomLeft">
                     <CopyButton value={result} type="text" children="" />
                 </Tooltip>

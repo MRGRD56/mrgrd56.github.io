@@ -1,0 +1,18 @@
+.container {
+    min-width: 450px; //TODO adapt for mobile devices
+}
+
+.label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    align-self: flex-start;
+
+    .labelText {
+        width: 44px;
+    }
+}
+
+.input {
+    min-width: 98px;
+}

@@ -8,27 +8,35 @@ interface Props extends PageContainerProps {
     leftTitle?: ReactNode;
     rightTitle?: ReactNode;
 
-    leftExtra?: ReactNode;
-    rightExtra?: ReactNode;
+    leftTitleExtra?: ReactNode;
+    rightTitleExtra?: ReactNode;
 
     left?: ReactNode;
     right?: ReactNode;
 
     extra?: ReactNode;
+
+    noHeader?: boolean;
+    noRight?: boolean;
+
+    leftColSize?: number;
 }
 
 const BiConverterPageContainer: FunctionComponent<Props> = (props) => {
     const {
         leftTitle,
         rightTitle,
-        leftExtra,
-        rightExtra,
+        leftTitleExtra,
+        rightTitleExtra,
         left,
         right,
         extra,
         children,
         className,
         noPadding,
+        noHeader,
+        noRight,
+        leftColSize = 12,
         ...pageProps
     } = props;
 
@@ -39,20 +47,29 @@ const BiConverterPageContainer: FunctionComponent<Props> = (props) => {
             {...pageProps}
         >
             <Row className={styles.container}>
-                <Col xs={12} className={classNames(styles.col, styles.colLeft)}>
-                    <div className={styles.colHeader}>
-                        <h3 className={styles.colTitle}>{leftTitle}</h3>
-                        {leftExtra}
-                    </div>
-                    {left}
+                <Col
+                    xs={noRight ? 24 : leftColSize}
+                    className={classNames(styles.col, styles.colLeft, noRight && styles.colLeftNoRight)}
+                >
+                    {!noHeader && (
+                        <div className={styles.colHeader}>
+                            <h3 className={styles.colTitle}>{leftTitle}</h3>
+                            {leftTitleExtra}
+                        </div>
+                    )}
+                    {noRight ? <Col xs={leftColSize}>{left}</Col> : left}
                 </Col>
-                <Col xs={12} className={classNames(styles.col, styles.colRight)}>
-                    <div className={styles.colHeader}>
-                        <h3 className={styles.colTitle}>{rightTitle}</h3>
-                        {rightExtra}
-                    </div>
-                    {right}
-                </Col>
+                {!noRight && (
+                    <Col xs={24 - leftColSize} className={classNames(styles.col, styles.colRight)}>
+                        {!noHeader && (
+                            <div className={styles.colHeader}>
+                                <h3 className={styles.colTitle}>{rightTitle}</h3>
+                                {rightTitleExtra}
+                            </div>
+                        )}
+                        {right}
+                    </Col>
+                )}
                 {extra}
             </Row>
             {children}

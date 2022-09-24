@@ -1,6 +1,15 @@
 .container {
+    display: flex;
+
     &:focus,
     &:focus-visible {
         outline: none;
+    }
+
+    &.fit {
+        &,
+        .image {
+            max-width: 100%;
+        }
     }
 }

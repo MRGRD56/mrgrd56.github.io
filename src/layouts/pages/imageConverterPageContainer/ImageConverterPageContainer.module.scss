@@ -1,0 +1,11 @@
+.imageWrapper {
+    &,
+    & > *,
+    img {
+        max-height: calc(100vh - 230px);
+    }
+
+    img {
+        object-fit: contain;
+    }
+}

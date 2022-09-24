@@ -18,13 +18,14 @@ type ImgComparisonSliderProps = AllHTMLAttributes<HTMLImgComparisonSliderElement
 interface Props extends ImgComparisonSliderProps {
     src1: string | undefined;
     src2: string | undefined;
+    fit?: boolean;
 }
 
-const AppImgComparisonSlider: FunctionComponent<Props> = ({ src1, src2, className, ...props }) => {
+const AppImgComparisonSlider: FunctionComponent<Props> = ({ src1, src2, fit, className, ...props }) => {
     return (
-        <ImgComparisonSlider className={classNames(styles.container, className)} {...props}>
-            <img slot="first" src={src1} />
-            <img slot="second" src={src2} />
+        <ImgComparisonSlider className={classNames(styles.container, fit && styles.fit, className)} {...props}>
+            <img className={styles.image} slot="first" src={src1} />
+            <img className={styles.image} slot="second" src={src2} />
         </ImgComparisonSlider>
     );
 };

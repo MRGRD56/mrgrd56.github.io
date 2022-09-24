@@ -31,7 +31,6 @@ import {
     NotificationsActive,
     Palette,
     Password,
-    Photo,
     PlusOne,
     QrCode,
     QrCodeScanner,
@@ -222,17 +221,17 @@ const menuItems: MenuItem[] = [
                 description: 'View the dictionaries on hh.ru API'
             },
             {
+                route: routes.imageCompressor,
+                searchText:
+                    'compress image compressor convert png to jpg to png to jpeg to png to webp to jpg to webp to jpeg to webp',
+                largeIcon: <ImageNotSupported />,
+                description: 'Compress an image or convert it to another format'
+            },
+            {
                 route: routes.httpClient,
                 searchText: 'http client postman online send http request axios fetch',
                 largeIcon: <Http />,
                 description: 'Send HTTP request in your browser (no backend)',
-                isHidden: true
-            },
-            {
-                route: routes.imageCompressor,
-                searchText: 'compress image compressor',
-                largeIcon: <ImageNotSupported />,
-                description: 'Compress an image online',
                 isHidden: true
             },
             {

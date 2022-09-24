@@ -2,10 +2,10 @@ import React, { ClipboardEventHandler, useCallback, useEffect, useState } from '
 import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import { Col, Image, notification, Row, Space, Spin, Upload } from 'antd';
 import './QrScannerPage.scss';
-import { RcFile, UploadChangeParam } from 'antd/lib/upload';
+import { UploadChangeParam } from 'antd/lib/upload';
 import { UploadFile } from 'antd/lib/upload/interface';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import dummyAntdUploadRequest from '../../utils/dummyAntdUploadRequest';
+import dummyAntdUploadRequest from '../../utils/antd/dummyAntdUploadRequest';
 import TextArea from 'antd/lib/input/TextArea';
 import QrScanner from 'qr-scanner';
 import { isNil, isString } from 'lodash';
@@ -16,6 +16,7 @@ import CopyButton from '../../components/copyButton/CopyButton';
 import ExternalLink from '../../components/ExternalLink';
 import getNpmPackageLink from '../../utils/getNpmPackageLink';
 import readFileAsDataUrl from '../../utils/readFileAsDataUrl';
+import isImageFile from '../../utils/antd/isImageFile';
 
 interface QrImage {
     blob: Blob;
@@ -25,10 +26,6 @@ interface QrImage {
 const getQrImage = async (blob: Blob): Promise<QrImage> => {
     const base64 = await readFileAsDataUrl(blob);
     return { blob, base64 };
-};
-
-const beforeUpload = (file: RcFile) => {
-    return /^image\/.+$/.test(file.type);
 };
 
 const titleExtra = (
@@ -106,7 +103,7 @@ const QrScannerPage = () => {
                                     className="QrScannerPage_image-upload"
                                     listType="picture-card"
                                     showUploadList={false}
-                                    beforeUpload={beforeUpload}
+                                    beforeUpload={isImageFile}
                                     onChange={handleQrImageChange}
                                     accept="image/*, *"
                                     customRequest={dummyAntdUploadRequest}

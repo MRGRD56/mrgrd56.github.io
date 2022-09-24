@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import styles from './HhDictionariesPage.module.scss';
-import { Checkbox, Popover, Select, Table, Tabs, Tooltip } from 'antd';
+import { Checkbox, Popover, Select, Table, Tabs } from 'antd';
 import useWriteableLocalstorageState from '../../hooks/useWriteableLocalstorageState';
 import getLocalStorageKey from '../../utils/getLocalStorageKey';
 import Flex from '../../components/flex/Flex';
@@ -21,6 +21,7 @@ import { useDebounce } from 'rooks';
 import { Info } from '@mui/icons-material';
 import Text from 'antd/lib/typography/Text';
 import useChangeAnyStateHandler from '../../hooks/useChangeAnyStateHandler';
+import TabChangeHandler from '../../types/antd/TabChangeHandler';
 
 enum HHDictionary {
     PROFESSIONAL_ROLES = 'professional_roles',
@@ -607,7 +608,7 @@ const HhDictionariesPage: FunctionComponent = () => {
 
                 {displayedDictionaryData ? (
                     <Flex col gap={8} className={styles.dataContainer}>
-                        <Tabs activeKey={viewMode} onChange={setViewMode as (activeKey: string) => void}>
+                        <Tabs activeKey={viewMode} onChange={setViewMode as TabChangeHandler}>
                             {isViewModeSupported(dictionaryOptions, DictionaryViewMode.TREE) && (
                                 <Tabs.TabPane tab="Tree" key={DictionaryViewMode.TREE}>
                                     <Table

@@ -3,7 +3,7 @@ import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import styles from './DataUrlPage.module.scss';
 import { Button, Col, Input, notification, Space, Switch, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import dummyAntdUploadRequest from '../../utils/dummyAntdUploadRequest';
+import dummyAntdUploadRequest from '../../utils/antd/dummyAntdUploadRequest';
 import TextArea from 'antd/lib/input/TextArea';
 import useChangeStateHandler from '../../hooks/useChangeStateHandler';
 import { DataUrlViewPageQueryParams } from '../dataUrlViewPage/DataUrlViewPage';
