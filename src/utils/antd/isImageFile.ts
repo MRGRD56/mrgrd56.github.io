@@ -1,4 +1,4 @@
-const isImageFile = (file: Blob) => {
+const isImageFile = (file: Blob | DataTransferItem) => {
     return /^image\/.+$/.test(file.type);
 };
 

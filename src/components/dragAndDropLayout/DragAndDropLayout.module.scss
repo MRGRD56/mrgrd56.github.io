@@ -1,7 +1,9 @@
 @import '../../styles/main';
 
 .container {
-    display: initial;
+    display: flex;
+    width: 100%;
+    height: 100%;
     position: relative;
 
     .dragOverlay {
@@ -17,17 +19,38 @@
         opacity: 0;
         background-color: rgba(0, 0, 0, 0.5);
         transition: 0.15s ease-in;
-        transition-property: opacity;
-        will-change: opacity;
+        transition-property: opacity, background-color, backdrop-filer, padding;
 
         padding: 25px;
 
         &.dragging {
+            pointer-events: revert;
             opacity: 1;
+            backdrop-filter: blur(2px);
+        }
+
+        &.draggingOver {
+            background-color: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(5px);
+            padding: 50px;
+
+            .dragOverlayBorder {
+                color: #42a5f5;
+                border-color: #64b5f6;
+
+                @include themeDark {
+                    color: #1e88e5;
+                    border-color: #1976d2;
+                }
+            }
         }
 
         .dragOverlayBorder {
+            transition: 0.15s ease-in;
+            transition-property: border-color, color;
+
+            pointer-events: none;
+
             border: 4px dashed #d3d3d3;
             color: #ececec;
             border-radius: 3px;
@@ -38,7 +61,7 @@
             justify-content: center;
 
             @include themeDark {
-                border: 4px dashed #9e9e9e;
+                border-color: #9e9e9e;
                 color: #d0d0d0;
             }
 

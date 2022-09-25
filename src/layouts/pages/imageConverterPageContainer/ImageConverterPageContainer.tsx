@@ -139,19 +139,21 @@ const ImageConverterPageContainer = <O,>(props: Props<O>) => {
     }, []);
 
     const handleDndFilesUpload = useCallback(async (files: FileList) => {
-        const filesIterator = files[Symbol.iterator]();
+        setSourceImageSrc(await readFileAsDataUrl(files[0]));
 
-        let fileResult = filesIterator.next();
-        while (!fileResult.done) {
-            const isImage = isImageFile(fileResult.value);
-            if (isImage) {
-                setSourceImageSrc(await readFileAsDataUrl(fileResult.value));
-
-                break;
-            }
-
-            fileResult = filesIterator.next();
-        }
+        // const filesIterator = files[Symbol.iterator]();
+        //
+        // let fileResult = filesIterator.next();
+        // while (!fileResult.done) {
+        //     const isImage = isImageFile(fileResult.value);
+        //     if (isImage) {
+        //         setSourceImageSrc(await readFileAsDataUrl(fileResult.value));
+        //
+        //         break;
+        //     }
+        //
+        //     fileResult = filesIterator.next();
+        // }
     }, []);
 
     const setResultAsSource = () => {
@@ -161,7 +163,7 @@ const ImageConverterPageContainer = <O,>(props: Props<O>) => {
     };
 
     return (
-        <DragAndDropLayout onFilesUpload={handleDndFilesUpload}>
+        <DragAndDropLayout checkFile={isImageFile} onFilesUpload={handleDndFilesUpload}>
             <BiConverterPageContainer
                 className={className}
                 leftTitle={sourceTitle}
@@ -183,7 +185,6 @@ const ImageConverterPageContainer = <O,>(props: Props<O>) => {
                     <Flex col gap={10} className="p-2">
                         <Upload
                             multiple={false}
-                            className="QrScannerPage_image-upload"
                             listType="text"
                             showUploadList={false}
                             beforeUpload={isImageFile}

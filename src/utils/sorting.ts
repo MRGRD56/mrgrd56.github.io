@@ -14,9 +14,10 @@ export const invertComparer =
     (a, b) =>
         -comparer(a, b);
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export const compareFields =
-    <Field, Object>(fieldPath: PropertyPath, comparer: Comparer<Field>): Comparer<Object> =>
-    (a, b) => {
-        return comparer(get(a, fieldPath), get(b, fieldPath));
-    };
+    // eslint-disable-next-line @typescript-eslint/ban-types
+
+        <Field, Object>(fieldPath: PropertyPath, comparer: Comparer<Field>): Comparer<Object> =>
+        (a, b) => {
+            return comparer(get(a, fieldPath), get(b, fieldPath));
+        };
