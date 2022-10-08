@@ -283,6 +283,10 @@ const menuItems: MenuItem[] = [
             {
                 route: routes.jetBrainsUI,
                 icon: PictureFilled
+            },
+            {
+                route: routes.threeDGraphicsTest,
+                icon: PictureFilled
             }
         ]
     },

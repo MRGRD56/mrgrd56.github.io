@@ -11,6 +11,7 @@ export enum PageTag {
 }
 
 export interface PageContainerProps extends Omit<SpaceProps, 'title'> {
+    contentRef?: React.Ref<HTMLDivElement>;
     contentClassName?: string;
     title?: ReactNode;
     description?: ReactNode;
@@ -46,6 +47,7 @@ const PageContainer = React.forwardRef<HTMLDivElement, PageContainerProps>((prop
         children,
         className,
         contentClassName,
+        contentRef,
         ...restProps
     } = props;
 
@@ -73,7 +75,9 @@ const PageContainer = React.forwardRef<HTMLDivElement, PageContainerProps>((prop
             )}
             {description && <Paragraph className="mb-2">{description}</Paragraph>}
 
-            <div className={classNames(styles.contentContainer, contentClassName)}>{children}</div>
+            <div className={classNames(styles.contentContainer, contentClassName)} ref={contentRef}>
+                {children}
+            </div>
         </div>
     );
 });

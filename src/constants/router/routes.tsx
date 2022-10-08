@@ -50,6 +50,7 @@ const HhDictionariesPage = React.lazy(() => import('../../pages/hhDictionariesPa
 const HttpClientPage = React.lazy(() => import('../../pages/httpClientPage/HttpClientPage'));
 const NumberGuesser = React.lazy(() => import('../../pages/numberGuesserPage/NumberGuesserPage'));
 const JetBrainsUiPage = React.lazy(() => import('../../pages/jetBrainsUiPage/JetBrainsUiPage'));
+const ThreeDGraphicsTestPage = React.lazy(() => import('../../pages/threeDGraphicsTestPage/ThreeDGraphicsTestPage'));
 
 /*
  * import (.*) from ('.*');
@@ -108,6 +109,7 @@ type AppRoutesMap = Readonly<{
     httpClient: AppRoute;
     numberGuesser: AppRoute;
     jetBrainsUI: AppRoute;
+    threeDGraphicsTest: AppRoute;
 }>; //TODO Use TypeScript 4.9 satisfies instead
 
 export const routes: AppRoutesMap = {
@@ -328,6 +330,11 @@ export const routes: AppRoutesMap = {
         path: '/other/jetbrains-ui',
         component: JetBrainsUiPage,
         title: 'JetBrains UI'
+    },
+    threeDGraphicsTest: {
+        path: '/other/3d-graphics-test',
+        component: ThreeDGraphicsTestPage,
+        title: '3D Graphics Test'
     }
 }; //satisfies Record<string, AppRoute>;
 
