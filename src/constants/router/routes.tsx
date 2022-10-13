@@ -51,6 +51,7 @@ const HttpClientPage = React.lazy(() => import('../../pages/httpClientPage/HttpC
 const NumberGuesser = React.lazy(() => import('../../pages/numberGuesserPage/NumberGuesserPage'));
 const JetBrainsUiPage = React.lazy(() => import('../../pages/jetBrainsUiPage/JetBrainsUiPage'));
 const ThreeDGraphicsTestPage = React.lazy(() => import('../../pages/threeDGraphicsTestPage/ThreeDGraphicsTestPage'));
+const Tinkoff5BukvSolverPage = React.lazy(() => import('../../pages/tinkoff5BukvSolverPage/Tinkoff5BukvSolverPage'));
 
 /*
  * import (.*) from ('.*');
@@ -110,6 +111,7 @@ type AppRoutesMap = Readonly<{
     numberGuesser: AppRoute;
     jetBrainsUI: AppRoute;
     threeDGraphicsTest: AppRoute;
+    tinkoff5BukvSolver: AppRoute;
 }>; //TODO Use TypeScript 4.9 satisfies instead
 
 export const routes: AppRoutesMap = {
@@ -335,6 +337,11 @@ export const routes: AppRoutesMap = {
         path: '/other/3d-graphics-test',
         component: ThreeDGraphicsTestPage,
         title: '3D Graphics Test'
+    },
+    tinkoff5BukvSolver: {
+        path: '/tools/tinkoff-5bukv-solver',
+        component: Tinkoff5BukvSolverPage,
+        title: 'Tinkoff 5bukv Solver'
     }
 }; //satisfies Record<string, AppRoute>;
 

@@ -28,6 +28,7 @@ import {
     InsertDriveFile,
     Javascript,
     Keyboard,
+    Looks5,
     NotificationsActive,
     Palette,
     Password,
@@ -226,6 +227,12 @@ const menuItems: MenuItem[] = [
                     'compress image compressor convert png to jpg to png to jpeg to png to webp to jpg to webp to jpeg to webp',
                 largeIcon: <ImageNotSupported />,
                 description: 'Compress an image or convert it to another format'
+            },
+            {
+                route: routes.tinkoff5BukvSolver,
+                searchText:
+                    'tinkoff 5bukv solver, 5 letters тинькофф 5букв 5 букв решатель пять букв, wordle in russian',
+                largeIcon: <Looks5 />
             },
             {
                 route: routes.httpClient,
