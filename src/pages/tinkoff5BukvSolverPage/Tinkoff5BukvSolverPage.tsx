@@ -30,12 +30,17 @@ const createWords = (): T5bWord[] => [
     createWord()
 ];
 
-const fillWord = (t5bWord: T5bWord, word: string): T5bWord => {
+const fillWord = (t5bWord: T5bWord, word: string, previous5bWord: T5bWord | undefined): T5bWord => {
     return {
         ...t5bWord,
         letters: t5bWord.letters.map((letter, index) => {
             return {
                 ...letter,
+                type: previous5bWord
+                    ? previous5bWord.letters[index].type === T5bLetterType.FOUND
+                        ? T5bLetterType.FOUND
+                        : letter.type
+                    : letter.type,
                 value: word[index]
             };
         })
@@ -173,7 +178,7 @@ const Tinkoff5BukvSolverPage: FunctionComponent = () => {
         }
 
         const wordToFill = words[wordToFillIndex];
-        const filledWord = fillWord(wordToFill, word.toUpperCase());
+        const filledWord = fillWord(wordToFill, word.toUpperCase(), words[wordToFillIndex - 1]);
         handleWordChange(wordToFillIndex)(filledWord);
     };
 
