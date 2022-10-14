@@ -82,6 +82,7 @@ const Flex: FunctionComponent<FlexProps> = (props) => {
                             return direction;
                     }
                 })(),
+                flexWrap: wrap,
                 justifyContent: justify,
                 alignItems: align,
                 alignContent,
@@ -93,8 +94,7 @@ const Flex: FunctionComponent<FlexProps> = (props) => {
                 height,
                 minWidth,
                 minHeight,
-                alignSelf,
-                wrap
+                alignSelf
             },
             style
         );

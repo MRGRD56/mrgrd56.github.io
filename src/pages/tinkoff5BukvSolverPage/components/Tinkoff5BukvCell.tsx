@@ -1,25 +1,25 @@
 import React, { FC, useCallback, useEffect, useRef } from 'react';
-import { T5bLetter, T5bLetterType } from '../types';
+import { Point2D, T5bLetter, T5bLetterType } from '../types';
 import styles from '../Tinkoff5BukvSolverPage.module.scss';
 import classNames from 'classnames';
 import getNextLetterType from '../utils/getNextLetterType';
+import point2d from '../utils/point2d';
 
 interface Props {
     letter: T5bLetter;
     onChange: (letter: T5bLetter) => void;
     active: boolean;
     onActivate: () => void;
-    onActivateNext: () => void;
-    onActivatePrevious: () => void;
+    onChangeActiveCell: (delta: Point2D, isHorizontalOnly?: boolean, isNoEdgesOverflow?: boolean) => void;
 }
 
-const Tinkoff5BukvCell: FC<Props> = ({ letter, onChange, active, onActivate, onActivateNext, onActivatePrevious }) => {
+const Tinkoff5BukvCell: FC<Props> = ({ letter, onChange, active, onActivate, onChangeActiveCell }) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const typeClassName = {
-        [T5bLetterType.MISSING]: styles.typeMissing,
+        [T5bLetterType.ABSENT]: styles.typeMissing,
         [T5bLetterType.MISPOSITIONED]: styles.typeMispositioned,
-        [T5bLetterType.PRESENT]: styles.typePresent
+        [T5bLetterType.FOUND]: styles.typePresent
     }[letter.type];
 
     const handleCellClick = useCallback(
@@ -76,7 +76,7 @@ const Tinkoff5BukvCell: FC<Props> = ({ letter, onChange, active, onActivate, onA
             value: lastLetter
         });
         if (lastLetter) {
-            onActivateNext();
+            onChangeActiveCell(point2d(1, 0), false, true);
         }
     };
 
@@ -95,7 +95,16 @@ const Tinkoff5BukvCell: FC<Props> = ({ letter, onChange, active, onActivate, onA
     };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        console.log(event);
+        console.log({ event });
+
+        if (event.key === ' ' || event.code === 'Space') {
+            onChange({
+                ...letter,
+                type: getNextLetterType(letter.type)
+            });
+            return;
+        }
+
         if (event.key === 'Backspace' || event.key === 'Delete') {
             event.currentTarget.value = '';
             onChange({
@@ -104,9 +113,20 @@ const Tinkoff5BukvCell: FC<Props> = ({ letter, onChange, active, onActivate, onA
             });
 
             if (event.key === 'Backspace') {
-                onActivatePrevious();
+                onChangeActiveCell(point2d(-1, 0), false, true);
+            } else {
+                onChangeActiveCell(point2d(1, 0), true, true);
             }
         }
+    };
+
+    const handleContextMenu = (event: React.MouseEvent) => {
+        event.preventDefault();
+
+        onChange({
+            ...letter,
+            type: getNextLetterType(letter.type)
+        });
     };
 
     useEffect(() => {
@@ -117,7 +137,10 @@ const Tinkoff5BukvCell: FC<Props> = ({ letter, onChange, active, onActivate, onA
 
     return (
         <label className={styles.cellLabel} onClick={handleCellClick}>
-            <div className={classNames(styles.cell, typeClassName, active && styles.cellActive)}>
+            <div
+                className={classNames(styles.cell, typeClassName, active && styles.cellActive)}
+                onContextMenu={handleContextMenu}
+            >
                 {letter.value?.trim() || <>&nbsp;</>}
             </div>
             <input

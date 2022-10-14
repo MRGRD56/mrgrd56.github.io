@@ -1,5 +1,5 @@
 import React, { FC, useCallback } from 'react';
-import { T5bLetter, T5bWord } from '../types';
+import { Point2D, T5bLetter, T5bWord } from '../types';
 import Tinkoff5BukvCell from './Tinkoff5BukvCell';
 import Flex from '../../../components/flex/Flex';
 
@@ -8,8 +8,7 @@ interface Props {
     onChange: (letters: T5bWord) => void;
     activeLetterIndex: number | undefined;
     onActiveLetterIndexChange: (letterIndex: number | undefined) => void;
-    onActivateNextCell: () => void;
-    onActivatePreviousCell: () => void;
+    onChangeActiveCell: (delta: Point2D, isHorizontalOnly?: boolean, isNoEdgesOverflow?: boolean) => void;
 }
 
 const Tinkoff5BukvWord: FC<Props> = ({
@@ -17,8 +16,7 @@ const Tinkoff5BukvWord: FC<Props> = ({
     onChange,
     activeLetterIndex,
     onActiveLetterIndexChange,
-    onActivateNextCell,
-    onActivatePreviousCell
+    onChangeActiveCell
 }) => {
     const handleLetterChange = useCallback(
         (changedIndex: number) => (changedLetter: T5bLetter) => {
@@ -52,8 +50,7 @@ const Tinkoff5BukvWord: FC<Props> = ({
                     onChange={handleLetterChange(index)}
                     active={activeLetterIndex !== undefined && activeLetterIndex === index}
                     onActivate={handleLetterActivate(index)}
-                    onActivateNext={onActivateNextCell}
-                    onActivatePrevious={onActivatePreviousCell}
+                    onChangeActiveCell={onChangeActiveCell}
                 />
             ))}
         </Flex>

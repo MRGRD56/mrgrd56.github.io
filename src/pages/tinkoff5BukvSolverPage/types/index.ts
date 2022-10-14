@@ -1,7 +1,7 @@
 export enum T5bLetterType {
-    MISSING = 'MISSING',
+    ABSENT = 'ABSENT',
     MISPOSITIONED = 'MISPOSITIONED',
-    PRESENT = 'PRESENT'
+    FOUND = 'FOUND'
 }
 
 export interface T5bLetter {
@@ -11,4 +11,9 @@ export interface T5bLetter {
 
 export interface T5bWord {
     letters: T5bLetter[];
+}
+
+export interface Point2D {
+    x: number;
+    y: number;
 }
