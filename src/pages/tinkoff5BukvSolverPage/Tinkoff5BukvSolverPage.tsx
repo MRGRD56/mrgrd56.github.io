@@ -30,6 +30,18 @@ const createWords = (): T5bWord[] => [
     createWord()
 ];
 
+const fillWord = (t5bWord: T5bWord, word: string): T5bWord => {
+    return {
+        ...t5bWord,
+        letters: t5bWord.letters.map((letter, index) => {
+            return {
+                ...letter,
+                value: word[index]
+            };
+        })
+    };
+};
+
 const Tinkoff5BukvSolverPage: FunctionComponent = () => {
     const [words, setWords] = useState<T5bWord[]>(createWords());
     const { fpChangeByIndex: handleWordChange } = useArrayStateMutator(setWords);
@@ -154,6 +166,17 @@ const Tinkoff5BukvSolverPage: FunctionComponent = () => {
         [handleChangeActiveCell]
     );
 
+    const handleSolutionWordClick = (word: string) => () => {
+        const wordToFillIndex = words.findIndex((word) => word.letters.every((letter) => !letter.value));
+        if (wordToFillIndex === -1) {
+            return;
+        }
+
+        const wordToFill = words[wordToFillIndex];
+        const filledWord = fillWord(wordToFill, word.toUpperCase());
+        handleWordChange(wordToFillIndex)(filledWord);
+    };
+
     return (
         <PageContainer
             title="Tinkoff 5bukv Solver"
@@ -186,7 +209,11 @@ const Tinkoff5BukvSolverPage: FunctionComponent = () => {
 
                         <Flex row wrap="wrap" className={styles.solutionWordsContainer}>
                             {solution.words.map((word, index) => (
-                                <Tag key={index} className={styles.solutionWord}>
+                                <Tag
+                                    key={`${word}/${index}`}
+                                    className={styles.solutionWord}
+                                    onClick={handleSolutionWordClick(word)}
+                                >
                                     {word}
                                 </Tag>
                             ))}
