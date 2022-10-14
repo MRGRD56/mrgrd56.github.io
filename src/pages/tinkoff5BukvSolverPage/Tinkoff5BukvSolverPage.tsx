@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback, useState } from 'react';
+import React, { FunctionComponent, useCallback, useMemo, useState } from 'react';
 import Flex from '../../components/flex/Flex';
 import PageContainer from '../../layouts/pages/pageContainer/PageContainer';
 import styles from './Tinkoff5BukvSolverPage.module.scss';
@@ -53,20 +53,25 @@ const Tinkoff5BukvSolverPage: FunctionComponent = () => {
 
     const [activeCell, setActiveCell] = useState<Point2D>();
 
-    const solution = useDebouncedMemo(
+    const [solutionLimit, setSolutionLimit] = useState<number>(100);
+
+    const entireSolution = useDebouncedMemo(
         () => {
             const game = new T5bGame(words);
-            const entireSolution = solveT5bGame(game);
-            return (
-                entireSolution && {
-                    count: entireSolution.length,
-                    words: take(entireSolution, 100)
-                }
-            );
+            return solveT5bGame(game);
         },
         [words],
         50
     );
+
+    const solution = useMemo(() => {
+        return (
+            entireSolution && {
+                count: entireSolution.length,
+                words: take(entireSolution, solutionLimit)
+            }
+        );
+    }, [entireSolution, solutionLimit]);
 
     const handleActiveLetterIndexChange = useCallback(
         (wordIndex: number | undefined) => (letterIndex: number | undefined) => {
@@ -182,6 +187,10 @@ const Tinkoff5BukvSolverPage: FunctionComponent = () => {
         handleWordChange(wordToFillIndex)(filledWord);
     };
 
+    const handleSolutionShowMore = () => {
+        setSolutionLimit((limit) => limit + 100);
+    };
+
     return (
         <PageContainer
             title="Tinkoff 5bukv Solver"
@@ -222,6 +231,11 @@ const Tinkoff5BukvSolverPage: FunctionComponent = () => {
                                     {word}
                                 </Tag>
                             ))}
+                            {solution.count > solution.words.length && (
+                                <Tag className={styles.solutionWord} onClick={handleSolutionShowMore}>
+                                    ...
+                                </Tag>
+                            )}
                         </Flex>
                     </Flex>
                 )}

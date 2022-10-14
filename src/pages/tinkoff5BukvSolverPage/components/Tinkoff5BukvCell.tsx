@@ -46,8 +46,6 @@ const Tinkoff5BukvCell: FC<Props> = ({ letter, onChange, active, onActivate, onC
     const handleInput = (event: React.FormEvent<HTMLInputElement>) => {
         const nativeEvent = event.nativeEvent as InputEvent;
 
-        console.log({ event });
-
         event.preventDefault();
 
         const insertedLetter = nativeEvent.data;
@@ -69,8 +67,6 @@ const Tinkoff5BukvCell: FC<Props> = ({ letter, onChange, active, onActivate, onC
         const lastLetter = letters[letters.length - 1];
         event.currentTarget.value = lastLetter;
 
-        console.log('INPUT', { event, letters, lastLetter });
-
         onChange({
             ...letter,
             value: lastLetter
@@ -83,10 +79,7 @@ const Tinkoff5BukvCell: FC<Props> = ({ letter, onChange, active, onActivate, onC
     const handleBeforeInput = (event: React.FormEvent<HTMLInputElement>) => {
         const nativeEvent = event.nativeEvent as InputEvent;
 
-        console.log('BEFORE', nativeEvent);
-
         if (!nativeEvent.data || !/[абвгдеёжзийклмнопрстуфхцчшщъыьэюя]/i.test(nativeEvent.data)) {
-            console.log('PREVENT');
             event.preventDefault();
             return;
         }
@@ -95,8 +88,6 @@ const Tinkoff5BukvCell: FC<Props> = ({ letter, onChange, active, onActivate, onC
     };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        console.log({ event });
-
         if (event.key === ' ' || event.code === 'Space') {
             onChange({
                 ...letter,
