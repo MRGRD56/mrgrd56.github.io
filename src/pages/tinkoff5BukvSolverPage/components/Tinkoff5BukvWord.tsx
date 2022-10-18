@@ -5,10 +5,10 @@ import Flex from '../../../components/flex/Flex';
 
 interface Props {
     word: T5bWord;
-    onChange: (letters: T5bWord) => void;
-    activeLetterIndex: number | undefined;
-    onActiveLetterIndexChange: (letterIndex: number | undefined) => void;
-    onChangeActiveCell: (delta: Point2D, isHorizontalOnly?: boolean, isNoEdgesOverflow?: boolean) => void;
+    onChange?: (letters: T5bWord) => void;
+    activeLetterIndex?: number | undefined;
+    onActiveLetterIndexChange?: (letterIndex: number | undefined) => void;
+    onChangeActiveCell?: (delta: Point2D, isHorizontalOnly?: boolean, isNoEdgesOverflow?: boolean) => void;
 }
 
 const Tinkoff5BukvWord: FC<Props> = ({
@@ -20,7 +20,7 @@ const Tinkoff5BukvWord: FC<Props> = ({
 }) => {
     const handleLetterChange = useCallback(
         (changedIndex: number) => (changedLetter: T5bLetter) => {
-            onChange({
+            onChange?.({
                 ...word,
                 letters: word.letters.map((letter, index) => {
                     if (index !== changedIndex) {
@@ -36,7 +36,7 @@ const Tinkoff5BukvWord: FC<Props> = ({
 
     const handleLetterActivate = useCallback(
         (index: number) => () => {
-            onActiveLetterIndexChange(index);
+            onActiveLetterIndexChange?.(index);
         },
         [onChange]
     );

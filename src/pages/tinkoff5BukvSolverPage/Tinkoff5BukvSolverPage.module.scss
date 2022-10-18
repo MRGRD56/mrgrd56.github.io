@@ -88,3 +88,22 @@
     font-size: 14px;
     cursor: pointer;
 }
+
+.infoModalExampleLettersContainer {
+    align-self: flex-start;
+
+    @include themeLight {
+        background: black;
+        padding: 8px 10px;
+        border-radius: 5px;
+    }
+}
+
+.infoModalExampleLetter {
+    width: 65px;
+    height: 65px;
+
+    & * {
+        font-size: 2.8em !important;
+    }
+}

@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useRef } from 'react';
+import React, { CSSProperties, FC, useCallback, useEffect, useRef } from 'react';
 import { Point2D, T5bLetter, T5bLetterType } from '../types';
 import styles from '../Tinkoff5BukvSolverPage.module.scss';
 import classNames from 'classnames';
@@ -7,13 +7,27 @@ import point2d from '../utils/point2d';
 
 interface Props {
     letter: T5bLetter;
-    onChange: (letter: T5bLetter) => void;
-    active: boolean;
-    onActivate: () => void;
-    onChangeActiveCell: (delta: Point2D, isHorizontalOnly?: boolean, isNoEdgesOverflow?: boolean) => void;
+    onChange?: (letter: T5bLetter) => void;
+    active?: boolean;
+    onActivate?: () => void;
+    onChangeActiveCell?: (delta: Point2D, isHorizontalOnly?: boolean, isNoEdgesOverflow?: boolean) => void;
+    className?: string;
+    style?: CSSProperties;
+    cardClassName?: string;
+    cardStyle?: CSSProperties;
 }
 
-const Tinkoff5BukvCell: FC<Props> = ({ letter, onChange, active, onActivate, onChangeActiveCell }) => {
+const Tinkoff5BukvCell: FC<Props> = ({
+    letter,
+    onChange,
+    active,
+    onActivate,
+    onChangeActiveCell,
+    className,
+    style,
+    cardClassName,
+    cardStyle
+}) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const typeClassName = {
@@ -27,11 +41,11 @@ const Tinkoff5BukvCell: FC<Props> = ({ letter, onChange, active, onActivate, onC
             event.stopPropagation();
 
             if (!active) {
-                onActivate();
+                onActivate?.();
                 return;
             }
 
-            onChange({
+            onChange?.({
                 ...letter,
                 type: getNextLetterType(letter.type)
             });
@@ -67,19 +81,21 @@ const Tinkoff5BukvCell: FC<Props> = ({ letter, onChange, active, onActivate, onC
         const lastLetter = letters[letters.length - 1];
         event.currentTarget.value = lastLetter;
 
-        onChange({
+        onChange?.({
             ...letter,
             value: lastLetter
         });
         if (lastLetter) {
-            onChangeActiveCell(point2d(1, 0), false, true);
+            onChangeActiveCell?.(point2d(1, 0), false, true);
         }
     };
 
     const handleBeforeInput = (event: React.FormEvent<HTMLInputElement>) => {
         const nativeEvent = event.nativeEvent as InputEvent;
 
-        if (!nativeEvent.data || !/[абвгдеёжзийклмнопрстуфхцчшщъыьэюя]/i.test(nativeEvent.data)) {
+        const eventData = nativeEvent.data ?? (nativeEvent as unknown as KeyboardEvent).key;
+
+        if (!eventData || !/[абвгдеёжзийклмнопрстуфхцчшщъыьэюя]/i.test(eventData)) {
             event.preventDefault();
             return;
         }
@@ -89,7 +105,7 @@ const Tinkoff5BukvCell: FC<Props> = ({ letter, onChange, active, onActivate, onC
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === ' ' || event.code === 'Space') {
-            onChange({
+            onChange?.({
                 ...letter,
                 type: getNextLetterType(letter.type)
             });
@@ -98,15 +114,15 @@ const Tinkoff5BukvCell: FC<Props> = ({ letter, onChange, active, onActivate, onC
 
         if (event.key === 'Backspace' || event.key === 'Delete') {
             event.currentTarget.value = '';
-            onChange({
+            onChange?.({
                 ...letter,
                 value: undefined
             });
 
             if (event.key === 'Backspace') {
-                onChangeActiveCell(point2d(-1, 0), false, true);
+                onChangeActiveCell?.(point2d(-1, 0), false, true);
             } else {
-                onChangeActiveCell(point2d(1, 0), true, true);
+                onChangeActiveCell?.(point2d(1, 0), true, true);
             }
         }
     };
@@ -114,7 +130,7 @@ const Tinkoff5BukvCell: FC<Props> = ({ letter, onChange, active, onActivate, onC
     const handleContextMenu = (event: React.MouseEvent) => {
         event.preventDefault();
 
-        onChange({
+        onChange?.({
             ...letter,
             type: getNextLetterType(letter.type)
         });
@@ -127,10 +143,11 @@ const Tinkoff5BukvCell: FC<Props> = ({ letter, onChange, active, onActivate, onC
     }, [active]);
 
     return (
-        <label className={styles.cellLabel} onClick={handleCellClick}>
+        <label className={classNames(styles.cellLabel, className)} onClick={handleCellClick} style={style}>
             <div
-                className={classNames(styles.cell, typeClassName, active && styles.cellActive)}
+                className={classNames(styles.cell, typeClassName, active && styles.cellActive, cardClassName)}
                 onContextMenu={handleContextMenu}
+                style={cardStyle}
             >
                 {letter.value?.trim() || <>&nbsp;</>}
             </div>

@@ -9,17 +9,30 @@ import point2d from './utils/point2d';
 import T5bGame from './types/T5bGame';
 import solveT5bGame from './utils/solveT5bGame';
 import { useDebouncedMemo } from '../../hooks/debouncedMemo';
-import { Tag } from 'antd';
+import { Button, Modal, Tag, Tooltip } from 'antd';
 import { take } from 'lodash';
+import { InfoCircleFilled } from '@ant-design/icons';
+import useWriteableLocalstorageState from '../../hooks/useWriteableLocalstorageState';
+import getLocalStorageKey from '../../utils/getLocalStorageKey';
+import Paragraph from 'antd/lib/typography/Paragraph';
+import Text from 'antd/lib/typography/Text';
+import Tinkoff5BukvCell from './components/Tinkoff5BukvCell';
+import checkIsMobile, { IS_MOBILE } from '../../utils/checkIsMobile';
+import useAppTheme from '../../hooks/useAppTheme';
+import { useAppSettingsState } from '../../hooks/useAppSettings';
+import useChangeStateHandler from '../../hooks/useChangeStateHandler';
+import AppTheme from '../../types/AppTheme';
 
-const createLetter = (): T5bLetter => ({
-    value: undefined,
-    type: T5bLetterType.ABSENT
+const createLetter = (value?: string, type: T5bLetterType = T5bLetterType.ABSENT): T5bLetter => ({
+    value,
+    type
 });
 
-const createWord = (): T5bWord => ({
-    letters: [createLetter(), createLetter(), createLetter(), createLetter(), createLetter()]
-});
+const createWord = (letters?: T5bLetter[]): T5bWord => {
+    return {
+        letters: letters ?? [createLetter(), createLetter(), createLetter(), createLetter(), createLetter()]
+    };
+};
 
 const createWords = (): T5bWord[] => [
     createWord(),
@@ -48,12 +61,23 @@ const fillWord = (t5bWord: T5bWord, word: string, previous5bWord: T5bWord | unde
 };
 
 const Tinkoff5BukvSolverPage: FunctionComponent = () => {
+    const { isDarkMode } = useAppTheme();
+    const { setAppSettings } = useAppSettingsState();
+    const changeSettings = useChangeStateHandler(setAppSettings);
+
     const [words, setWords] = useState<T5bWord[]>(createWords());
     const { fpChangeByIndex: handleWordChange } = useArrayStateMutator(setWords);
 
     const [activeCell, setActiveCell] = useState<Point2D>();
 
     const [solutionLimit, setSolutionLimit] = useState<number>(100);
+
+    const [isInfoTooltipDefaultVisible, setIsInfoTooltipDefaultVisible] = useWriteableLocalstorageState(
+        getLocalStorageKey('tinkoff-5bukv-solver', 'isInfoTooltipDefaultVisible'),
+        true
+    );
+
+    const [isInfoModalVisible, setIsInfoModalVisible] = useState<boolean>();
 
     const entireSolution = useDebouncedMemo(
         () => {
@@ -191,56 +215,174 @@ const Tinkoff5BukvSolverPage: FunctionComponent = () => {
         setSolutionLimit((limit) => limit + 100);
     };
 
+    const handleInfoTooltipVisibleChange = useCallback((isVisible: boolean) => {
+        if (!isVisible) {
+            setIsInfoTooltipDefaultVisible(false);
+        }
+    }, []);
+
+    const handleInfoButtonClick = () => {
+        setIsInfoModalVisible(true);
+    };
+
+    const handleInfoModalClose = useCallback(() => {
+        setIsInfoModalVisible(false);
+    }, []);
+
     return (
-        <PageContainer
-            title="Tinkoff 5bukv Solver"
-            className={styles.container}
-            onClick={handleOutsideFieldClick}
-            onKeyDown={handleKeyDown}
-        >
-            <Flex col>
-                <Flex gap={10} col wrap="nowrap" className={styles.field}>
-                    {words.map((word, index) => {
-                        const activeLetterIndex =
-                            activeCell === undefined ? undefined : activeCell.y === index ? activeCell.x : undefined;
-
-                        return (
-                            <Tinkoff5BukvWord
-                                key={index}
-                                word={word}
-                                onChange={handleWordChange(index)}
-                                activeLetterIndex={activeLetterIndex}
-                                onActiveLetterIndexChange={handleActiveLetterIndexChange(index)}
-                                onChangeActiveCell={handleChangeActiveCell}
+        <>
+            <PageContainer
+                title={
+                    <Flex row gap={6} align="center">
+                        <div>Tinkoff 5bukv Solver</div>
+                        <Tooltip
+                            title="Нажмите, чтобы узнать, как использовать сервис"
+                            defaultVisible={isInfoTooltipDefaultVisible}
+                            onVisibleChange={handleInfoTooltipVisibleChange}
+                        >
+                            <Button
+                                icon={<InfoCircleFilled />}
+                                size="small"
+                                type="text"
+                                onClick={handleInfoButtonClick}
                             />
-                        );
-                    })}
-                </Flex>
-
-                {solution && (
-                    <Flex col gap={8} className={styles.solutionContainer}>
-                        <h3 className={styles.solutionCounter}>Words found: {solution.count}</h3>
-
-                        <Flex row wrap="wrap" className={styles.solutionWordsContainer}>
-                            {solution.words.map((word, index) => (
-                                <Tag
-                                    key={`${word}/${index}`}
-                                    className={styles.solutionWord}
-                                    onClick={handleSolutionWordClick(word)}
-                                >
-                                    {word}
-                                </Tag>
-                            ))}
-                            {solution.count > solution.words.length && (
-                                <Tag className={styles.solutionWord} onClick={handleSolutionShowMore}>
-                                    ...
-                                </Tag>
-                            )}
-                        </Flex>
+                        </Tooltip>
                     </Flex>
+                }
+                className={styles.container}
+                onClick={handleOutsideFieldClick}
+                onKeyDown={handleKeyDown}
+            >
+                <Flex col>
+                    <Flex gap={10} col wrap="nowrap" className={styles.field}>
+                        {words.map((word, index) => {
+                            const activeLetterIndex =
+                                activeCell === undefined
+                                    ? undefined
+                                    : activeCell.y === index
+                                    ? activeCell.x
+                                    : undefined;
+
+                            return (
+                                <Tinkoff5BukvWord
+                                    key={index}
+                                    word={word}
+                                    onChange={handleWordChange(index)}
+                                    activeLetterIndex={activeLetterIndex}
+                                    onActiveLetterIndexChange={handleActiveLetterIndexChange(index)}
+                                    onChangeActiveCell={handleChangeActiveCell}
+                                />
+                            );
+                        })}
+                    </Flex>
+
+                    {solution && (
+                        <Flex col gap={8} className={styles.solutionContainer}>
+                            <h3 className={styles.solutionCounter}>Слов найдено: {solution.count}</h3>
+
+                            <Flex row wrap="wrap" className={styles.solutionWordsContainer}>
+                                {solution.words.map((word, index) => (
+                                    <Tag
+                                        key={`${word}/${index}`}
+                                        className={styles.solutionWord}
+                                        onClick={handleSolutionWordClick(word)}
+                                    >
+                                        {word}
+                                    </Tag>
+                                ))}
+                                {solution.count > solution.words.length && (
+                                    <Tag className={styles.solutionWord} onClick={handleSolutionShowMore}>
+                                        ...
+                                    </Tag>
+                                )}
+                            </Flex>
+                        </Flex>
+                    )}
+                </Flex>
+            </PageContainer>
+
+            <Modal
+                title="Как использовать решатель"
+                visible={isInfoModalVisible}
+                onCancel={handleInfoModalClose}
+                onOk={handleInfoModalClose}
+                centered
+                footer={[
+                    <Button key="ok" type="primary" onClick={handleInfoModalClose}>
+                        Понятно
+                    </Button>
+                ]}
+            >
+                <Paragraph>
+                    Данный сервис предназначен для поиска подходящих слов для игры "5&nbsp;букв" от Тинькофф.
+                </Paragraph>
+                <Paragraph>
+                    Сверху находится поле для слов, аналогичное такому в самой игре. Оно предназначено для ввода слов и
+                    задания цветов буквам, как в приложении.
+                </Paragraph>
+                <Paragraph>Есть два способа ввода слов:</Paragraph>
+                <Paragraph>
+                    <ol>
+                        <li>Нажать на одну из букв (например, самую первую) и ввести на клавиатуре нужное слово;</li>
+                        <li>Нажать на один из подходящих вариантов слов, перечисленных внизу страницы.</li>
+                    </ol>
+                </Paragraph>
+                <Paragraph>
+                    Затем нужно задать цвет букв, аналогичный тому, что отображается при вводе этого слова в самой игре.
+                    Сделать это можно несколькими способами:
+                </Paragraph>
+                <Paragraph>
+                    <ol>
+                        <li>
+                            Нажать на букву, чтобы она стала выделена, затем нажимать на эту букву до тех пор, пока не
+                            будет выбран нужный цвет;
+                        </li>
+                        <li>💻 Нажимать на букву правой кнопкой мыши, цвет также будет изменяться;</li>
+                        <li>
+                            💻 Нажать на букву, чтобы она стала выделена, затем нажать на клавиатуре ПК клавишу{' '}
+                            <Text keyboard>Пробел</Text>.
+                        </li>
+                    </ol>
+                </Paragraph>
+                <Paragraph className="d-flex flex-column mb-0">
+                    <div className="mb-1">
+                        Порядок изменения цвета букв такой ({IS_MOBILE ? <>нажмите</> : <>наведите</>} для описания):
+                    </div>
+                    <Flex row gap={8} wrap="wrap" className={styles.infoModalExampleLettersContainer}>
+                        <Tooltip title="Буква отсутствует в слове">
+                            <div>
+                                <Tinkoff5BukvCell
+                                    letter={createLetter('А', T5bLetterType.ABSENT)}
+                                    className={styles.infoModalExampleLetter}
+                                />
+                            </div>
+                        </Tooltip>
+                        <Tooltip title="Буква присутствует в слове, но находится на другой позиции">
+                            <div>
+                                <Tinkoff5BukvCell
+                                    letter={createLetter('А', T5bLetterType.MISPOSITIONED)}
+                                    className={styles.infoModalExampleLetter}
+                                />
+                            </div>
+                        </Tooltip>
+                        <Tooltip title="Буква в слове находится на этом месте">
+                            <div>
+                                <Tinkoff5BukvCell
+                                    letter={createLetter('А', T5bLetterType.FOUND)}
+                                    className={styles.infoModalExampleLetter}
+                                />
+                            </div>
+                        </Tooltip>
+                    </Flex>
+                </Paragraph>
+                {!isDarkMode && (
+                    <Paragraph className="mt-3">
+                        Рекомендуется использовать тёмную тему при использовании сервиса.{' '}
+                        <a onClick={() => changeSettings('theme')(AppTheme.DARK)}>Нажмите</a>, чтобы переключить.
+                    </Paragraph>
                 )}
-            </Flex>
-        </PageContainer>
+            </Modal>
+        </>
     );
 };
 
