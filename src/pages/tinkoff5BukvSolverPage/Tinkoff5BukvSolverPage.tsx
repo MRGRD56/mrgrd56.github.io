@@ -77,6 +77,7 @@ const Tinkoff5BukvSolverPage: FunctionComponent = () => {
         true
     );
 
+    const [isInfoTooltipVisible, setIsInfoTooltipVisible] = useState<boolean>(isInfoTooltipDefaultVisible);
     const [isInfoModalVisible, setIsInfoModalVisible] = useState<boolean>();
 
     const entireSolution = useDebouncedMemo(
@@ -215,14 +216,23 @@ const Tinkoff5BukvSolverPage: FunctionComponent = () => {
         setSolutionLimit((limit) => limit + 100);
     };
 
-    const handleInfoTooltipVisibleChange = useCallback((isVisible: boolean) => {
-        if (!isVisible) {
-            setIsInfoTooltipDefaultVisible(false);
-        }
-    }, []);
+    const handleInfoTooltipVisibleChange = useCallback(
+        (isVisible: boolean) => {
+            if (!isVisible || !isInfoModalVisible) {
+                setIsInfoTooltipVisible(isVisible);
+            }
+
+            if (!isVisible) {
+                setIsInfoTooltipDefaultVisible(false);
+            }
+        },
+        [isInfoModalVisible]
+    );
 
     const handleInfoButtonClick = () => {
+        setIsInfoTooltipVisible(false);
         setIsInfoModalVisible(true);
+        setIsInfoTooltipDefaultVisible(false);
     };
 
     const handleInfoModalClose = useCallback(() => {
@@ -238,6 +248,7 @@ const Tinkoff5BukvSolverPage: FunctionComponent = () => {
                         <Tooltip
                             title="Нажмите, чтобы узнать, как использовать сервис"
                             defaultVisible={isInfoTooltipDefaultVisible}
+                            visible={isInfoTooltipVisible}
                             onVisibleChange={handleInfoTooltipVisibleChange}
                         >
                             <Button
