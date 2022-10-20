@@ -7,6 +7,9 @@ import './index.scss';
 import App from './App';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
+import ReactGA from 'react-ga';
+
+ReactGA.initialize('G-LJ339DXZVF');
 
 moment.locale(navigator.language);
 
