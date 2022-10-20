@@ -3,7 +3,7 @@ import { DiscussionEmbed } from 'disqus-react';
 import useAppLocation from '../../hooks/useAppLocation';
 import useAppSettings from '../../hooks/useAppSettings';
 
-type Props = Omit<HTMLProps<HTMLDivElement>, 'id'>;
+type Props = HTMLProps<HTMLDivElement>;
 
 type DiscussionEmbedConfig = DiscussionEmbed['props']['config'];
 
