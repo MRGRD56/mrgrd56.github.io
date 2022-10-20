@@ -81,6 +81,14 @@ const SettingsPage: FunctionComponent = () => {
                     />
                     <span className="ms-3">GitHub repository link on the home page</span>
                 </label>
+                <label>
+                    <Switch
+                        checked={appSettings.isCommentsBlockHidden}
+                        onChange={handleAppSettingChange('isCommentsBlockHidden')}
+                        checkedChildren={<EyeInvisibleFilled />}
+                    />
+                    <span className="ms-3">Hide comments on all pages</span>
+                </label>
             </PageCol>
         </PageContainer>
     );

@@ -10,7 +10,8 @@ const initialState: AppSettings = {
     doShowHiddenMenuItems: false,
     isFooterHidden: true,
     isRootPageInfoAlertHidden: false,
-    isRootPageGithubLinkHidden: false
+    isRootPageGithubLinkHidden: false,
+    isCommentsBlockHidden: false
 };
 
 export const useAppSettingsState = () => {

@@ -4,6 +4,7 @@ import { Space, SpaceProps, Tag } from 'antd';
 import Paragraph from 'antd/lib/typography/Paragraph';
 import { ClockCircleOutlined, WarningOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
+import DisqusThread from '../../../components/disqusThread/DisqusThread';
 
 export enum PageTag {
     WIP = 'WIP',
@@ -19,6 +20,7 @@ export interface PageContainerProps extends Omit<SpaceProps, 'title'> {
     tags?: PageTag[];
     noPadding?: boolean;
     noContentPadding?: boolean;
+    withComments?: boolean;
 }
 
 const getTagNodes = (key: number | string): Readonly<Record<PageTag, ReactNode>> => ({
@@ -48,6 +50,7 @@ const PageContainer = React.forwardRef<HTMLDivElement, PageContainerProps>((prop
         className,
         contentClassName,
         contentRef,
+        withComments,
         ...restProps
     } = props;
 
@@ -77,6 +80,7 @@ const PageContainer = React.forwardRef<HTMLDivElement, PageContainerProps>((prop
 
             <div className={classNames(styles.contentContainer, contentClassName)} ref={contentRef}>
                 {children}
+                {withComments && <DisqusThread className="mt-4" />}
             </div>
         </div>
     );

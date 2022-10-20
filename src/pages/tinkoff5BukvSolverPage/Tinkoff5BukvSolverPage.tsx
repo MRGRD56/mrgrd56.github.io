@@ -22,6 +22,7 @@ import useAppTheme from '../../hooks/useAppTheme';
 import { useAppSettingsState } from '../../hooks/useAppSettings';
 import useChangeStateHandler from '../../hooks/useChangeStateHandler';
 import AppTheme from '../../types/AppTheme';
+import DisqusThread from '../../components/disqusThread/DisqusThread';
 
 const createLetter = (value?: string, type: T5bLetterType = T5bLetterType.ABSENT): T5bLetter => ({
     value,
@@ -263,6 +264,7 @@ const Tinkoff5BukvSolverPage: FunctionComponent = () => {
                 className={styles.container}
                 onClick={handleOutsideFieldClick}
                 onKeyDown={handleKeyDown}
+                withComments
             >
                 <Flex col>
                     <Flex gap={10} col wrap="nowrap" className={styles.field}>

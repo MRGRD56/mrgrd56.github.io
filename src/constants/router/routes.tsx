@@ -2,6 +2,7 @@ import { RouteProps } from 'react-router';
 import { values } from 'lodash';
 import React, { ComponentType } from 'react';
 import ExternalRedirect from '../../components/ExternalRedirect';
+import RouteContextInitializer from '../../layouts/RouteContextInitializer';
 
 const RootPage = React.lazy(() => import('../../pages/rootPage/RootPage'));
 const GithubPagesListPage = React.lazy(() => import('../../pages/githubPagesPage/GithubPagesListPage'));
@@ -31,7 +32,6 @@ const HtmlEditorPage = React.lazy(() => import('../../pages/htmlEditorPage/HtmlE
 const Base64Page = React.lazy(() => import('../../pages/base64Page/Base64Page'));
 const DataUrlPage = React.lazy(() => import('../../pages/dataUrlPage/DataUrlPage'));
 const DataUrlViewPage = React.lazy(() => import('../../pages/dataUrlViewPage/DataUrlViewPage'));
-const RouteContextInitializer = React.lazy(() => import('../../layouts/RouteContextInitializer'));
 const JsonToYamlPage = React.lazy(() => import('../../pages/jsonToYamlPage/JsonToYamlPage'));
 const CounterPage = React.lazy(() => import('../../pages/counterPage/CounterPage'));
 const RooksDemoPage = React.lazy(() => import('../../pages/rooksDemoPage/RooksDemoPage'));
@@ -345,14 +345,18 @@ export const routes: AppRoutesMap = {
     }
 }; //satisfies Record<string, AppRoute>;
 
-export const convertAppRoute = ({ component: Component, title, ...route }: AppRoute): RouteProps => ({
-    ...route,
-    element: (
-        <RouteContextInitializer title={title} key={route.path}>
-            <Component />
-        </RouteContextInitializer>
-    )
-});
+export const convertAppRoute = (appRoute: AppRoute): RouteProps => {
+    const { component: Component, title, ...route } = appRoute;
+
+    return {
+        ...route,
+        element: (
+            <RouteContextInitializer title={title} key={route.path}>
+                <Component />
+            </RouteContextInitializer>
+        )
+    };
+};
 
 export const appRoutesList: AppRoute[] = values(routes);
 

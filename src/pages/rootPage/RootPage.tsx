@@ -24,6 +24,8 @@ import useInputState from '../../hooks/useInputState';
 import { isEmpty } from 'lodash';
 import GithubLogo from '../../assets/components/GithubLogo';
 import useChangeStateHandler from '../../hooks/useChangeStateHandler';
+import DisqusThread from '../../components/disqusThread/DisqusThread';
+import { DiscussionEmbed } from 'disqus-react';
 
 const RootPage: FunctionComponent = () => {
     const {
@@ -80,7 +82,7 @@ const RootPage: FunctionComponent = () => {
                 </Tooltip>
             )}
 
-            <PageContainer contentClassName={styles.container}>
+            <PageContainer contentClassName={styles.container} withComments>
                 <Flex col gap={8} className={styles.contentContainer}>
                     {!isRootPageInfoAlertHidden && (
                         <Alert

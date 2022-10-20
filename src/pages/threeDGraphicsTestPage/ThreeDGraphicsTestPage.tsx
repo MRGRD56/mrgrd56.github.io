@@ -17,6 +17,7 @@ import useAppSider from '../../hooks/useAppSider';
 import { PAGE_PADDING } from '../../constants/layout';
 import dialogGh from './assets/dialog-gh.png';
 import { Group, Vector3 } from 'three';
+import DisqusThread from '../../components/disqusThread/DisqusThread';
 
 const textureLoader = new Three.TextureLoader();
 const gltfLoader = new GLTFLoader();
@@ -158,7 +159,7 @@ const ThreeDGraphicsTestPage: FunctionComponent = () => {
     });
 
     return (
-        <PageContainer title="3D Graphics Test">
+        <PageContainer title="3D Graphics Test" withComments>
             <div ref={containerRef} />
             <Text type="secondary" className="d-flex mt-1 text-break">
                 This work is based on "Madoka Machida"

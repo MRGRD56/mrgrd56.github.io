@@ -14,8 +14,8 @@ const AppRoutesCards: FunctionComponent<Props> = ({ heading, items }) => {
         <Flex col gap={8}>
             {heading && <h2 className="mt-1 mb-0">{heading}</h2>}
             <div className={styles.list}>
-                {items.map((item) => (
-                    <AppRouteCard item={item} />
+                {items.map((item, index) => (
+                    <AppRouteCard key={index} item={item} />
                 ))}
             </div>
         </Flex>

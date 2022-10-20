@@ -32,7 +32,7 @@ const PageCol: FunctionComponent<Props> = ({ className, children, ...props }) =>
     }, [props]);
 
     return (
-        <Col className={classNames(styles.container)} {...restProps}>
+        <Col className={classNames(styles.container, className)} {...restProps}>
             {children}
         </Col>
     );

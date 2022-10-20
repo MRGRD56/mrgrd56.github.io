@@ -7,6 +7,7 @@ interface AppSettings {
     isFooterHidden: boolean;
     isRootPageInfoAlertHidden: boolean;
     isRootPageGithubLinkHidden: boolean;
+    isCommentsBlockHidden: boolean;
 }
 
 export default AppSettings;

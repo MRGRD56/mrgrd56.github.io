@@ -37,6 +37,11 @@
     cursor: pointer;
     font-size: 2em;
 
+    outline: 0 solid #2196f3;
+    outline-offset: -2px;
+    //transition: 0.03s ease-in;
+    //transition-property: outline-width;
+
     @media screen and (min-width: 280px) {
         font-size: 3em;
     }
@@ -65,8 +70,7 @@
     }
 
     &.cellActive {
-        outline: 4px solid #2196f3;
-        outline-offset: -2px;
+        outline-width: 4px;
     }
 }
 

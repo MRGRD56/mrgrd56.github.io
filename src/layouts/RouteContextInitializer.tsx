@@ -1,20 +1,23 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
 import { RouteContextState } from '../context/RouteContext';
 import useRouteContext from '../hooks/useRouteContext';
+import { useDidMount } from 'rooks';
 
-const RouteContextInitializer: FunctionComponent<RouteContextState> = ({ children, ...contextValue }) => {
+interface Props extends RouteContextState {}
+
+const RouteContextInitializer: FunctionComponent<Props> = ({ children, ...contextValue }) => {
     const {
         state: [, setState],
         meta: [, setMeta]
     } = useRouteContext();
 
-    useEffect(() => {
+    useDidMount(() => {
         setState(contextValue);
         setMeta((meta) => ({
             ...meta,
             isInitialized: true
         }));
-    }, []);
+    });
 
     return <>{children}</>;
 };
