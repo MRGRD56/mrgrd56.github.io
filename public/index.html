@@ -43,7 +43,10 @@
                 trackLinks: true,
                 accurateTrackBounce: true,
                 webvisor: true,
-                ecommerce: 'dataLayer'
+                ecommerce: 'dataLayer',
+                userParams: {
+                    userAgent: navigator.userAgent
+                }
             });
         </script>
         <noscript

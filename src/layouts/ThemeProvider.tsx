@@ -1,7 +1,10 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { ThemeSwitcherProvider } from 'react-css-theme-switcher';
 import { PUBLIC_URL } from '../constants/env';
 import useAppTheme from '../hooks/useAppTheme';
+import yam from '../utils/analytics/yam';
+import useSpecialEffect from '../hooks/useSpecialEffect';
+import { useDidMount } from 'rooks';
 
 const themes = {
     light: `${PUBLIC_URL}/styles/antd/antd.min.css`,
@@ -11,12 +14,36 @@ const themes = {
 const insertionPoint = document.querySelector('#theme-styles-insertion-point') as HTMLElement;
 
 const ThemeProvider: FunctionComponent = ({ children }) => {
-    const { isDarkMode } = useAppTheme();
+    const { isDarkMode, theme, browserTheme } = useAppTheme();
 
-    const theme = isDarkMode ? 'dark' : 'light';
+    const providerTheme = isDarkMode ? 'dark' : 'light';
+
+    useDidMount(() => {
+        yam.userParams({
+            isDarkMode,
+            theme,
+            browserTheme
+        });
+    });
+
+    useSpecialEffect(
+        () => {
+            yam.reachGoal(
+                `switchTheme_${providerTheme}`,
+                {
+                    isDarkMode,
+                    theme,
+                    browserTheme
+                },
+                true
+            );
+        },
+        [providerTheme],
+        { skipFirstRender: true }
+    );
 
     return (
-        <ThemeSwitcherProvider themeMap={themes} defaultTheme={theme} insertionPoint={insertionPoint}>
+        <ThemeSwitcherProvider themeMap={themes} defaultTheme={providerTheme} insertionPoint={insertionPoint}>
             {children}
         </ThemeSwitcherProvider>
     );

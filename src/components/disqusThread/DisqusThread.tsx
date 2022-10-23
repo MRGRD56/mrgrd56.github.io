@@ -1,4 +1,4 @@
-import React, { FC, HTMLProps, useMemo } from 'react';
+import React, { FC, HTMLProps, useMemo, useRef } from 'react';
 import { DiscussionEmbed } from 'disqus-react';
 import useAppLocation from '../../hooks/useAppLocation';
 import useAppSettings from '../../hooks/useAppSettings';
@@ -10,6 +10,11 @@ type DiscussionEmbedConfig = DiscussionEmbed['props']['config'];
 const DisqusThread: FC<Props> = ({ children, ...props }) => {
     const appRoute = useAppLocation();
     const { isCommentsBlockHidden } = useAppSettings();
+
+    const discussionContainerRef = useRef<HTMLDivElement>(null);
+    const getDiscussion: () => HTMLDivElement | undefined = () => {
+        return (discussionContainerRef.current?.firstElementChild ?? undefined) as HTMLDivElement | undefined;
+    };
 
     const config = useMemo<DiscussionEmbedConfig>(
         () => ({
@@ -25,7 +30,7 @@ const DisqusThread: FC<Props> = ({ children, ...props }) => {
     }
 
     return (
-        <div {...props}>
+        <div {...props} ref={discussionContainerRef}>
             <DiscussionEmbed shortname="mrgrd56" config={config} />
             {children}
         </div>
