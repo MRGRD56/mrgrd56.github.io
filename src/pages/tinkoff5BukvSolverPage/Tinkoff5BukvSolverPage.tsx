@@ -17,12 +17,11 @@ import getLocalStorageKey from '../../utils/getLocalStorageKey';
 import Paragraph from 'antd/lib/typography/Paragraph';
 import Text from 'antd/lib/typography/Text';
 import Tinkoff5BukvCell from './components/Tinkoff5BukvCell';
-import checkIsMobile, { IS_MOBILE } from '../../utils/checkIsMobile';
+import { IS_MOBILE } from '../../utils/checkIsMobile';
 import useAppTheme from '../../hooks/useAppTheme';
 import { useAppSettingsState } from '../../hooks/useAppSettings';
 import useChangeStateHandler from '../../hooks/useChangeStateHandler';
 import AppTheme from '../../types/AppTheme';
-import DisqusThread from '../../components/disqusThread/DisqusThread';
 
 const createLetter = (value?: string, type: T5bLetterType = T5bLetterType.ABSENT): T5bLetter => ({
     value,
@@ -347,12 +346,26 @@ const Tinkoff5BukvSolverPage: FunctionComponent = () => {
                 <Paragraph>
                     <ol>
                         <li>
-                            Нажать на букву, чтобы она стала выделена, затем нажимать на эту букву до тех пор, пока не
-                            будет выбран нужный цвет;
+                            Нажать на клетку (букву), чтобы она стала выделенной, затем нажимать на эту букву до тех
+                            пор, пока не будет выбран нужный цвет;
                         </li>
-                        <li>💻 Нажимать на букву правой кнопкой мыши, цвет также будет изменяться;</li>
                         <li>
-                            💻 Нажать на букву, чтобы она стала выделена, затем нажать на клавиатуре ПК клавишу{' '}
+                            <Tooltip title="Только для мобильных устройств" placement="right">
+                                📱
+                            </Tooltip>{' '}
+                            Нажать и удерживать букву, цвет будет изменён;
+                        </li>
+                        <li>
+                            <Tooltip title="Только для ПК" placement="right">
+                                💻
+                            </Tooltip>{' '}
+                            Нажимать на букву правой кнопкой мыши, цвет также будет изменяться;
+                        </li>
+                        <li>
+                            <Tooltip title="Только для ПК" placement="right">
+                                💻
+                            </Tooltip>{' '}
+                            Нажать на букву, чтобы она стала выделена, затем нажать на клавиатуре ПК клавишу{' '}
                             <Text keyboard>Пробел</Text>.
                         </li>
                     </ol>
@@ -367,6 +380,7 @@ const Tinkoff5BukvSolverPage: FunctionComponent = () => {
                                 <Tinkoff5BukvCell
                                     letter={createLetter('А', T5bLetterType.ABSENT)}
                                     className={styles.infoModalExampleLetter}
+                                    readOnly
                                 />
                             </div>
                         </Tooltip>
@@ -375,6 +389,7 @@ const Tinkoff5BukvSolverPage: FunctionComponent = () => {
                                 <Tinkoff5BukvCell
                                     letter={createLetter('А', T5bLetterType.MISPOSITIONED)}
                                     className={styles.infoModalExampleLetter}
+                                    readOnly
                                 />
                             </div>
                         </Tooltip>
@@ -383,6 +398,7 @@ const Tinkoff5BukvSolverPage: FunctionComponent = () => {
                                 <Tinkoff5BukvCell
                                     letter={createLetter('А', T5bLetterType.FOUND)}
                                     className={styles.infoModalExampleLetter}
+                                    readOnly
                                 />
                             </div>
                         </Tooltip>

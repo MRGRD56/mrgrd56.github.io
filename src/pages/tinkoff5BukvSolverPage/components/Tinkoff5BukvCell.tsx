@@ -4,6 +4,7 @@ import styles from '../Tinkoff5BukvSolverPage.module.scss';
 import classNames from 'classnames';
 import getNextLetterType from '../utils/getNextLetterType';
 import point2d from '../utils/point2d';
+import { IS_MOBILE } from '../../../utils/checkIsMobile';
 
 interface Props {
     letter: T5bLetter;
@@ -15,6 +16,7 @@ interface Props {
     style?: CSSProperties;
     cardClassName?: string;
     cardStyle?: CSSProperties;
+    readOnly?: boolean;
 }
 
 const Tinkoff5BukvCell: FC<Props> = ({
@@ -26,7 +28,8 @@ const Tinkoff5BukvCell: FC<Props> = ({
     className,
     style,
     cardClassName,
-    cardStyle
+    cardStyle,
+    readOnly
 }) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -134,6 +137,10 @@ const Tinkoff5BukvCell: FC<Props> = ({
             ...letter,
             type: getNextLetterType(letter.type)
         });
+
+        if (IS_MOBILE) {
+            navigator.vibrate?.(50);
+        }
     };
 
     useEffect(() => {
@@ -164,6 +171,7 @@ const Tinkoff5BukvCell: FC<Props> = ({
                 onBeforeInput={handleBeforeInput}
                 onInputCapture={handleInput}
                 onKeyDown={handleKeyDown}
+                readOnly={readOnly}
             />
         </label>
     );
