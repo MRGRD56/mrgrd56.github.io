@@ -155,6 +155,7 @@ const Tinkoff5BukvCell: FC<Props> = ({
                 className={classNames(styles.cell, typeClassName, active && styles.cellActive, cardClassName)}
                 onContextMenu={handleContextMenu}
                 style={cardStyle}
+                translate="no"
             >
                 {letter.value?.trim() || <>&nbsp;</>}
             </div>
@@ -172,6 +173,7 @@ const Tinkoff5BukvCell: FC<Props> = ({
                 onInputCapture={handleInput}
                 onKeyDown={handleKeyDown}
                 readOnly={readOnly}
+                translate="no"
             />
         </label>
     );

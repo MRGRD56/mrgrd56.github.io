@@ -244,7 +244,7 @@ const Tinkoff5BukvSolverPage: FunctionComponent = () => {
             <PageContainer
                 title={
                     <Flex row gap={6} align="center">
-                        <div>Tinkoff 5bukv Solver</div>
+                        <div translate="no">Tinkoff 5bukv Solver</div>
                         <Tooltip
                             title="Нажмите, чтобы узнать, как использовать сервис"
                             defaultVisible={isInfoTooltipDefaultVisible}
@@ -298,12 +298,17 @@ const Tinkoff5BukvSolverPage: FunctionComponent = () => {
                                         key={`${word}/${index}`}
                                         className={styles.solutionWord}
                                         onClick={handleSolutionWordClick(word)}
+                                        translate="no"
                                     >
                                         {word}
                                     </Tag>
                                 ))}
                                 {solution.count > solution.words.length && (
-                                    <Tag className={styles.solutionWord} onClick={handleSolutionShowMore}>
+                                    <Tag
+                                        className={styles.solutionWord}
+                                        onClick={handleSolutionShowMore}
+                                        translate="no"
+                                    >
                                         ...
                                     </Tag>
                                 )}

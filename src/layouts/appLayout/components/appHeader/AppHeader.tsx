@@ -65,7 +65,7 @@ const AppHeader = () => {
             </Drawer>
 
             <Header className={styles.container}>
-                <div className={styles.logo}>
+                <div className={styles.logo} translate="no">
                     <Link to={routes.root.path}>
                         <Text strong className={styles.logoText}>
                             MRGRD56
