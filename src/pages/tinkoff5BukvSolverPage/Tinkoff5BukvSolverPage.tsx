@@ -246,7 +246,11 @@ const Tinkoff5BukvSolverPage: FunctionComponent = () => {
                     <Flex row gap={6} align="center">
                         <div translate="no">Tinkoff 5bukv Solver</div>
                         <Tooltip
-                            title="Нажмите, чтобы узнать, как использовать сервис"
+                            title={
+                                <div onClick={handleInfoButtonClick}>
+                                    Нажмите, чтобы узнать, как использовать сервис
+                                </div>
+                            }
                             defaultVisible={isInfoTooltipDefaultVisible}
                             visible={isInfoTooltipVisible}
                             onVisibleChange={handleInfoTooltipVisibleChange}
@@ -358,7 +362,8 @@ const Tinkoff5BukvSolverPage: FunctionComponent = () => {
                             <Tooltip title="Только для мобильных устройств" placement="right">
                                 📱
                             </Tooltip>{' '}
-                            Нажать и удерживать букву, цвет будет изменён;
+                            Нажать и удерживать букву, цвет будет изменён. Экранная клавиатура при этом открываться не
+                            будет;
                         </li>
                         <li>
                             <Tooltip title="Только для ПК" placement="right">
