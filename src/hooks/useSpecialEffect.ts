@@ -4,7 +4,13 @@ export interface SpecialEffectOptions {
     skipFirstRender?: boolean;
 }
 
-const useSpecialEffect = (effect: EffectCallback, deps: DependencyList, options?: SpecialEffectOptions) => {
+interface SpecialEffectData {
+    isFirstRender: boolean;
+}
+
+type SpecialEffectCallback = (data: SpecialEffectData) => ReturnType<EffectCallback>;
+
+const useSpecialEffect = (effect: SpecialEffectCallback, deps: DependencyList, options?: SpecialEffectOptions) => {
     const { skipFirstRender } = options ?? {};
 
     const wasRenderedRef = useRef<boolean>(false);
@@ -17,7 +23,9 @@ const useSpecialEffect = (effect: EffectCallback, deps: DependencyList, options?
             return;
         }
 
-        effect();
+        effect({
+            isFirstRender: !wasRendered
+        });
     }, deps);
 };
 

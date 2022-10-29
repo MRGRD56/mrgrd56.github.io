@@ -22,6 +22,7 @@ import useAppTheme from '../../hooks/useAppTheme';
 import { useAppSettingsState } from '../../hooks/useAppSettings';
 import useChangeStateHandler from '../../hooks/useChangeStateHandler';
 import AppTheme from '../../types/AppTheme';
+import ExternalLink from '../../components/ExternalLink';
 
 const createLetter = (value?: string, type: T5bLetterType = T5bLetterType.ABSENT): T5bLetter => ({
     value,
@@ -295,6 +296,16 @@ const Tinkoff5BukvSolverPage: FunctionComponent = () => {
                     {solution && (
                         <Flex col gap={8} className={styles.solutionContainer}>
                             <h3 className={styles.solutionCounter}>Слов найдено: {solution.count}</h3>
+
+                            {solution.count <= 0 && (
+                                <Text type="secondary">
+                                    Считаешь, что произошла ошибка? Напиши об этом в комментарии или{' '}
+                                    <ExternalLink href="https://github.com/MRGRD56/mrgrd56.github.io/issues/new?template=bug_report.md">
+                                        сюда
+                                    </ExternalLink>
+                                    !
+                                </Text>
+                            )}
 
                             <Flex row wrap="wrap" className={styles.solutionWordsContainer}>
                                 {solution.words.map((word, index) => (

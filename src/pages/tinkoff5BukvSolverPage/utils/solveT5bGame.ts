@@ -8,7 +8,10 @@ const solveT5bGame = (game: T5bGame): string[] => {
     );
 
     const foundLettersList = game.foundLetters.map((letter) => letter.letter);
-    const absentLetters = difference(game.absentLetters, foundLettersList);
+    const absentLetters = difference(game.absentLetters, [
+        ...foundLettersList,
+        ...mispositionedLettersEntries.map(([letter]) => letter)
+    ]);
 
     return tinkoff5bukvWords.filter((word) => {
         if (

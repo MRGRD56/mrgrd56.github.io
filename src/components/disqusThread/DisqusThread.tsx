@@ -7,6 +7,12 @@ type Props = HTMLProps<HTMLDivElement>;
 
 type DiscussionEmbedConfig = DiscussionEmbed['props']['config'];
 
+// const handleReactionClick = (event: MouseEvent) => {
+//     const item = event.target;
+//
+//     console.log('CLICK', {item});
+// };
+
 const DisqusThread: FC<Props> = ({ children, ...props }) => {
     const appRoute = useAppLocation();
     const { isCommentsBlockHidden } = useAppSettings();
@@ -24,6 +30,31 @@ const DisqusThread: FC<Props> = ({ children, ...props }) => {
         }),
         [appRoute]
     );
+
+    // useEffect(() => {
+    //     debugger;
+    //     const discussion = getDiscussion();
+    //     if (!discussion) {
+    //         return;
+    //     }
+    //
+    //     const reactionItemsContainer = discussion.querySelector('.reaction-items');
+    //     if (!reactionItemsContainer) {
+    //         return;
+    //     }
+    //
+    //     const reactionItems: NodeListOf<HTMLElement> = reactionItemsContainer.querySelectorAll('.reaction-item.reaction-item__enabled:not(.reaction-item__selected)');
+    //
+    //     reactionItems.forEach(item => {
+    //         item.addEventListener('click', handleReactionClick);
+    //     });
+    //
+    //     return () => {
+    //         reactionItems.forEach(item => {
+    //             item.removeEventListener('click', handleReactionClick);
+    //         });
+    //     };
+    // }, []);
 
     if (isCommentsBlockHidden) {
         return null;

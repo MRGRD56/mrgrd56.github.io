@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Layout } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 import styles from './AppLayout.module.scss';
@@ -10,6 +10,7 @@ import useAppFooter from '../../hooks/useAppFooter';
 import { HEADER_HEIGHT } from '../../constants/layout';
 import ReactGA from 'react-ga';
 import yam from '../../utils/analytics/yam';
+import useSpecialEffect from '../../hooks/useSpecialEffect';
 
 const AppLayout: FunctionComponent = ({ children }) => {
     const appRoute = useAppLocation();
@@ -17,18 +18,21 @@ const AppLayout: FunctionComponent = ({ children }) => {
 
     const isLayoutHidden = appRoute?.isLayoutHidden === true;
 
-    useEffect(() => {
-        const path = window.location.pathname + window.location.search + window.location.hash;
-        ReactGA.pageview(path, undefined, appRoute?.title || document.title);
+    useSpecialEffect(
+        ({ isFirstRender }) => {
+            const path = window.location.pathname + window.location.search + window.location.hash;
+            ReactGA.pageview(path, undefined, appRoute?.title || document.title);
 
-        yam.reachGoal(
-            'viewPage',
-            {
-                route: appRoute?.path
-            },
-            true
-        );
-    }, [appRoute]);
+            yam.reachGoal(
+                isFirstRender ? 'visitFirstPage' : 'changePage',
+                {
+                    route: appRoute?.path
+                },
+                true
+            );
+        },
+        [appRoute]
+    );
 
     if (isLayoutHidden) {
         return <>{children}</>;
