@@ -46,7 +46,10 @@
                 ecommerce: 'dataLayer',
                 userParams: {
                     userAgent: navigator.userAgent,
-                    referrer: document.referrer
+                    referrer: document.referrer,
+                    language: navigator.language,
+                    hardwareConcurrency: navigator.hardwareConcurrency,
+                    webdriver: navigator.webdriver || undefined
                 }
             });
         </script>

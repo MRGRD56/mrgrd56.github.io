@@ -26,6 +26,7 @@ import GithubLogo from '../../assets/components/GithubLogo';
 import useChangeStateHandler from '../../hooks/useChangeStateHandler';
 import DisqusThread from '../../components/disqusThread/DisqusThread';
 import { DiscussionEmbed } from 'disqus-react';
+import yam from '../../utils/analytics/yam';
 
 const RootPage: FunctionComponent = () => {
     const {
@@ -76,7 +77,11 @@ const RootPage: FunctionComponent = () => {
         <>
             {!isRootPageGithubLinkHidden && (
                 <Tooltip title="Visit website repository" placement="bottomLeft">
-                    <ExternalLink className={styles.githubButton} href="https://github.com/MRGRD56/mrgrd56.github.io">
+                    <ExternalLink
+                        className={styles.githubButton}
+                        href="https://github.com/MRGRD56/mrgrd56.github.io"
+                        onClick={() => yam.reachGoal('externalLink_githubRepository')}
+                    >
                         <GithubLogo className={styles.githubButtonIcon} />
                     </ExternalLink>
                 </Tooltip>

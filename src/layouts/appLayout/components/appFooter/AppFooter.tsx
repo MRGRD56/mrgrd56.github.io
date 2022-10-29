@@ -6,6 +6,7 @@ import ExternalLink from '../../../../components/ExternalLink';
 import { GithubFilled } from '@ant-design/icons';
 import { ReactComponent as TelegramLogoDark } from '../../../../assets/img/telegram-logo-dark-2.svg';
 import classNames from 'classnames';
+import yam from '../../../../utils/analytics/yam';
 
 const currentYear = moment().year();
 
@@ -16,11 +17,14 @@ const AppFooter: FunctionComponent<Props> = ({ className, ...props }) => {
         <Footer className={classNames(styles.container, className)} {...props}>
             <div className={styles.copyright}>Kirill Golikov © {currentYear}</div>
             <div className={styles.socials}>
-                <ExternalLink href="https://github.com/MRGRD56">
+                <ExternalLink
+                    href="https://github.com/MRGRD56"
+                    onClick={() => yam.reachGoal('externalLink_githubProfile')}
+                >
                     <GithubFilled className={styles.link} />
                 </ExternalLink>
                 <ExternalLink href="https://t.me/MRGRD56">
-                    <TelegramLogoDark className={styles.link} />
+                    <TelegramLogoDark className={styles.link} onClick={() => yam.reachGoal('externalLink_telegram')} />
                 </ExternalLink>
             </div>
         </Footer>

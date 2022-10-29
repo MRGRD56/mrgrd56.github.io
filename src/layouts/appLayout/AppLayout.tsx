@@ -11,6 +11,8 @@ import { HEADER_HEIGHT } from '../../constants/layout';
 import ReactGA from 'react-ga';
 import yam from '../../utils/analytics/yam';
 import useSpecialEffect from '../../hooks/useSpecialEffect';
+import { useDidMount } from 'rooks';
+import { routes } from '../../constants/router/routes';
 
 const AppLayout: FunctionComponent = ({ children }) => {
     const appRoute = useAppLocation();
@@ -30,9 +32,42 @@ const AppLayout: FunctionComponent = ({ children }) => {
                 },
                 true
             );
+
+            if (appRoute !== routes.tinkoff5BukvSolver) {
+                yam.reachGoal('visitPage_notT5b');
+            }
+            if (appRoute === routes.root) {
+                yam.reachGoal('visitPage_root');
+            }
         },
         [appRoute]
     );
+
+    useDidMount(() => {
+        (async () => {
+            if (document.referrer) {
+                if (!document.referrer.startsWith(window.location.origin)) {
+                    yam.reachGoal('hasReferrer', {
+                        referrer: document.referrer
+                    });
+                }
+            }
+
+            try {
+                const battery = await (navigator as any).getBattery();
+
+                yam.userParams({
+                    hasBattery: true,
+                    batteryLevel: battery.level,
+                    batteryCharging: battery.charging
+                });
+            } catch (e) {
+                yam.userParams({
+                    hasBattery: false
+                });
+            }
+        })();
+    });
 
     if (isLayoutHidden) {
         return <>{children}</>;
