@@ -5,6 +5,7 @@ import {
     ExclamationCircleFilled,
     GithubFilled,
     HomeFilled,
+    LinkOutlined,
     PictureFilled,
     PlayCircleFilled,
     QuestionCircleFilled,
@@ -28,6 +29,7 @@ import {
     InsertDriveFile,
     Javascript,
     Keyboard,
+    Link,
     Looks5,
     NotificationsActive,
     Palette,
@@ -233,6 +235,13 @@ const menuItems: MenuItem[] = [
                 searchText:
                     'tinkoff 5bukv solver, 5 letters тинькофф 5букв 5 букв решатель пять букв, wordle in russian',
                 largeIcon: <Looks5 />
+            },
+            {
+                url: 'https://go.mrgrd56.ru',
+                title: 'URL Shortener',
+                searchText: 'url shortener shorten url link shortener of links',
+                largeIcon: <Link />,
+                description: 'Shorten any long link'
             },
             {
                 route: routes.httpClient,
