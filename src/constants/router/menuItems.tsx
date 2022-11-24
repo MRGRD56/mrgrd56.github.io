@@ -241,7 +241,8 @@ const menuItems: MenuItem[] = [
                 title: 'URL Shortener',
                 searchText: 'url shortener shorten url link shortener of links',
                 largeIcon: <Link />,
-                description: 'Shorten any long link'
+                description: 'Shorten any long link',
+                isHidden: true
             },
             {
                 route: routes.httpClient,
