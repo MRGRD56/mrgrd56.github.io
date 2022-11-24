@@ -69,3 +69,5 @@ Different useful tools for development and more!
 **[HeadHunter Dictionaries Viewer](https://mrgrd56.github.io/#/tools/headhunter-dictionaries)** - _View the dictionaries on hh.ru API_
 
 **[Image Compressor](https://mrgrd56.github.io/#/tools/image-compressor)** - _Compress an image or convert it to another format_
+
+**[Tinkoff 5bukv Solver](https://mrgrd56.github.io/#/tools/tinkoff-5bukv-solver)** - _Решатель для игры 5букв от Тинькофф_
