@@ -76,6 +76,7 @@ const DomainChangeModal = () => {
                     OK
                 </Button>
             ]}
+            closable={false}
         >
             <h2>RU</h2>
             <p>
