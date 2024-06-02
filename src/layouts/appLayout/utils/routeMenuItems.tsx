@@ -106,7 +106,7 @@ export const renderMenuItem = (menuItem: MenuItem, index: number, settings: AppS
                               return true;
                           }
 
-                          return !('route' in item) || !item.isHidden;
+                          return (!('route' in item) && !('url' in item)) || !item.isHidden;
                       })
                       .map((item, index) => renderMenuItem(item, index, settings))
                 : [

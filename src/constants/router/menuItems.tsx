@@ -237,7 +237,7 @@ const menuItems: MenuItem[] = [
                 largeIcon: <Looks5 />
             },
             {
-                url: 'https://go.mrgrd56.ru',
+                url: 'https://go.kiriru.su',
                 title: 'URL Shortener',
                 searchText: 'url shortener shorten url link shortener of links',
                 largeIcon: <Link />,
