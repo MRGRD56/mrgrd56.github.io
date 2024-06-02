@@ -3,6 +3,7 @@ import { useDidMount } from 'rooks';
 import { isString } from 'lodash';
 import { Button, Modal } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
+import yam from '../../utils/analytics/yam';
 
 const DomainChangeModal = () => {
     const location = useLocation();
@@ -18,6 +19,10 @@ const DomainChangeModal = () => {
         if (!isString(redirectFromOldDomain)) {
             return;
         }
+
+        yam.reachGoal('redirectFromOldDomain', {
+            domain: redirectFromOldDomain
+        });
 
         if (redirectFromOldDomain !== 'mrgrd56.ru') {
             return;
@@ -46,6 +51,8 @@ const DomainChangeModal = () => {
 
         searchParams.delete('redirectFromOldDomain');
         searchParams.delete('redirectFromOldDomainLocalStorage');
+
+        localStorage.setItem('hasBeenRedirectedFromOldDomain_' + redirectFromOldDomain, 'true');
 
         navigate({
             pathname: location.pathname,
