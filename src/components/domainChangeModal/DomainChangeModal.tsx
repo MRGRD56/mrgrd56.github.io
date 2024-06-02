@@ -45,6 +45,7 @@ const DomainChangeModal = () => {
         }
 
         searchParams.delete('redirectFromOldDomain');
+        searchParams.delete('redirectFromOldDomainLocalStorage');
 
         navigate({
             pathname: location.pathname,
