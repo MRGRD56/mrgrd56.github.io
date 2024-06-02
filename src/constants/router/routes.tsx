@@ -118,7 +118,7 @@ export const routes: AppRoutesMap = {
     root: {
         path: '/',
         component: RootPage,
-        title: 'MRGRD56',
+        title: 'KIRIRU.SU',
         isFooterAlwaysShown: true
     },
     settings: {

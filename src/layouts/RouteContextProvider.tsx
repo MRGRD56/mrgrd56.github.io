@@ -2,7 +2,7 @@ import React, { FunctionComponent, useMemo, useState } from 'react';
 import RouteContext, { RouteContextMeta, RouteContextState, RouteContextType } from '../context/RouteContext';
 
 const initialContextState: RouteContextState = {
-    title: 'MRGRD56'
+    title: 'KIRIRU.SU'
 };
 
 const initialContextMeta: RouteContextMeta = {

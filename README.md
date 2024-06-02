@@ -1,12 +1,6 @@
-# MRGRD56
+# MRGRD56 / KIRIRU.SU
 
-![GitHub last commit](https://img.shields.io/github/last-commit/MRGRD56/MRGRD56.github.io)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/y/MRGRD56/MRGRD56.github.io)
-![GitHub issues](https://img.shields.io/github/issues/MRGRD56/MRGRD56.github.io)
-![GitHub closed issues](https://img.shields.io/github/issues-closed/MRGRD56/MRGRD56.github.io?color=green)
-![GitHub repo size](https://img.shields.io/github/repo-size/MRGRD56/MRGRD56.github.io)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/MRGRD56/MRGRD56.github.io)
-![Lines of code](https://img.shields.io/tokei/lines/github.com/MRGRD56/MRGRD56.github.io)
+![GitHub last commit](https://img.shields.io/github/last-commit/MRGRD56/MRGRD56.github.io) ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/MRGRD56/MRGRD56.github.io) ![GitHub issues](https://img.shields.io/github/issues/MRGRD56/MRGRD56.github.io) ![GitHub closed issues](https://img.shields.io/github/issues-closed/MRGRD56/MRGRD56.github.io?color=green) ![GitHub repo size](https://img.shields.io/github/repo-size/MRGRD56/MRGRD56.github.io) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/MRGRD56/MRGRD56.github.io) ![Lines of code](https://img.shields.io/tokei/lines/github.com/MRGRD56/MRGRD56.github.io)
 
 Different useful tools for development and more!
 

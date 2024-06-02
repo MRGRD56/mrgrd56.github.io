@@ -13,6 +13,7 @@ import yam from '../../utils/analytics/yam';
 import useSpecialEffect from '../../hooks/useSpecialEffect';
 import { useDidMount } from 'rooks';
 import { routes } from '../../constants/router/routes';
+import DomainChangeModal from '../../components/domainChangeModal/DomainChangeModal';
 
 const AppLayout: FunctionComponent = ({ children }) => {
     const appRoute = useAppLocation();
@@ -75,6 +76,7 @@ const AppLayout: FunctionComponent = ({ children }) => {
 
     return (
         <Layout className={styles.container}>
+            <DomainChangeModal />
             <AppHeader />
             <Layout className={styles.mainLayout}>
                 <AppSider />
