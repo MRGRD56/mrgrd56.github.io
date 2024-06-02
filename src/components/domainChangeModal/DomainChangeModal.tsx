@@ -23,6 +23,27 @@ const DomainChangeModal = () => {
             return;
         }
 
+        const redirectFromOldDomainLocalStorage = searchParams.get('redirectFromOldDomainLocalStorage');
+
+        if (redirectFromOldDomainLocalStorage) {
+            try {
+                const parsedLocalStorage = JSON.parse(
+                    window.decodeURIComponent(window.atob(redirectFromOldDomainLocalStorage))
+                );
+                Object.entries(parsedLocalStorage).forEach(([key, value]) => {
+                    if (key && isString(value)) {
+                        if (!localStorage.getItem(key)) {
+                            localStorage.setItem(key, value);
+                        }
+                    }
+                });
+
+                console.log('Restored local storage from', parsedLocalStorage);
+            } catch (e) {
+                console.error('Unable to restore local storage', e);
+            }
+        }
+
         searchParams.delete('redirectFromOldDomain');
 
         navigate({
