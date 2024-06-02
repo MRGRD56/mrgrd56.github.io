@@ -4,6 +4,7 @@ import { isString } from 'lodash';
 import { Button, Modal } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import yam from '../../utils/analytics/yam';
+import styles from './DomainChangeModal.module.scss';
 
 const DomainChangeModal = () => {
     const location = useLocation();
@@ -77,6 +78,8 @@ const DomainChangeModal = () => {
                 </Button>
             ]}
             closable={false}
+            className={styles.onTop}
+            wrapClassName={styles.onTop}
         >
             <h2>RU</h2>
             <p>
