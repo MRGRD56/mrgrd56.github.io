@@ -3474,6 +3474,7 @@ const wordsRaw = `
 ясырь
 ятовь
 абака
+бренд
 `.trim();
 
 const tinkoff5bukvWords = wordsRaw.split('\n');
